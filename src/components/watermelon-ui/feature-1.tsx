@@ -26,7 +26,7 @@ export default function VenturescapeWhyFeature() {
         delivery.
       </p>
 
-      <div className="grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="rounded-3xl border-0 bg-white/70 ring-1 ring-[#0C2448]/8 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(12,36,72,0.10)]">
           <CardContent className="p-6">
             <div className="mb-3 size-fit rounded-lg bg-[#0C2448]/[0.04] p-px">
@@ -73,7 +73,7 @@ export default function VenturescapeWhyFeature() {
           </CardContent>
         </Card>
 
-        <Card className="row-span-2 flex flex-col justify-between rounded-3xl border-0 bg-[#0C2448] ring-0 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(12,36,72,0.30)]">
+        <Card className="flex flex-col justify-between rounded-3xl border-0 bg-[#0C2448] ring-0 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(12,36,72,0.30)] sm:col-span-2 lg:col-span-1 lg:row-span-2">
           <CardContent className="p-6">
             <div className="mb-4 size-fit rounded-lg bg-white/10 p-px">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 shadow-[inset_0_-1px_0px_0px_rgba(0,0,0,0.1),inset_0px_1px_0px_0px_rgba(255,255,255,0.15)]">

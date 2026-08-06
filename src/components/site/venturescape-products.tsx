@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { productItems } from "@/components/site/venturescape-data";
@@ -100,6 +101,28 @@ const productDetails: Record<
 
 export default function VenturescapeProducts() {
   const defaultTab = productItems[0]?.title ?? "Timber";
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  const centerTabInScroller = (value: string) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    // Radix TabsTrigger renders as a <button> — find the one whose data-value or
+    // text matches. shadcn/radix uses `data-state="active"` after the change,
+    // but the safest lookup is by role + accessible name via a data attribute.
+    const trigger = scroller.querySelector<HTMLElement>(
+      `[data-tab-value="${value}"]`
+    );
+    if (!trigger) return;
+    const scrollerRect = scroller.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const currentScrollLeft = scroller.scrollLeft;
+    // Distance from scroller's left edge to trigger's center
+    const triggerCenter =
+      triggerRect.left - scrollerRect.left + triggerRect.width / 2;
+    const target = currentScrollLeft + triggerCenter - scrollerRect.width / 2;
+    scroller.scrollTo({ left: target, behavior: "smooth" });
+  };
+
   return (
     <section id="products" className="border-y border-[#0C2448]/8 bg-white/55">
       <div className="mx-auto flex max-w-7xl flex-col items-center px-5 py-20 md:px-8">
@@ -112,14 +135,22 @@ export default function VenturescapeProducts() {
 
         <Tabs
           defaultValue={defaultTab}
+          onValueChange={(value) => {
+            // Wait one frame so the DOM reflects the active state before centering.
+            requestAnimationFrame(() => centerTabInScroller(value));
+          }}
           className="mt-12 w-full max-w-6xl gap-6"
         >
-          <div className="w-full overflow-x-auto overflow-y-hidden py-0.5">
+          <div
+            ref={scrollerRef}
+            className="w-full overflow-x-auto overflow-y-hidden py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
             <TabsList className="flex h-auto w-max justify-start gap-4 border-b border-[#0C2448]/12 bg-transparent p-0">
               {productItems.map((item) => (
                 <TabsTrigger
                   key={item.title}
                   value={item.title}
+                  data-tab-value={item.title}
                   className="h-full rounded-none border-0 border-b-2 border-transparent bg-transparent px-1 py-3 text-sm font-medium text-[#0C2448]/60 transition-all hover:text-[#0C2448] data-[state=active]:border-[#91121D] data-[state=active]:text-[#0C2448] data-[state=active]:shadow-none!"
                 >
                   <item.icon className="mr-2 size-4" />
