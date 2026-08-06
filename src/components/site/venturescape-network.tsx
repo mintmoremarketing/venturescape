@@ -10,8 +10,8 @@ export default function VenturescapeNetwork() {
         <div>
           <SectionIntro
             eyebrow="Global Sourcing Network"
-            title="Sourcing across markets. Supplying with confidence."
-            description="Successful sourcing requires more than locating an available supplier. Venturescape evaluates each requirement according to material, source, specification, quantity, destination, and commercial feasibility."
+            title="The right source is not always the nearest one."
+            description="Wood moves across the world for good reasons: species, grade, price, and lead time rarely line up in a single country. Venturescape works across a network of producers, mills, and exporters so each enquiry is matched to the origin that actually fits, not the one that happens to be available."
           />
           <motion.div
             variants={staggerContainer}
@@ -44,7 +44,7 @@ export default function VenturescapeNetwork() {
               <div>
                 <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">Network overview</p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#0C2448]">
-                  Requirement-to-source matching
+                  Matching every enquiry to the right origin
                 </h3>
               </div>
               <PremiumIconTile icon={Globe2} />
@@ -60,9 +60,9 @@ export default function VenturescapeNetwork() {
 
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               {[
-                "Origin, specification, and quantity reviewed together.",
-                "Commercial feasibility checked before commitment.",
-                "Clear path from enquiry to shipment coordination.",
+                "Every origin option weighed on species, grade, price, and lead time together.",
+                "Commercial feasibility confirmed before any commitment is made to the buyer.",
+                "One point of contact from first enquiry to final shipment confirmation.",
               ].map((item) => (
                 <div key={item} className="rounded-2xl bg-[#0C2448]/[0.035] px-4 py-4 text-sm leading-6 text-[#0C2448]/72">
                   {item}

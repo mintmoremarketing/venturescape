@@ -3,13 +3,11 @@ import {
   BadgeCheck,
   Boxes,
   Building2,
-  CheckCircle2,
   ClipboardCheck,
   FileSpreadsheet,
   FileText,
   Landmark,
   Layers3,
-  MapPinned,
   PackageCheck,
   ScanSearch,
   ShieldCheck,
@@ -40,7 +38,7 @@ export const navigation = [
   { label: "Products", href: "#products" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Markets", href: "#markets" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "#enquiry" },
 ];
 
 export const footerNavigation = [
@@ -49,7 +47,7 @@ export const footerNavigation = [
   { label: "Capabilities", href: "#capabilities" },
   { label: "Markets", href: "#markets" },
   { label: "Why Venturescape", href: "#why-venturescape" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "#enquiry" },
 ];
 
 export const productPills = [
@@ -127,73 +125,40 @@ export const capabilityItems: FeatureItem[] = [
   },
 ];
 
-export const qualityItems: FeatureItem[] = [
-  {
-    title: "Product Specifications",
-    body: "Coordination of species, grade, thickness, dimensions, moisture level, tolerances, quantity, and packaging.",
-    icon: ClipboardCheck,
-    pill: "Technical alignment",
-  },
-  {
-    title: "Supplier Documentation",
-    body: "Collection and review of relevant supplier, product, and commercial information before execution.",
-    icon: FileText,
-    pill: "Supplier review",
-  },
-  {
-    title: "Shipment Documentation",
-    body: "Invoices, packing lists, certificates, transport documents, and other agreed paperwork coordinated in sequence.",
-    icon: FileSpreadsheet,
-    pill: "Shipment papers",
-  },
-  {
-    title: "Inspection Coordination",
-    body: "Third-party inspection, testing, or verification can be arranged where agreed as part of the transaction.",
-    icon: CheckCircle2,
-    pill: "When agreed",
-  },
-  {
-    title: "Destination Requirements",
-    body: "Product-specific documentation aligned according to the destination-market information provided for the shipment.",
-    icon: MapPinned,
-    pill: "Market-ready",
-  },
-];
-
 export const whyItems: FeatureItem[] = [
   {
-    title: "Focused Wood-Industry Knowledge",
-    body: "The business is centred on timber, veneers, plywood, MDF, and allied wood products rather than broad unrelated categories.",
+    title: "One Industry, Understood Deeply",
+    body: "We do not spread across unrelated categories. Timber, veneers, plywood, MDF, and allied wood products are all we trade, and that focus shows in the questions we ask and the answers we give.",
     icon: Trees,
     pill: "Industry focus",
   },
   {
-    title: "Requirement-Based Sourcing",
-    body: "Each transaction begins with the buyer's actual requirement rather than a generic product list without commercial context.",
+    title: "Sourcing That Starts With You",
+    body: "Every enquiry begins with your requirement, not a catalogue we already have. Species, grade, dimensions, quantity, and destination shape the search for the right source.",
     icon: Boxes,
     pill: "Requirement first",
   },
   {
-    title: "Clear Commercial Communication",
-    body: "Specifications, quantities, timelines, and terms are communicated carefully before execution begins.",
+    title: "Say What Is True, Say It Early",
+    body: "Specifications, quantities, timelines, and commercial terms are put on the table clearly before an order moves. Fewer surprises later, less friction throughout.",
     icon: Users2,
     pill: "Commercial clarity",
   },
   {
-    title: "Documentation-Focused Approach",
-    body: "Correct documentation is treated as essential to successful international trade, not as an administrative afterthought.",
+    title: "Paperwork Treated as the Trade",
+    body: "Invoices, packing lists, certificates, and shipping documents are prepared with the same care as the shipment itself, because at destination they are the shipment.",
     icon: FileText,
-    pill: "Paperwork discipline",
+    pill: "Documentation discipline",
   },
   {
-    title: "Direct Accountability",
-    body: "Customers and suppliers communicate with the people responsible for the transaction rather than being passed through layers.",
+    title: "Talk to the People Responsible",
+    body: "You reach the people actually running your transaction. No handovers, no filters, no waiting to hear back from someone else.",
     icon: BadgeCheck,
-    pill: "Hands-on leadership",
+    pill: "Direct accountability",
   },
   {
-    title: "Long-Term Relationships",
-    body: "The objective is dependable commercial relationships built on seriousness, continuity, and repeat trust.",
+    title: "Built for the Second Order",
+    body: "Every shipment is delivered with the next one in mind. Repeat business, not one-off wins, is how we measure whether the work was done well.",
     icon: Warehouse,
     pill: "Relationship-led",
   },
@@ -205,42 +170,42 @@ export const productItems: ProductItem[] = [
     body: "Hardwood and softwood timber sourced according to species, grade, dimensions, moisture requirements, and end-use application.",
     icon: Trees,
     pill: "Hardwood / Softwood",
-    image: "https://images.unsplash.com/photo-1516651029879-a9e521b8e74f?q=80&w=1200&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/12278566/pexels-photo-12278566.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     title: "Plywood",
     body: "Commercial, marine, structural, and application-specific plywood for manufacturing, construction, furniture, and interior requirements.",
     icon: Layers3,
     pill: "Commercial / Marine",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/10838921/pexels-photo-10838921.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     title: "Face Veneer",
     body: "Natural wood face veneers in different species, grades, thicknesses, and dimensions for plywood and decorative use.",
     icon: PackageCheck,
     pill: "Decorative surfaces",
-    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/4097157/pexels-photo-4097157.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     title: "Core Veneer",
     body: "Core veneers supplied according to thickness, dimensions, species, and production requirements for panel manufacturing.",
     icon: Boxes,
     pill: "Panel production",
-    image: "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?q=80&w=1200&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/7479035/pexels-photo-7479035.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
-    title: "MDF and Panels",
+    title: "MDF and Wood-Based Panels",
     body: "MDF and other engineered wood panels for furniture manufacturing, interiors, distribution, and construction applications.",
     icon: FileSpreadsheet,
     pill: "Engineered panels",
-    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5089122/pexels-photo-5089122.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     title: "Other Wood Products",
     body: "Additional wood products sourced against specific technical, dimensional, commercial, and destination-market requirements.",
     icon: Warehouse,
     pill: "Custom requirements",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1200&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/5484741/pexels-photo-5484741.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 ];
 
@@ -252,33 +217,6 @@ export const networkPartners = [
   "Exporters",
   "Inspection partners",
   "Shipping and logistics providers",
-];
-
-export const processSteps = [
-  {
-    title: "Share Your Requirement",
-    body: "The buyer shares the product, species, grade, dimensions, quantity, destination port, and required delivery timeline.",
-  },
-  {
-    title: "Product and Supplier Identification",
-    body: "Venturescape evaluates suitable products, origins, and supplier options based on the actual requirement.",
-  },
-  {
-    title: "Quotation and Specification Confirmation",
-    body: "Specifications, quantity, price, payment terms, and delivery conditions are reviewed and aligned.",
-  },
-  {
-    title: "Order and Documentation",
-    body: "Once commercial terms are accepted, the order structure and transaction documents are coordinated.",
-  },
-  {
-    title: "Inspection and Shipment Coordination",
-    body: "Inspection, packaging, container planning, and shipment documentation are coordinated as agreed.",
-  },
-  {
-    title: "Delivery and Post-Shipment Support",
-    body: "Communication and documentation continue until the transaction reaches its agreed conclusion.",
-  },
 ];
 
 export const marketSegments = [
@@ -294,23 +232,3 @@ export const marketSegments = [
   "International trading houses",
 ];
 
-export const statsItems = [
-  {
-    title: "Trade-focused categories",
-    value: "06",
-    suffix: "",
-    body: "Timber, plywood, veneers, MDF, and allied wood products handled with requirement-led sourcing.",
-  },
-  {
-    title: "Supply-chain relationships",
-    value: "07",
-    suffix: "",
-    body: "Participants across production, exporting, inspection, and logistics coordination.",
-  },
-  {
-    title: "Execution model",
-    value: "End",
-    suffix: "to-end",
-    body: "Coordination continues from enquiry through shipment and post-shipment support.",
-  },
-];

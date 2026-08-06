@@ -2,18 +2,16 @@ import VenturescapeHero from "@/components/site/venturescape-hero";
 import VenturescapeFeatureSection from "@/components/site/venturescape-feature-section";
 import VenturescapeProducts from "@/components/site/venturescape-products";
 import VenturescapeNetwork from "@/components/site/venturescape-network";
-import VenturescapeStats from "@/components/site/venturescape-stats";
-import VenturescapeProcess from "@/components/site/venturescape-process";
 import VenturescapeMarkets from "@/components/site/venturescape-markets";
-import VenturescapeLeadership from "@/components/site/venturescape-leadership";
-import VenturescapeEnquiry from "@/components/site/venturescape-enquiry";
-import VenturescapeContactCta from "@/components/site/venturescape-contact-cta";
-import VenturescapeFooter from "@/components/site/venturescape-footer";
+import VenturescapeWhyFeature from "@/components/watermelon-ui/feature-1";
+import VenturescapeStats from "@/components/watermelon-ui/stats-4";
+import VenturescapeCta from "@/components/watermelon-ui/cta-4";
+import VenturescapeEnquirySection from "@/components/watermelon-ui/contact-3";
+import Footer20 from "@/components/watermelon-ui/footer-20";
+import VenturescapeWhatsappFab from "@/components/site/venturescape-whatsapp-fab";
 import {
   aboutItems,
   capabilityItems,
-  qualityItems,
-  whyItems,
 } from "@/components/site/venturescape-data";
 
 export default function VenturescapePage() {
@@ -31,6 +29,7 @@ export default function VenturescapePage() {
           columns="two"
         />
         <VenturescapeProducts />
+        <VenturescapeStats />
         <VenturescapeNetwork />
         <VenturescapeFeatureSection
           id="capabilities"
@@ -39,28 +38,13 @@ export default function VenturescapePage() {
           description="Venturescape provides more than product introductions. The transaction is managed through commercial alignment, documentation discipline, and shipment coordination."
           items={capabilityItems}
         />
-        <VenturescapeStats />
-        <VenturescapeProcess />
         <VenturescapeMarkets />
-        <VenturescapeFeatureSection
-          eyebrow="Quality and Trade Coordination"
-          title="Clarity before commitment."
-          description="In international trade, small misunderstandings create delays, costs, and disputes. Venturescape therefore focuses on alignment before the order moves forward, while keeping claims measured and accurate."
-          items={qualityItems}
-        />
-        <VenturescapeFeatureSection
-          id="why-venturescape"
-          eyebrow="Why Venturescape"
-          title="Serious trade requires serious execution."
-          description="Every shipment represents more than material. It carries the work of producers, buyers, manufacturers, employees, and businesses that depend on it. Venturescape treats that responsibility with the seriousness it deserves."
-          items={whyItems}
-          dark
-        />
-        <VenturescapeLeadership />
-        <VenturescapeEnquiry />
-        <VenturescapeContactCta />
+        <VenturescapeWhyFeature />
+        <VenturescapeCta />
+        <VenturescapeEnquirySection />
       </main>
-      <VenturescapeFooter />
+      <Footer20 />
+      <VenturescapeWhatsappFab />
     </div>
   );
 }

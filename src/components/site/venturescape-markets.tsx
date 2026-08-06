@@ -9,8 +9,8 @@ export default function VenturescapeMarkets() {
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
         <SectionIntro
           eyebrow="Markets and Customers"
-          title="Serving the wood and interior materials industry."
-          description="Venturescape works with businesses that purchase, manufacture, process, distribute, or trade wood products. The starting point is always the buyer's actual technical and commercial requirement."
+          title="Who we ship to."
+          description="From plywood mills and furniture factories to project procurement teams and importers running multi-country supply, our customers are the businesses that turn wood into finished value. Every relationship starts the same way: with the actual specification, quantity, and destination on the table."
         />
         <motion.div
           variants={staggerContainer}

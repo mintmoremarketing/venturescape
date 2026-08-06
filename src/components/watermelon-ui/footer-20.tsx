@@ -1,0 +1,223 @@
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowUpRight01Icon,
+  Linkedin01Icon,
+  NewTwitterIcon,
+  WhatsappIcon,
+} from "@hugeicons/core-free-icons";
+import { motion, type Variants } from "framer-motion";
+import LogoIcon from "@/assets/logo-icon";
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+  },
+};
+
+const riseItem: Variants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { type: "spring", duration: 0.6, bounce: 0 },
+  },
+};
+
+const giantTextVariant: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { type: "spring", duration: 0.8, bounce: 0 },
+  },
+};
+
+const brandName = "Venturescape";
+const description =
+  "Focused on timber, veneers, plywood, MDF, and allied wood products with clear commercial coordination and disciplined trade execution.";
+const enquiryLabel = "Send an enquiry";
+
+const navigation = [
+  { label: "About", href: "#about" },
+  { label: "Products", href: "#products" },
+  { label: "Capabilities", href: "#capabilities" },
+  { label: "Markets", href: "#markets" },
+  { label: "Why Venturescape", href: "#why-venturescape" },
+];
+
+const legal = [
+  { label: "Privacy", href: "#" },
+  { label: "Terms of Use", href: "#" },
+  { label: "Dubai, UAE", href: "#" },
+  { label: "FZCO Licensed", href: "#" },
+];
+
+const socialLinks = [
+  { label: "LinkedIn", href: "#", icon: <HugeiconsIcon icon={Linkedin01Icon} size={20} /> },
+  { label: "X", href: "#", icon: <HugeiconsIcon icon={NewTwitterIcon} size={20} /> },
+  { label: "WhatsApp", href: "#", icon: <HugeiconsIcon icon={WhatsappIcon} size={20} /> },
+];
+
+export default function Footer20() {
+  return (
+    <motion.footer
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.05 }}
+      className="relative flex w-full flex-col justify-between overflow-hidden border-t border-neutral-200 bg-[#f4f4f2] font-sans text-neutral-600 transition-colors duration-300"
+    >
+      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col border-x border-dashed border-neutral-300 px-6 pt-20 md:px-12 md:pt-32 lg:px-16">
+        <div className="mb-10 grid grid-cols-1 gap-16 md:mb-16 lg:mb-24 lg:grid-cols-12 lg:gap-8">
+          <motion.div
+            variants={riseItem}
+            className="flex flex-col gap-6 md:gap-8 lg:col-span-5 xl:col-span-4"
+          >
+            <div className="flex items-center gap-2 text-neutral-900">
+              <LogoIcon className="size-8 text-[#0C2448]" />
+              <span className="mt-0.5 text-lg font-medium tracking-wide">
+                {brandName}
+              </span>
+            </div>
+
+            <p className="max-w-[360px] text-[15px] leading-relaxed text-neutral-600">
+              {description}
+            </p>
+
+            <a
+              href="#enquiry"
+              className="group mt-2 inline-flex w-fit items-center gap-2 text-[17px] font-medium text-[#0C2448] transition-colors hover:text-[#153564]"
+            >
+              {enquiryLabel}
+              <HugeiconsIcon
+                icon={ArrowUpRight01Icon}
+                size={18}
+                className="text-neutral-500 transition-colors group-hover:text-[#0C2448]"
+              />
+            </a>
+          </motion.div>
+
+          <div className="grid grid-cols-2 gap-12 sm:grid-cols-3 lg:col-span-7 lg:gap-8 xl:col-span-8">
+            <motion.div variants={riseItem} className="flex flex-col gap-6">
+              <h4 className="font-medium text-neutral-900">Navigation</h4>
+              <ul className="flex flex-col gap-3">
+                {navigation.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-[15px] text-neutral-600 transition-colors hover:text-neutral-900"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div variants={riseItem} className="flex flex-col gap-6">
+              <h4 className="font-medium text-neutral-900">Company</h4>
+              <ul className="flex flex-col gap-3">
+                {legal.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-[15px] text-neutral-600 transition-colors hover:text-neutral-900"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div variants={riseItem} className="flex flex-col gap-6">
+              <h4 className="font-medium text-neutral-900">Follow</h4>
+              <ul className="flex flex-col gap-3">
+                {socialLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-[15px] text-neutral-600 transition-colors hover:text-neutral-900"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+                <li className="mt-2 flex items-center gap-4">
+                  {socialLinks.map((link) => (
+                    <a
+                      key={`icon-${link.label}`}
+                      href={link.href}
+                      aria-label={link.label}
+                      className="text-neutral-500 transition-colors hover:text-[#0C2448]"
+                    >
+                      {link.icon}
+                    </a>
+                  ))}
+                </li>
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+
+        <motion.div
+          variants={giantTextVariant}
+          className="-mb-4 flex w-full justify-center overflow-hidden pt-6 md:mt-auto md:-mb-8"
+          style={{
+            maskImage:
+              "linear-gradient(180deg, rgba(0,0,0,1) 55%, rgba(0,0,0,0.35) 88%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage:
+              "linear-gradient(180deg, rgba(0,0,0,1) 55%, rgba(0,0,0,0.35) 88%, rgba(0,0,0,0) 100%)",
+          }}
+        >
+          <svg
+            className="block h-auto w-full select-none transition-colors duration-300"
+            viewBox={`0 0 ${Math.max(brandName.length * 80, 400)} 150`}
+            preserveAspectRatio="xMidYMax meet"
+            aria-label={brandName}
+          >
+            <defs>
+              <linearGradient
+                id="watermark-gradient-royal"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#4169E1" stopOpacity="0.85" />
+                <stop offset="25%" stopColor="#3559C7" stopOpacity="0.82" />
+                <stop offset="50%" stopColor="#1E3A8A" stopOpacity="0.78" />
+                <stop offset="75%" stopColor="#152C6E" stopOpacity="0.72" />
+                <stop offset="100%" stopColor="#0C2448" stopOpacity="0.65" />
+              </linearGradient>
+            </defs>
+            <text
+              x="0"
+              y="132"
+              dominantBaseline="alphabetic"
+              textAnchor="start"
+              textLength="100%"
+              lengthAdjust="spacingAndGlyphs"
+              fill="url(#watermark-gradient-royal)"
+              className="font-semibold tracking-tighter"
+              fontSize="140"
+            >
+              {brandName}
+            </text>
+          </svg>
+        </motion.div>
+      </div>
+
+      <div className="border-t border-neutral-200">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between md:px-8">
+          <p>Venturescape Trading — FZCO, registered in Dubai, UAE.</p>
+          <p>© 2026 Venturescape Trading — FZCO. All rights reserved.</p>
+        </div>
+      </div>
+    </motion.footer>
+  );
+}
