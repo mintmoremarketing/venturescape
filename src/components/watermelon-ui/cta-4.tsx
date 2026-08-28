@@ -33,16 +33,16 @@ export default function VenturescapeCta() {
         <div className="grid w-full items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col items-center gap-5 text-center lg:items-start lg:text-left">
             <span className="inline-flex rounded-full border border-[#BB7D3E]/25 bg-white/80 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
-              Ready when you are
+              Tell Us What You Need
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-[#0C2448] sm:text-3xl md:text-4xl">
-              Bring your next shipment{" "}
-              <span className="text-[#91121D]">to Venturescape.</span>
+              From source to supply.{" "}
+              <span className="text-[#91121D]">With confidence.</span>
             </h2>
             <p className="max-w-md text-sm leading-relaxed text-[#0C2448]/68 sm:text-base">
-              Share your specification, quantity, and destination. Our team
-              reviews every enquiry personally and comes back with sourcing
-              options, pricing, and a clear timeline.
+              Share the requirement with us and we'll evaluate the
+              appropriate sourcing and commercial possibilities. The more
+              complete the specification, the more accurately we can assess it.
             </p>
             <div className="mt-1">
               <a

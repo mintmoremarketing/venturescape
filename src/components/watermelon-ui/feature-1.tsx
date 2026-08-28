@@ -5,7 +5,31 @@ import {
   HiDocumentText,
   HiUserGroup,
   HiRefresh,
+  HiGlobeAlt,
+  HiUsers,
+  HiChatAlt2,
 } from "react-icons/hi";
+
+const supplementaryPoints = [
+  {
+    icon: HiGlobeAlt,
+    title: "Global source access",
+    body:
+      "Sourcing relationships across established wood-producing regions — access to different origins and product possibilities.",
+  },
+  {
+    icon: HiUsers,
+    title: "Stakeholder-first approach",
+    body:
+      "The interests of buyers, suppliers and every party needed to complete the transaction — considered together.",
+  },
+  {
+    icon: HiChatAlt2,
+    title: "Clear commercial communication",
+    body:
+      "Specifications, quantities, timelines and commercial expectations aligned as clearly as possible before execution.",
+  },
+];
 
 export default function VenturescapeWhyFeature() {
   return (
@@ -14,16 +38,15 @@ export default function VenturescapeWhyFeature() {
       className="flex w-full flex-col items-center justify-center px-6 py-20 md:py-24"
     >
       <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
-        Why Venturescape
+        A Trading Partner With Something to Protect: Your Confidence.
       </p>
       <h2 className="mb-4 max-w-3xl text-center text-3xl font-semibold leading-[1.05] tracking-[-0.02em] text-[#0C2448] md:text-5xl">
-        A partner you can plan around.
+        Why Venturescape
       </h2>
       <p className="mb-12 max-w-2xl text-center text-base leading-relaxed text-[#0C2448]/68 md:text-lg">
-        Buyers and suppliers work with us because the transaction is handled
-        the way serious trade should be handled: transparent specifications,
-        clean paperwork, and steady communication from first enquiry to final
-        delivery.
+        Wood-focused understanding, global source access, requirement-led
+        sourcing, stakeholder-first approach, documentation-focused execution,
+        and relationships built for repeat business.
       </p>
 
       <div className="grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -35,12 +58,11 @@ export default function VenturescapeWhyFeature() {
               </div>
             </div>
             <h3 className="mb-1 text-lg font-medium text-[#0C2448]">
-              One industry, understood deeply
+              Wood-focused understanding
             </h3>
             <p className="mb-3 text-sm leading-6 text-[#0C2448]/64">
-              Timber, veneers, plywood, MDF, and allied wood products are all
-              we trade. That focus shows in the questions we ask and the
-              answers we give.
+              Our commercial focus is centred on timber, veneers, plywood and
+              allied wood materials — a single industry, understood deeply.
             </p>
             <div className="inline-flex rounded-lg bg-[#0C2448]/[0.04] p-0.5">
               <div className="inline-flex items-center rounded-md bg-white px-2 py-1 text-[10px] font-medium text-[#0C2448]/68 shadow-[0_0px_2px_0_rgba(12,36,72,0.08),0_1px_4px_0_rgba(12,36,72,0.05)]">
@@ -58,16 +80,15 @@ export default function VenturescapeWhyFeature() {
               </div>
             </div>
             <h3 className="mb-1 text-lg font-medium text-[#0C2448]">
-              Sourcing that starts with you
+              Requirement-led sourcing
             </h3>
             <p className="mb-3 text-sm leading-6 text-[#0C2448]/64">
-              Every enquiry begins with your requirement, not a catalogue we
-              already have. Species, grade, quantity, and destination shape
-              the search.
+              We don't begin by asking what we want to sell. We begin by
+              understanding what the customer needs to buy.
             </p>
             <div className="inline-flex rounded-lg bg-[#0C2448]/[0.04] p-0.5">
               <div className="inline-flex items-center rounded-md bg-white px-2 py-1 text-[10px] font-medium text-[#0C2448]/68 shadow-[0_0px_2px_0_rgba(12,36,72,0.08),0_1px_4px_0_rgba(12,36,72,0.05)]">
-                Requirement first
+                Buyer-first
               </div>
             </div>
           </CardContent>
@@ -81,12 +102,12 @@ export default function VenturescapeWhyFeature() {
               </div>
             </div>
             <h3 className="mb-3 text-xl font-medium text-white">
-              Paperwork treated as the trade
+              Documentation-focused execution
             </h3>
             <p className="mb-6 text-sm leading-6 text-white/70">
-              Invoices, packing lists, certificates, and shipping documents
-              are prepared with the same care as the shipment itself, because
-              at destination they are the shipment.
+              Commercial and shipping documentation receive the same attention
+              as the physical material — because at destination, they are the
+              material.
             </p>
 
             <div className="space-y-3">
@@ -122,16 +143,15 @@ export default function VenturescapeWhyFeature() {
               </div>
             </div>
             <h3 className="mb-1 text-lg font-medium text-[#0C2448]">
-              Talk to the people responsible
+              Direct accountability
             </h3>
             <p className="mb-3 text-sm leading-6 text-[#0C2448]/64">
-              You reach the people actually running your transaction. No
-              handovers, no filters, no waiting to hear back from someone
-              else.
+              Our customers and suppliers communicate directly with the people
+              responsible for their transaction — no handovers, no filters.
             </p>
             <div className="inline-flex rounded-lg bg-[#0C2448]/[0.04] p-0.5">
               <div className="inline-flex items-center rounded-md bg-white px-2 py-1 text-[10px] font-medium text-[#0C2448]/68 shadow-[0_0px_2px_0_rgba(12,36,72,0.08),0_1px_4px_0_rgba(12,36,72,0.05)]">
-                Direct accountability
+                Accountability
               </div>
             </div>
           </CardContent>
@@ -145,20 +165,45 @@ export default function VenturescapeWhyFeature() {
               </div>
             </div>
             <h3 className="mb-1 text-lg font-medium text-[#0C2448]">
-              Built for the second order
+              Built for repeat business
             </h3>
             <p className="mb-3 text-sm leading-6 text-[#0C2448]/64">
-              Every shipment is delivered with the next one in mind. Repeat
-              business, not one-off wins, is how we measure whether the work
-              was done well.
+              We measure our relationships over multiple transactions, not a
+              single shipment. Every order is delivered with the next one in
+              mind.
             </p>
             <div className="inline-flex rounded-lg bg-[#0C2448]/[0.04] p-0.5">
               <div className="inline-flex items-center rounded-md bg-white px-2 py-1 text-[10px] font-medium text-[#0C2448]/68 shadow-[0_0px_2px_0_rgba(12,36,72,0.08),0_1px_4px_0_rgba(12,36,72,0.05)]">
-                Relationship-led
+                Long-term thinking
               </div>
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Supplementary Why points from the doc that don't fit the 5-slot bento */}
+      <div className="mt-6 grid w-full max-w-6xl grid-cols-1 gap-3 sm:grid-cols-3">
+        {supplementaryPoints.map((p) => {
+          const Icon = p.icon;
+          return (
+            <div
+              key={p.title}
+              className="flex items-start gap-3 rounded-2xl bg-white/60 p-4 ring-1 ring-[#0C2448]/8"
+            >
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#0C2448]/[0.05] text-[#0C2448]">
+                <Icon className="h-5 w-5 text-[#91121D]" />
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-[#0C2448]">
+                  {p.title}
+                </h4>
+                <p className="mt-1 text-xs leading-5 text-[#0C2448]/64">
+                  {p.body}
+                </p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

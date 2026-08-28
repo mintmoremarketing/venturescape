@@ -11,6 +11,7 @@ export default function VenturescapeFeatureSection({
   items,
   dark = false,
   columns = "three",
+  closingLine,
 }: {
   id?: string;
   eyebrow: string;
@@ -19,6 +20,7 @@ export default function VenturescapeFeatureSection({
   items: FeatureItem[];
   dark?: boolean;
   columns?: "two" | "three";
+  closingLine?: string;
 }) {
   const sectionClass = dark ? "bg-[#0C2448] text-white border-y border-[#0C2448]/8" : "";
   const gridClass =
@@ -53,6 +55,20 @@ export default function VenturescapeFeatureSection({
             <PremiumCard key={item.title} {...item} dark={dark} />
           ))}
         </motion.div>
+
+        {closingLine && (
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.6 }}
+            className={`mt-12 max-w-3xl text-center text-base italic md:text-lg ${
+              dark ? "text-white/78" : "text-[#0C2448]/72"
+            }`}
+          >
+            {closingLine}
+          </motion.p>
+        )}
       </div>
     </section>
   );

@@ -15,18 +15,18 @@ function MarketCard({ item }: { item: string }) {
 
 export default function VenturescapeMarkets() {
   return (
-    <section id="markets" className="bg-white/55 border-y border-[#0C2448]/8">
+    <section id="who-we-work-with" className="bg-white/55 border-y border-[#0C2448]/8">
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
         <SectionIntro
-          eyebrow="Markets and Customers"
-          title="Who we ship to."
-          description="From plywood mills and furniture factories to project procurement teams and importers running multi-country supply, our customers are the businesses that turn wood into finished value. Every relationship starts the same way: with the actual specification, quantity, and destination on the table."
+          eyebrow="Built for Businesses That Depend on Material."
+          title="Who We Work With"
+          description="Venturescape primarily serves businesses that purchase, process, manufacture, distribute or trade wood and wood-based products. Whether the requirement is a regular manufacturing input or a specific sourcing requirement, the process begins with understanding what the customer actually needs."
         />
 
-        {/* Mobile: auto-swiping carousel with play/pause */}
+        {/* Mobile: swipeable row with progress dots */}
         <MobileCarousel
           className="mt-10 w-full md:hidden"
-          ariaLabel="Markets and customers carousel"
+          ariaLabel="Who we work with carousel"
           items={marketSegments.map((item) => (
             <MarketCard key={item} item={item} />
           ))}
@@ -46,6 +46,18 @@ export default function VenturescapeMarkets() {
             </motion.div>
           ))}
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto mt-10 max-w-3xl text-center text-base italic leading-relaxed text-[#0C2448]/72 md:text-lg"
+        >
+          Whether the requirement is a regular manufacturing input or a
+          specific sourcing requirement, the process begins with understanding
+          what the customer actually needs.
+        </motion.p>
       </div>
     </section>
   );

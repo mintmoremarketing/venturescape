@@ -13,28 +13,25 @@ import {
 const navigation = [
   { label: "About", href: "#about" },
   { label: "Products", href: "#products" },
+  { label: "Global Sourcing", href: "#global-sourcing" },
   { label: "Capabilities", href: "#capabilities" },
-  { label: "Markets", href: "#markets" },
-  { label: "Why Venturescape", href: "#why-venturescape" },
+  { label: "Our Standard", href: "#standard" },
   { label: "Contact", href: "#enquiry" },
 ];
 
-// Demo client logos — placeholders generated via ui-avatars. Swap `src` with
-// real logo URLs once the client provides them.
-const clientLogos = [
-  { initials: "WM", src: "https://ui-avatars.com/api/?name=WM&background=0C2448&color=fff&size=128&bold=true&format=png", color: "bg-[#0C2448]" },
-  { initials: "TP", src: "https://ui-avatars.com/api/?name=TP&background=91121D&color=fff&size=128&bold=true&format=png", color: "bg-[#91121D]" },
-  { initials: "VC", src: "https://ui-avatars.com/api/?name=VC&background=BB7D3E&color=fff&size=128&bold=true&format=png", color: "bg-[#BB7D3E]" },
-  { initials: "PL", src: "https://ui-avatars.com/api/?name=PL&background=234B82&color=fff&size=128&bold=true&format=png", color: "bg-[#234B82]" },
+const productPills = [
+  "Timber",
+  "Face Veneer",
+  "Core Veneer",
+  "Plywood",
+  "MDF",
+  "Wood-Based Materials",
 ];
 
-// Demo count — swap when the client confirms.
-const clientCount = "30+";
-
 const featurePoints = [
-  "Timber, veneers, plywood, MDF, and allied wood products.",
-  "Requirement-based sourcing with commercial and documentary clarity.",
-  "Disciplined execution from enquiry through delivery coordination.",
+  "Timber, veneers, plywood, MDF, and wood-based materials.",
+  "Reliable sources connected with manufacturers and buyers worldwide.",
+  "Clear, dependable and secure trade for everyone involved.",
 ];
 
 export default function VenturescapeHero() {
@@ -253,26 +250,21 @@ export default function VenturescapeHero() {
               initial="hidden"
               animate="show"
               transition={{ delay: 0.2 }}
-              className="mb-8 flex w-fit items-center gap-4 rounded-full border border-white/60 bg-white/70 px-3 py-2 shadow-[0_10px_30px_rgba(12,36,72,0.08)] backdrop-blur-md"
+              className="mb-8 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 rounded-full border border-white/60 bg-white/70 px-4 py-2 shadow-[0_10px_30px_rgba(12,36,72,0.08)] backdrop-blur-md"
             >
-              <div className="flex -space-x-2.5">
-                {clientLogos.map((item) => (
-                  <div
-                    key={item.initials}
-                    className={`flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-white text-[10px] font-bold text-white shadow-sm ring-1 ring-[#BB7D3E]/25 ${item.color}`}
+              {productPills.map((pill, i) => (
+                <span key={pill} className="flex items-center gap-3">
+                  <a
+                    href="#products"
+                    className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72 transition-colors hover:text-[#91121D]"
                   >
-                    {item.src ? (
-                      <img src={item.src} alt="" className="h-full w-full object-cover" />
-                    ) : (
-                      item.initials
-                    )}
-                  </div>
-                ))}
-              </div>
-              <p className="pr-2 text-sm font-medium tracking-tight text-[#0C2448]/80">
-                Served <span className="font-semibold text-[#0C2448]">{clientCount}</span>{" "}
-                buyers &amp; suppliers globally
-              </p>
+                    {pill}
+                  </a>
+                  {i < productPills.length - 1 && (
+                    <span className="h-1 w-1 rounded-full bg-[#BB7D3E]/60" />
+                  )}
+                </span>
+              ))}
             </motion.div>
 
             <motion.h1
@@ -285,7 +277,7 @@ export default function VenturescapeHero() {
                 Global Wood Trade.
               </motion.span>
               <motion.span variants={titleLineVariants} className="block">
-                Built on Discipline.
+                Built on Trust.
               </motion.span>
             </motion.h1>
 
@@ -299,7 +291,7 @@ export default function VenturescapeHero() {
                 variants={bodyItemVariants}
                 className="max-w-2xl text-pretty text-lg font-normal leading-[1.4] text-[#0C2448]/70 sm:text-[1.3rem]"
               >
-                Venturescape Trading connects reliable sources with serious buyers across the global wood-products industry. From timber and veneers to plywood, MDF and engineered wood panels, we coordinate each transaction with clarity, precision and accountability.
+                Venturescape Trading connects reliable sources of timber, veneers, plywood and wood-based materials with manufacturers and buyers across international markets. From identifying the right source to coordinating the transaction, our purpose is simple: to make international trade clear, dependable and secure for everyone involved.
               </motion.p>
 
               <motion.div
@@ -318,7 +310,7 @@ export default function VenturescapeHero() {
                   href="#enquiry"
                   className="group flex min-h-[40px] items-center gap-3 rounded-sm border border-[#BB7D3E]/35 bg-white/10 px-4 py-4 text-[16px] font-medium text-[#0C2448] backdrop-blur-[2px] transition-all will-change-transform hover:border-[#BB7D3E] hover:text-[#91121D] active:scale-[0.96]"
                 >
-                  Send an Enquiry
+                  Send Your Requirement
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#BB7D3E] text-white shadow-md transition-transform group-hover:scale-105 group-hover:bg-[#91121D]">
                     <Play className="ml-0.5 h-4 w-4" fill="currentColor" />
                   </div>

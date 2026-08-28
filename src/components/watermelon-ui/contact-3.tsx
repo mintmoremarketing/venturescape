@@ -54,6 +54,7 @@ export interface EnquiryFormData {
 export const VENTURESCAPE_WHATSAPP = "971500000000";
 export const WHATSAPP_OPENING_MESSAGE =
   "Hello, I would like to enquire about a wood-product requirement.";
+export const VENTURESCAPE_ENQUIRY_EMAIL = "venturescapetrading.fzco@gmail.com";
 
 const destinations = [
   { value: "AE", label: "United Arab Emirates", flag: "ae" },
@@ -129,34 +130,55 @@ export default function VenturescapeEnquirySection() {
     setFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
+  const buildMailtoBody = () => {
+    const lines: string[] = [
+      "New enquiry from the Venturescape website:",
+      "",
+      `Name: ${formData.fullName}`,
+      `Company: ${formData.company}`,
+      `Email: ${formData.email}`,
+      `Phone / WhatsApp: ${formData.phone}`,
+      "",
+      "— Requirement —",
+      `Product: ${formData.product}`,
+      `Species: ${formData.species}`,
+      `Grade: ${formData.grade}`,
+      `Thickness: ${formData.thickness}`,
+      `Dimensions: ${formData.dimensions}`,
+      `Quantity: ${formData.quantity}`,
+      `Destination country: ${formData.destinationCountry}`,
+      `Destination port: ${formData.destinationPort}`,
+      `Timeline: ${formData.timeline}`,
+      "",
+      "— Additional details —",
+      formData.message || "(none)",
+    ];
+    if (files.length > 0) {
+      lines.push("", "— Attachments to send separately —");
+      files.forEach((f) => lines.push(`• ${f.file.name}`));
+      lines.push(
+        "",
+        "Note: please attach the files above to this email before sending."
+      );
+    }
+    return lines.join("\n");
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const subject = `Enquiry from ${formData.company || formData.fullName || "website"} — ${formData.product || "wood product"}`;
+    const body = buildMailtoBody();
+    const mailto = `mailto:${VENTURESCAPE_ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
     toast.custom(() => (
       <div className="flex items-center gap-2 rounded-sm border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-700 shadow-sm sm:w-[420px]">
         <FaCheckDouble className="animate-pulse" />
         <span className="text-sm font-medium">
-          Thank you for contacting Venturescape Trading. Your requirement has
-          been received and will be reviewed by our team.
+          Thank you for contacting Venturescape Trading. Your email client
+          should now open with your enquiry pre-filled — please review and send.
         </span>
       </div>
     ));
-    setFormData({
-      fullName: "",
-      email: "",
-      phone: "",
-      company: "",
-      product: "",
-      species: "",
-      grade: "",
-      thickness: "",
-      dimensions: "",
-      quantity: "",
-      destinationCountry: "",
-      destinationPort: "",
-      timeline: "",
-      message: "",
-    });
-    setFiles([]);
   };
 
   const whatsappHref = `https://wa.me/${VENTURESCAPE_WHATSAPP}?text=${encodeURIComponent(
@@ -168,15 +190,16 @@ export default function VenturescapeEnquirySection() {
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
-            Send an Enquiry
+            Tell Us What You Need. Start a Conversation.
           </p>
           <h2 className="text-3xl font-semibold tracking-[-0.02em] text-[#0C2448] sm:text-5xl">
-            Share your requirement. We'll take it from there.
+            Contact / Enquiry
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#0C2448]/68 md:text-lg">
-            Fill in what you're looking for and our team will review it and
-            reach out with sourcing options, pricing, and next steps. The more
-            detail you share up front, the sharper the response we can send back.
+            Looking for timber, veneer, plywood, MDF or another wood-based
+            material? Share the requirement with us and we will evaluate the
+            appropriate sourcing and commercial possibilities. The more
+            complete the specification, the more accurately we can assess it.
           </p>
         </div>
 
@@ -378,7 +401,7 @@ export default function VenturescapeEnquirySection() {
 
                 <div className="space-y-1.5">
                   <Label htmlFor="destinationCountry" className="text-sm font-medium text-[#0C2448]">
-                    Destination Country
+                    Country
                   </Label>
                   <Select
                     value={formData.destinationCountry}
@@ -388,7 +411,7 @@ export default function VenturescapeEnquirySection() {
                       id="destinationCountry"
                       className={`rounded-md border-0 bg-white text-[#0C2448] ${fieldShadow}`}
                     >
-                      <SelectValue placeholder="Choose destination" />
+                      <SelectValue placeholder="Select your country" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
                       {destinations.map((d) => (
@@ -449,12 +472,12 @@ export default function VenturescapeEnquirySection() {
 
                 <div className="space-y-1.5 sm:col-span-2">
                   <Label htmlFor="message" className="text-sm font-medium text-[#0C2448]">
-                    Tell Us More
+                    Additional Requirements
                   </Label>
                   <Textarea
                     id="message"
                     rows={5}
-                    placeholder="Species, grade, dimensions, moisture, packing preferences, certifications, end use — anything that helps us understand the requirement."
+                    placeholder="Moisture, packing preferences, certifications, end use — anything that helps us understand the requirement."
                     value={formData.message}
                     onChange={(e) => updateField("message", e.target.value)}
                     required
@@ -482,7 +505,7 @@ export default function VenturescapeEnquirySection() {
                   size="lg"
                   className="gap-2 rounded-md bg-[#0C2448] px-6 py-6 text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564]"
                 >
-                  Send Enquiry
+                  Submit Your Requirement
                   <IoArrowForward className="h-4 w-4" />
                 </Button>
                 <a
@@ -492,12 +515,11 @@ export default function VenturescapeEnquirySection() {
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-[#0C2448]/12 bg-white px-6 py-4 text-sm font-medium text-[#0C2448] transition-colors hover:bg-[#F7F2EB]"
                 >
                   <FaWhatsapp className="h-4 w-4 text-[#25D366]" />
-                  Chat on WhatsApp
+                  Speak to us on WhatsApp
                 </a>
               </div>
               <p className="text-xs text-[#0C2448]/54">
-                Prefer a direct conversation? Message us on WhatsApp with your
-                specification.
+                Prefer a direct conversation? Speak to us on WhatsApp.
               </p>
             </form>
           </div>

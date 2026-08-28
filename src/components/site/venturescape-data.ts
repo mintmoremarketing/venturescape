@@ -3,6 +3,7 @@ import {
   BadgeCheck,
   Boxes,
   Building2,
+  CheckCircle2,
   ClipboardCheck,
   FileSpreadsheet,
   FileText,
@@ -36,90 +37,84 @@ export type ProductItem = {
 export const navigation = [
   { label: "About", href: "#about" },
   { label: "Products", href: "#products" },
+  { label: "Global Sourcing", href: "#global-sourcing" },
   { label: "Capabilities", href: "#capabilities" },
-  { label: "Markets", href: "#markets" },
+  { label: "Our Standard", href: "#standard" },
   { label: "Contact", href: "#enquiry" },
 ];
 
-export const footerNavigation = [
-  { label: "About", href: "#about" },
-  { label: "Products", href: "#products" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Markets", href: "#markets" },
-  { label: "Why Venturescape", href: "#why-venturescape" },
-  { label: "Contact", href: "#enquiry" },
-];
+export const footerNavigation = navigation;
 
 export const productPills = [
   "Timber",
-  "Plywood",
   "Face Veneer",
   "Core Veneer",
+  "Plywood",
   "MDF",
-  "Wood-Based Panels",
+  "Wood-Based Materials",
 ];
 
 export const aboutItems: FeatureItem[] = [
   {
-    title: "Dubai-Based Trade Platform",
-    body: "Venturescape Trading operates from Dubai and coordinates international wood-product sourcing with a commercial, documentation, and logistics-first approach.",
+    title: "Dubai-based, globally connected",
+    body: "Venturescape Trading — FZCO is a Dubai-based trading company specialising in timber, veneers, plywood, MDF and allied wood products.",
     icon: Building2,
-    pill: "Structured sourcing",
+    pill: "Company background",
   },
   {
-    title: "Reliable Source Alignment",
-    body: "We work between buyers and suppliers to identify commercially suitable products, review specifications, and create clarity before orders move forward.",
+    title: "India as a principal destination",
+    body: "We connect international sources with manufacturers and buyers, with India currently serving as one of our principal destination markets.",
     icon: BadgeCheck,
-    pill: "Requirement-led",
+    pill: "Destination market",
   },
   {
-    title: "Documentation Discipline",
-    body: "Invoices, packing lists, certificates, and shipment paperwork are treated as part of the transaction itself, not as afterthoughts.",
-    icon: FileText,
-    pill: "Measured execution",
+    title: "Confidence on both sides",
+    body: "A successful transaction should leave the buyer confident in what was purchased, the supplier confident in whom they supplied, and every stakeholder clear about the commitment that was made.",
+    icon: Users2,
+    pill: "Business philosophy",
   },
   {
-    title: "Execution Through Delivery",
-    body: "Our role continues through coordination, inspection support, shipment planning, and post-shipment communication until the agreed conclusion is reached.",
+    title: "Involved through the shipment",
+    body: "We understand the requirement, identify suitable sources, align specifications and commercial terms, coordinate documentation and remain involved through the movement of the shipment.",
     icon: Truck,
-    pill: "Transaction continuity",
+    pill: "Stakeholder-focused",
   },
 ];
 
 export const capabilityItems: FeatureItem[] = [
   {
     title: "Product Sourcing",
-    body: "Identification of suitable products and suppliers according to technical, commercial, and delivery requirements.",
+    body: "We identify potential products and suppliers according to the buyer's technical, commercial and delivery requirements.",
     icon: ScanSearch,
-    pill: "Buyer-fit sourcing",
+    pill: "Requirement-led",
   },
   {
-    title: "Commercial Coordination",
-    body: "Quotations, negotiations, quantities, delivery schedules, and agreed commercial terms coordinated with clarity.",
-    icon: Landmark,
-    pill: "Commercial alignment",
-  },
-  {
-    title: "Specification Alignment",
-    body: "Species, grade, thickness, dimensions, moisture, packaging, and tolerances reviewed before commitment.",
+    title: "Specification Coordination",
+    body: "Species, grade, thickness, dimensions, moisture, tolerances, packaging and quantity aligned before the commitment is made — to reduce ambiguity from the start.",
     icon: ClipboardCheck,
     pill: "Pre-order clarity",
   },
   {
-    title: "Documentation",
-    body: "Invoices, packing lists, certificates of origin, phytosanitary documents, and trade paperwork coordinated carefully.",
-    icon: FileText,
-    pill: "Document control",
+    title: "Commercial Coordination",
+    body: "Pricing, order quantities, payment terms, delivery schedules, incoterms and other agreed transaction conditions coordinated through one relationship.",
+    icon: Landmark,
+    pill: "Commercial alignment",
   },
   {
-    title: "Shipping and Logistics",
-    body: "Shipment planning, container requirements, loading schedules, and logistics communication managed in sequence.",
+    title: "Documentation",
+    body: "Commercial invoices, packing lists, certificates of origin, phytosanitary certificates, bills of lading and product-specific supporting documentation.",
+    icon: FileText,
+    pill: "Document discipline",
+  },
+  {
+    title: "Shipping & Logistics",
+    body: "Container planning, loading schedules, shipment timelines, port information, shipping documents and communication with logistics partners.",
     icon: ShipWheel,
-    pill: "Shipment planning",
+    pill: "Shipment coordination",
   },
   {
     title: "Trade Finance Coordination",
-    body: "Support for documentation related to agreed payment structures such as remittances, collections, and letters of credit.",
+    body: "Support for the documentary process connected with advance remittances, letters of credit, documentary transactions and bank-related trade documentation.",
     icon: ShieldCheck,
     pill: "Payment support",
   },
@@ -127,38 +122,38 @@ export const capabilityItems: FeatureItem[] = [
 
 export const whyItems: FeatureItem[] = [
   {
-    title: "One Industry, Understood Deeply",
-    body: "We do not spread across unrelated categories. Timber, veneers, plywood, MDF, and allied wood products are all we trade, and that focus shows in the questions we ask and the answers we give.",
+    title: "Wood-focused understanding",
+    body: "Our commercial focus is centred on timber, veneers, plywood and allied wood materials — a single industry, understood deeply.",
     icon: Trees,
     pill: "Industry focus",
   },
   {
-    title: "Sourcing That Starts With You",
-    body: "Every enquiry begins with your requirement, not a catalogue we already have. Species, grade, dimensions, quantity, and destination shape the search for the right source.",
+    title: "Global source access",
+    body: "We develop sourcing relationships across established wood-producing regions to give customers access to different origins and product possibilities.",
     icon: Boxes,
-    pill: "Requirement first",
+    pill: "Origin reach",
   },
   {
-    title: "Say What Is True, Say It Early",
-    body: "Specifications, quantities, timelines, and commercial terms are put on the table clearly before an order moves. Fewer surprises later, less friction throughout.",
+    title: "Requirement-led sourcing",
+    body: "We don't begin by asking what we want to sell. We begin by understanding what the customer needs to buy.",
+    icon: ClipboardCheck,
+    pill: "Buyer-first",
+  },
+  {
+    title: "Stakeholder-first approach",
+    body: "We consider the interests of buyers, suppliers and the other parties necessary to successfully complete the transaction.",
     icon: Users2,
-    pill: "Commercial clarity",
+    pill: "Balanced",
   },
   {
-    title: "Paperwork Treated as the Trade",
-    body: "Invoices, packing lists, certificates, and shipping documents are prepared with the same care as the shipment itself, because at destination they are the shipment.",
+    title: "Documentation-focused execution",
+    body: "Commercial and shipping documentation receive the same attention as the physical material — because at destination, they are the material.",
     icon: FileText,
-    pill: "Documentation discipline",
+    pill: "Discipline",
   },
   {
-    title: "Talk to the People Responsible",
-    body: "You reach the people actually running your transaction. No handovers, no filters, no waiting to hear back from someone else.",
-    icon: BadgeCheck,
-    pill: "Direct accountability",
-  },
-  {
-    title: "Built for the Second Order",
-    body: "Every shipment is delivered with the next one in mind. Repeat business, not one-off wins, is how we measure whether the work was done well.",
+    title: "Built for repeat business",
+    body: "We measure our relationships over multiple transactions, not a single shipment. Direct accountability, personal communication and the next order in mind.",
     icon: Warehouse,
     pill: "Relationship-led",
   },
@@ -167,44 +162,44 @@ export const whyItems: FeatureItem[] = [
 export const productItems: ProductItem[] = [
   {
     title: "Timber",
-    body: "Hardwood and softwood timber sourced according to species, grade, dimensions, moisture requirements, and end-use application.",
+    body: "We source hardwood and softwood timber for manufacturing, construction and industrial applications.",
     icon: Trees,
     pill: "Hardwood / Softwood",
     image: "https://images.pexels.com/photos/12278566/pexels-photo-12278566.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
-    title: "Plywood",
-    body: "Commercial, marine, structural, and application-specific plywood for manufacturing, construction, furniture, and interior requirements.",
-    icon: Layers3,
-    pill: "Commercial / Marine",
-    image: "https://images.pexels.com/photos/10838921/pexels-photo-10838921.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  },
-  {
     title: "Face Veneer",
-    body: "Natural wood face veneers in different species, grades, thicknesses, and dimensions for plywood and decorative use.",
+    body: "Natural wood face veneers sourced for plywood manufacturing, panel production and other wood-based applications.",
     icon: PackageCheck,
     pill: "Decorative surfaces",
     image: "https://images.pexels.com/photos/4097157/pexels-photo-4097157.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     title: "Core Veneer",
-    body: "Core veneers supplied according to thickness, dimensions, species, and production requirements for panel manufacturing.",
+    body: "Core veneer sourced for plywood and panel manufacturers according to their production requirements.",
     icon: Boxes,
     pill: "Panel production",
     image: "https://images.pexels.com/photos/7479035/pexels-photo-7479035.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
-    title: "MDF and Wood-Based Panels",
-    body: "MDF and other engineered wood panels for furniture manufacturing, interiors, distribution, and construction applications.",
+    title: "Plywood",
+    body: "Plywood sourced according to the technical, commercial and application requirements of the customer.",
+    icon: Layers3,
+    pill: "Commercial / Marine",
+    image: "https://images.pexels.com/photos/10838921/pexels-photo-10838921.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  },
+  {
+    title: "MDF & Wood-Based Panels",
+    body: "MDF and other engineered wood panels sourced for furniture, interiors, manufacturing, distribution and related applications.",
     icon: FileSpreadsheet,
     pill: "Engineered panels",
     image: "https://images.pexels.com/photos/5089122/pexels-photo-5089122.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
-    title: "Other Wood Products",
-    body: "Additional wood products sourced against specific technical, dimensional, commercial, and destination-market requirements.",
+    title: "Custom Wood Sourcing",
+    body: "Not every requirement fits into a standard product category. Share the material, species, specification, quantity or application you need and we'll evaluate suitable sourcing through our international network.",
     icon: Warehouse,
-    pill: "Custom requirements",
+    pill: "Non-standard requirements",
     image: "https://images.pexels.com/photos/5484741/pexels-photo-5484741.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 ];
@@ -216,19 +211,98 @@ export const networkPartners = [
   "Panel manufacturers",
   "Exporters",
   "Inspection partners",
-  "Shipping and logistics providers",
+  "Freight and logistics providers",
 ];
 
 export const marketSegments = [
   "Plywood manufacturers",
   "Timber importers",
   "Veneer buyers",
-  "Building-material distributors",
+  "Panel manufacturers",
   "Furniture manufacturers",
+  "Building-material distributors",
   "Interior-product companies",
   "Construction-material suppliers",
   "Project procurement companies",
   "Wholesalers",
   "International trading houses",
+];
+
+export const processSteps = [
+  {
+    title: "Understand",
+    body: "Tell us what you need — product, species, grade, dimensions, quantity, destination and required timeline.",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Source",
+    body: "We evaluate appropriate origins, materials and suppliers according to the requirement.",
+    icon: ScanSearch,
+  },
+  {
+    title: "Align",
+    body: "Product specifications, price, quantity, payment terms, delivery conditions and other commercial details are discussed and clarified.",
+    icon: Landmark,
+  },
+  {
+    title: "Confirm",
+    body: "Once both sides are aligned, the order and supporting documentation move forward.",
+    icon: FileText,
+  },
+  {
+    title: "Coordinate",
+    body: "We remain involved through inspection where applicable, documentation, loading, shipment planning and logistics communication.",
+    icon: ShipWheel,
+  },
+  {
+    title: "Support",
+    body: "Our responsibility does not disappear once the cargo leaves the port. We continue coordinating communication and documentation until the transaction reaches its proper conclusion.",
+    icon: Truck,
+  },
+];
+
+export const standardItems: FeatureItem[] = [
+  {
+    title: "Protecting both sides of the transaction",
+    body: "Serving the buyer should not mean disregarding the supplier, or vice versa. We structure transactions in which commercial expectations are understood and every party's legitimate interests are respected.",
+    icon: ShieldCheck,
+    pill: "Trust",
+  },
+  {
+    title: "Clarity before commitment",
+    body: "Problems in trade often begin with assumptions. We clarify specifications, quantities, commercial terms, documentation requirements and timelines before execution wherever possible.",
+    icon: ClipboardCheck,
+    pill: "Clarity",
+  },
+  {
+    title: "Transparent communication",
+    body: "If something changes, the right people should know. We would rather communicate an issue early than allow uncertainty to become a larger problem later.",
+    icon: Users2,
+    pill: "Communication",
+  },
+  {
+    title: "Respect for every stakeholder",
+    body: "Suppliers, buyers, manufacturers, logistics partners, financial institutions — each deserves professional communication, fair dealing and respect for their legitimate interests.",
+    icon: BadgeCheck,
+    pill: "Fair dealing",
+  },
+  {
+    title: "Documentation discipline",
+    body: "Documentation is not paperwork that comes after the trade. It is part of the trade. We coordinate commercial, shipping and banking documents so avoidable issues don't compromise the transaction.",
+    icon: FileText,
+    pill: "Discipline",
+  },
+  {
+    title: "Accountability",
+    body: "When we undertake a responsibility, we remain involved. Our customers and suppliers know who is handling the transaction and whom to speak to when something requires attention.",
+    icon: CheckCircle2,
+    pill: "Ownership",
+  },
+  {
+    title: "Long-term thinking",
+    body: "We're not building Venturescape around one-off transactions. Successful trade is not \"was the shipment completed?\" — it's \"would everyone involved choose to work together again?\"",
+    icon: Warehouse,
+    pill: "Relationships",
+  },
 ];
 

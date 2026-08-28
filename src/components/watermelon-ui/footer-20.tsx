@@ -1,10 +1,5 @@
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  ArrowUpRight01Icon,
-  Linkedin01Icon,
-  NewTwitterIcon,
-  WhatsappIcon,
-} from "@hugeicons/core-free-icons";
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { motion, type Variants } from "framer-motion";
 import LogoIcon from "@/assets/logo-icon";
 
@@ -37,29 +32,30 @@ const giantTextVariant: Variants = {
 };
 
 const brandName = "Venturescape";
-const description =
-  "Focused on timber, veneers, plywood, MDF, and allied wood products with clear commercial coordination and disciplined trade execution.";
-const enquiryLabel = "Send an enquiry";
+const tagline = "Global Wood Trade. Built on Trust.";
 
 const navigation = [
   { label: "About", href: "#about" },
   { label: "Products", href: "#products" },
+  { label: "Global Sourcing", href: "#global-sourcing" },
   { label: "Capabilities", href: "#capabilities" },
-  { label: "Markets", href: "#markets" },
-  { label: "Why Venturescape", href: "#why-venturescape" },
+  { label: "Our Standard", href: "#standard" },
+  { label: "Contact", href: "#enquiry" },
+];
+
+const products = [
+  "Timber",
+  "Face Veneer",
+  "Core Veneer",
+  "Plywood",
+  "MDF",
+  "Wood-Based Materials",
 ];
 
 const legal = [
-  { label: "Privacy", href: "#" },
+  { label: "Privacy Policy", href: "#" },
   { label: "Terms of Use", href: "#" },
-  { label: "Dubai, UAE", href: "#" },
-  { label: "FZCO Licensed", href: "#" },
-];
-
-const socialLinks = [
-  { label: "LinkedIn", href: "#", icon: <HugeiconsIcon icon={Linkedin01Icon} size={20} /> },
-  { label: "X", href: "#", icon: <HugeiconsIcon icon={NewTwitterIcon} size={20} /> },
-  { label: "WhatsApp", href: "#", icon: <HugeiconsIcon icon={WhatsappIcon} size={20} /> },
+  { label: "Dubai, United Arab Emirates", href: "#" },
 ];
 
 export default function Footer20() {
@@ -80,19 +76,19 @@ export default function Footer20() {
             <div className="flex items-center gap-2 text-neutral-900">
               <LogoIcon className="size-8 text-[#0C2448]" />
               <span className="mt-0.5 text-lg font-medium tracking-wide">
-                {brandName}
+                {brandName} Trading
               </span>
             </div>
 
             <p className="max-w-[360px] text-[15px] leading-relaxed text-neutral-600">
-              {description}
+              {tagline}
             </p>
 
             <a
               href="#enquiry"
               className="group mt-2 inline-flex w-fit items-center gap-2 text-[17px] font-medium text-[#0C2448] transition-colors hover:text-[#153564]"
             >
-              {enquiryLabel}
+              Send an enquiry
               <HugeiconsIcon
                 icon={ArrowUpRight01Icon}
                 size={18}
@@ -119,6 +115,17 @@ export default function Footer20() {
             </motion.div>
 
             <motion.div variants={riseItem} className="flex flex-col gap-6">
+              <h4 className="font-medium text-neutral-900">Products</h4>
+              <ul className="flex flex-col gap-3">
+                {products.map((p) => (
+                  <li key={p} className="text-[15px] text-neutral-600">
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div variants={riseItem} className="flex flex-col gap-6">
               <h4 className="font-medium text-neutral-900">Company</h4>
               <ul className="flex flex-col gap-3">
                 {legal.map((link) => (
@@ -131,34 +138,6 @@ export default function Footer20() {
                     </a>
                   </li>
                 ))}
-              </ul>
-            </motion.div>
-
-            <motion.div variants={riseItem} className="flex flex-col gap-6">
-              <h4 className="font-medium text-neutral-900">Follow</h4>
-              <ul className="flex flex-col gap-3">
-                {socialLinks.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[15px] text-neutral-600 transition-colors hover:text-neutral-900"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-                <li className="mt-2 flex items-center gap-4">
-                  {socialLinks.map((link) => (
-                    <a
-                      key={`icon-${link.label}`}
-                      href={link.href}
-                      aria-label={link.label}
-                      className="text-neutral-500 transition-colors hover:text-[#0C2448]"
-                    >
-                      {link.icon}
-                    </a>
-                  ))}
-                </li>
               </ul>
             </motion.div>
           </div>
@@ -214,7 +193,7 @@ export default function Footer20() {
 
       <div className="border-t border-neutral-200">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between md:px-8">
-          <p>Venturescape Trading — FZCO, registered in Dubai, UAE.</p>
+          <p>Venturescape Trading — FZCO, registered in Dubai, United Arab Emirates.</p>
           <p>© 2026 Venturescape Trading — FZCO. All rights reserved.</p>
         </div>
       </div>

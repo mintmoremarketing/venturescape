@@ -2,9 +2,11 @@ import VenturescapeHero from "@/components/site/venturescape-hero";
 import VenturescapeFeatureSection from "@/components/site/venturescape-feature-section";
 import VenturescapeProducts from "@/components/site/venturescape-products";
 import VenturescapeNetwork from "@/components/site/venturescape-network";
+import VenturescapeProcess from "@/components/site/venturescape-process";
+import VenturescapeStandard from "@/components/site/venturescape-standard";
 import VenturescapeMarkets from "@/components/site/venturescape-markets";
+import VenturescapePhilosophy from "@/components/site/venturescape-philosophy";
 import VenturescapeWhyFeature from "@/components/watermelon-ui/feature-1";
-import VenturescapeStats from "@/components/watermelon-ui/stats-4";
 import VenturescapeCta from "@/components/watermelon-ui/cta-4";
 import VenturescapeEnquirySection from "@/components/watermelon-ui/contact-3";
 import Footer20 from "@/components/watermelon-ui/footer-20";
@@ -22,24 +24,27 @@ export default function VenturescapePage() {
         <VenturescapeHero />
         <VenturescapeFeatureSection
           id="about"
-          eyebrow="About Venturescape"
-          title="Connecting reliable sources with growing markets."
-          description="Venturescape Trading is a Dubai-based trading company focused on timber, veneers, plywood, MDF, and allied wood products. We remain involved through sourcing, alignment, documentation, logistics coordination, and delivery support."
+          eyebrow="Trade Should Create Confidence, Not Uncertainty."
+          title="About Venturescape"
+          description="Venturescape Trading — FZCO is a Dubai-based trading company specialising in timber, veneers, plywood, MDF and allied wood products. Our business is built around more than the movement of material — we believe every stakeholder should be clear about the commitment that was made."
           items={aboutItems}
           columns="two"
+          closingLine="Because for us, completing one transaction matters. Being trusted with the next one matters more."
         />
         <VenturescapeProducts />
-        <VenturescapeStats />
         <VenturescapeNetwork />
         <VenturescapeFeatureSection
           id="capabilities"
-          eyebrow="Our Capabilities"
-          title="End-to-end trade coordination."
-          description="Venturescape provides more than product introductions. The transaction is managed through commercial alignment, documentation discipline, and shipment coordination."
+          eyebrow="From Requirement to Shipment."
+          title="Our Capabilities"
+          description="International trading requires considerably more than matching a buyer with a seller. A transaction may involve product specifications, negotiations, documentation, banking, inspection, containers, ports, vessels and multiple organisations across different jurisdictions. Venturescape coordinates these moving parts through one commercial relationship."
           items={capabilityItems}
         />
-        <VenturescapeMarkets />
+        <VenturescapeProcess />
+        <VenturescapeStandard />
         <VenturescapeWhyFeature />
+        <VenturescapeMarkets />
+        <VenturescapePhilosophy />
         <VenturescapeCta />
         <VenturescapeEnquirySection />
       </main>
