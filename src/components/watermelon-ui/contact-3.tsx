@@ -83,7 +83,11 @@ const productGroups = [
   {
     label: "Other",
     items: [
-      { value: "Wood-Based Panels", label: "Wood-Based Panels", icon: IoLayers },
+      {
+        value: "Wood-Based Panels",
+        label: "Wood-Based Panels",
+        icon: IoLayers,
+      },
       { value: "Other", label: "Other wood product", icon: IoConstruct },
     ],
   },
@@ -214,7 +218,7 @@ export default function VenturescapeEnquirySection() {
           method: "POST",
           headers: { Accept: "application/json" },
           body: fd,
-        }
+        },
       );
       // Formsubmit returns { success: "true", message: "..." } on success.
       let ok = res.ok;
@@ -234,7 +238,7 @@ export default function VenturescapeEnquirySection() {
       } else {
         showErrorToast(
           responseMessage ||
-            "The form email may not be activated in FormSubmit yet. Please activate the inbox and try again."
+            "The form email may not be activated in FormSubmit yet. Please activate the inbox and try again.",
         );
       }
     } catch {
@@ -245,7 +249,7 @@ export default function VenturescapeEnquirySection() {
   };
 
   const whatsappHref = `https://wa.me/${VENTURESCAPE_WHATSAPP}?text=${encodeURIComponent(
-    WHATSAPP_OPENING_MESSAGE
+    WHATSAPP_OPENING_MESSAGE,
   )}`;
 
   return (
@@ -261,8 +265,8 @@ export default function VenturescapeEnquirySection() {
           <p className="mt-4 text-base leading-relaxed text-[#0C2448]/68 md:text-lg">
             Looking for timber, veneer, plywood, MDF or another wood-based
             material? Share the requirement with us and we will evaluate the
-            appropriate sourcing and commercial possibilities. The more
-            complete the specification, the more accurately we can assess it.
+            appropriate sourcing and commercial possibilities. The more complete
+            the specification, the more accurately we can assess it.
           </p>
         </div>
 
@@ -271,10 +275,15 @@ export default function VenturescapeEnquirySection() {
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <Label htmlFor="fullName" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="fullName"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Full Name
                   </Label>
-                  <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                  <div
+                    className={`relative rounded-md bg-white ${fieldShadow}`}
+                  >
                     <IoPerson className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
                     <Input
                       id="fullName"
@@ -288,10 +297,15 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="email" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="email"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Work Email
                   </Label>
-                  <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                  <div
+                    className={`relative rounded-md bg-white ${fieldShadow}`}
+                  >
                     <IoMail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
                     <Input
                       id="email"
@@ -306,10 +320,15 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="phone" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="phone"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Phone or WhatsApp
                   </Label>
-                  <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                  <div
+                    className={`relative rounded-md bg-white ${fieldShadow}`}
+                  >
                     <IoCall className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
                     <Input
                       id="phone"
@@ -323,10 +342,15 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="company" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="company"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Company
                   </Label>
-                  <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                  <div
+                    className={`relative rounded-md bg-white ${fieldShadow}`}
+                  >
                     <IoBusiness className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
                     <Input
                       id="company"
@@ -340,12 +364,17 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="product" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="product"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Product Required
                   </Label>
                   <Select
                     value={formData.product}
-                    onValueChange={(value) => updateField("product", value ?? "")}
+                    onValueChange={(value) =>
+                      updateField("product", value ?? "")
+                    }
                   >
                     <SelectTrigger
                       id="product"
@@ -378,7 +407,10 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="species" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="species"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Species
                   </Label>
                   <div className={`rounded-md bg-white ${fieldShadow}`}>
@@ -393,7 +425,10 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="grade" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="grade"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Grade
                   </Label>
                   <div className={`rounded-md bg-white ${fieldShadow}`}>
@@ -408,7 +443,10 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="thickness" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="thickness"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Thickness
                   </Label>
                   <div className={`rounded-md bg-white ${fieldShadow}`}>
@@ -423,7 +461,10 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="dimensions" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="dimensions"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Dimensions
                   </Label>
                   <div className={`rounded-md bg-white ${fieldShadow}`}>
@@ -431,19 +472,26 @@ export default function VenturescapeEnquirySection() {
                       id="dimensions"
                       placeholder="e.g. 4x8 ft, 1220x2440 mm"
                       value={formData.dimensions}
-                      onChange={(e) => updateField("dimensions", e.target.value)}
+                      onChange={(e) =>
+                        updateField("dimensions", e.target.value)
+                      }
                       className="rounded-md border-0 bg-transparent text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="quantity" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="quantity"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Required Quantity
                   </Label>
                   <Select
                     value={formData.quantity}
-                    onValueChange={(value) => updateField("quantity", value ?? "")}
+                    onValueChange={(value) =>
+                      updateField("quantity", value ?? "")
+                    }
                   >
                     <SelectTrigger
                       id="quantity"
@@ -452,23 +500,40 @@ export default function VenturescapeEnquirySection() {
                       <SelectValue placeholder="Select quantity" />
                     </SelectTrigger>
                     <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
-                      <SelectItem value="1 x 20 FCL" className="rounded-lg">1 x 20 FCL</SelectItem>
-                      <SelectItem value="1 x 40 HC" className="rounded-lg">1 x 40 HC</SelectItem>
-                      <SelectItem value="2-4 x 40 HC" className="rounded-lg">2 – 4 x 40 HC</SelectItem>
-                      <SelectItem value="5+ x 40 HC" className="rounded-lg">5+ x 40 HC</SelectItem>
-                      <SelectItem value="Trial order" className="rounded-lg">Trial order</SelectItem>
-                      <SelectItem value="Custom" className="rounded-lg">Custom / to be discussed</SelectItem>
+                      <SelectItem value="1 x 20 FCL" className="rounded-lg">
+                        1 x 20 FCL
+                      </SelectItem>
+                      <SelectItem value="1 x 40 HC" className="rounded-lg">
+                        1 x 40 HC
+                      </SelectItem>
+                      <SelectItem value="2-4 x 40 HC" className="rounded-lg">
+                        2 – 4 x 40 HC
+                      </SelectItem>
+                      <SelectItem value="5+ x 40 HC" className="rounded-lg">
+                        5+ x 40 HC
+                      </SelectItem>
+                      <SelectItem value="Trial order" className="rounded-lg">
+                        Trial order
+                      </SelectItem>
+                      <SelectItem value="Custom" className="rounded-lg">
+                        Custom / to be discussed
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="destinationCountry" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="destinationCountry"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Country
                   </Label>
                   <Select
                     value={formData.destinationCountry}
-                    onValueChange={(value) => updateField("destinationCountry", value ?? "")}
+                    onValueChange={(value) =>
+                      updateField("destinationCountry", value ?? "")
+                    }
                   >
                     <SelectTrigger
                       id="destinationCountry"
@@ -478,7 +543,11 @@ export default function VenturescapeEnquirySection() {
                     </SelectTrigger>
                     <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
                       {destinations.map((d) => (
-                        <SelectItem key={d.value} value={d.value} className="rounded-lg">
+                        <SelectItem
+                          key={d.value}
+                          value={d.value}
+                          className="rounded-lg"
+                        >
                           <span className="flex items-center gap-2">
                             <img
                               src={`https://flagcdn.com/w40/${d.flag}.png`}
@@ -494,16 +563,23 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="destinationPort" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="destinationPort"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Destination Port
                   </Label>
-                  <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                  <div
+                    className={`relative rounded-md bg-white ${fieldShadow}`}
+                  >
                     <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
                     <Input
                       id="destinationPort"
                       placeholder="e.g. Jebel Ali, Nhava Sheva"
                       value={formData.destinationPort}
-                      onChange={(e) => updateField("destinationPort", e.target.value)}
+                      onChange={(e) =>
+                        updateField("destinationPort", e.target.value)
+                      }
                       required
                       className="rounded-md border-0 bg-transparent pl-10 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
                     />
@@ -511,12 +587,17 @@ export default function VenturescapeEnquirySection() {
                 </div>
 
                 <div className="space-y-1.5 sm:col-span-2">
-                  <Label htmlFor="timeline" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="timeline"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Delivery Timeline
                   </Label>
                   <Select
                     value={formData.timeline}
-                    onValueChange={(value) => updateField("timeline", value ?? "")}
+                    onValueChange={(value) =>
+                      updateField("timeline", value ?? "")
+                    }
                   >
                     <SelectTrigger
                       id="timeline"
@@ -525,16 +606,27 @@ export default function VenturescapeEnquirySection() {
                       <SelectValue placeholder="Select timeline" />
                     </SelectTrigger>
                     <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
-                      <SelectItem value="Under 4 weeks" className="rounded-lg">Under 4 weeks</SelectItem>
-                      <SelectItem value="4 to 8 weeks" className="rounded-lg">4 – 8 weeks</SelectItem>
-                      <SelectItem value="8 to 12 weeks" className="rounded-lg">8 – 12 weeks</SelectItem>
-                      <SelectItem value="Flexible" className="rounded-lg">Flexible</SelectItem>
+                      <SelectItem value="Under 4 weeks" className="rounded-lg">
+                        Under 4 weeks
+                      </SelectItem>
+                      <SelectItem value="4 to 8 weeks" className="rounded-lg">
+                        4 – 8 weeks
+                      </SelectItem>
+                      <SelectItem value="8 to 12 weeks" className="rounded-lg">
+                        8 – 12 weeks
+                      </SelectItem>
+                      <SelectItem value="Flexible" className="rounded-lg">
+                        Flexible
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-1.5 sm:col-span-2">
-                  <Label htmlFor="message" className="text-sm font-medium text-[#0C2448]">
+                  <Label
+                    htmlFor="message"
+                    className="text-sm font-medium text-[#0C2448]"
+                  >
                     Additional Requirements
                   </Label>
                   <Textarea
@@ -623,11 +715,13 @@ export default function VenturescapeEnquirySection() {
                   <CardTitle className="text-white">Response Time</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-3xl font-bold text-white">Same business day</p>
+                  <p className="text-3xl font-bold text-white">
+                    Same business day
+                  </p>
                   <p className="mt-4 text-sm leading-6 text-white/70">
                     Every enquiry is reviewed personally. Expect a first
-                    response within one business day, with sourcing options
-                    to follow shortly after.
+                    response within one business day, with sourcing options to
+                    follow shortly after.
                   </p>
                 </CardContent>
               </Card>
