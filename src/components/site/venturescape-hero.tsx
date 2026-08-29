@@ -120,13 +120,28 @@ export default function VenturescapeHero() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden font-sans antialiased selection:bg-[#BB7D3E]/30 selection:text-[#0C2448]">
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <img
-          src="https://assets.watermelon.sh/hero-34-bg.avif"
-          alt="Wood and trade landscape"
-          className="h-full w-full object-cover"
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#040A1F]">
+        <video
+          src="/Venturescape_V1.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          className="h-full w-full object-cover opacity-85"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,36,72,0.22),rgba(12,36,72,0.07)_34%,rgba(255,248,240,0.26)_100%)]" />
+        {/* Overlay stack for legibility over the video (which contains its own
+            wordmark near the centre). Strategy: leave the right side of the
+            video mostly visible, hide the centre wordmark behind a strong
+            horizontal darken gradient anchored on the left where the text
+            sits, and keep a soft bloom at the bottom for section blending. */}
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,10,31,0.90)_0%,rgba(4,10,31,0.78)_38%,rgba(4,10,31,0.45)_62%,rgba(4,10,31,0.25)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,10,31,0.55)_0%,rgba(4,10,31,0.15)_45%,rgba(4,10,31,0.45)_100%)]" />
+        {/* Extra darken pool covering the centre-left where body copy sits,
+            to fully hide the wordmark rendered in the middle of the video. */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_28%_58%,rgba(4,10,31,0.55),transparent_75%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#F7F2EB]/40 to-transparent" />
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col">
@@ -136,22 +151,22 @@ export default function VenturescapeHero() {
           animate="show"
           className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-6 py-6 md:px-8"
         >
-          <div className="group flex cursor-pointer items-center gap-2 text-[#0C2448]">
+          <div className="group flex cursor-pointer items-center gap-2 text-white">
             <motion.div
               whileHover={{ rotate: 90 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
             >
-              <LogoIcon className="h-7 w-7" />
+              <LogoIcon className="h-7 w-7 text-[#BB7D3E]" />
             </motion.div>
             <span className="text-xl font-normal tracking-tight">Venturescape</span>
           </div>
 
-          <div className="hidden items-center gap-8 text-sm font-medium text-[#0C2448]/72 lg:flex xl:gap-10">
+          <div className="hidden items-center gap-8 text-sm font-medium text-white/80 lg:flex xl:gap-10">
             {navigation.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="flex min-h-[40px] items-center transition-colors hover:text-[#91121D]"
+                className="flex min-h-[40px] items-center transition-colors hover:text-[#BB7D3E]"
               >
                 {item.label}
               </a>
@@ -161,7 +176,7 @@ export default function VenturescapeHero() {
           <div className="flex items-center gap-3 lg:gap-6">
             <a
               href="#enquiry"
-              className="hidden min-h-[40px] items-center gap-2 rounded-sm bg-[#0C2448] px-5 py-2.5 text-[14px] font-medium text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-all will-change-transform hover:bg-[#153564] active:scale-[0.96] lg:flex"
+              className="hidden min-h-[40px] items-center gap-2 rounded-sm bg-white px-5 py-2.5 text-[14px] font-medium text-[#0C2448] shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition-all will-change-transform hover:bg-[#F7F2EB] active:scale-[0.96] lg:flex"
             >
               Request a Quote
               <ArrowRight className="h-4 w-4" />
@@ -171,7 +186,7 @@ export default function VenturescapeHero() {
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open menu"
               aria-expanded={mobileMenuOpen}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[#0C2448]/12 bg-white/70 text-[#0C2448] transition-colors hover:bg-white lg:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 lg:hidden"
             >
               <Menu className="h-4 w-4" />
             </button>
@@ -250,18 +265,18 @@ export default function VenturescapeHero() {
               initial="hidden"
               animate="show"
               transition={{ delay: 0.2 }}
-              className="mb-8 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 rounded-full border border-white/60 bg-white/70 px-4 py-2 shadow-[0_10px_30px_rgba(12,36,72,0.08)] backdrop-blur-md"
+              className="mb-8 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 rounded-full border border-white/15 bg-white/[0.08] px-4 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md"
             >
               {productPills.map((pill, i) => (
                 <span key={pill} className="flex items-center gap-3">
                   <a
                     href="#products"
-                    className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72 transition-colors hover:text-[#91121D]"
+                    className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85 transition-colors hover:text-[#BB7D3E]"
                   >
                     {pill}
                   </a>
                   {i < productPills.length - 1 && (
-                    <span className="h-1 w-1 rounded-full bg-[#BB7D3E]/60" />
+                    <span className="h-1 w-1 rounded-full bg-[#BB7D3E]/70" />
                   )}
                 </span>
               ))}
@@ -271,13 +286,14 @@ export default function VenturescapeHero() {
               variants={titleContainerVariants}
               initial="hidden"
               animate="show"
-              className="mb-6 max-w-5xl text-[4rem] font-normal leading-[1.05] tracking-[-0.02em] text-[#0C2448] sm:text-[4.5rem]"
+              className="mb-6 max-w-5xl text-[4rem] font-normal leading-[1.05] tracking-[-0.02em] text-white sm:text-[4.5rem]"
+              style={{ textShadow: "0 2px 24px rgba(0,0,0,0.45)" }}
             >
               <motion.span variants={titleLineVariants} className="block">
                 Global Wood Trade.
               </motion.span>
               <motion.span variants={titleLineVariants} className="block">
-                Built on Trust.
+                Built on <span className="text-[#BB7D3E]">Trust.</span>
               </motion.span>
             </motion.h1>
 
@@ -289,18 +305,19 @@ export default function VenturescapeHero() {
             >
               <motion.p
                 variants={bodyItemVariants}
-                className="max-w-2xl text-pretty text-lg font-normal leading-[1.4] text-[#0C2448]/70 sm:text-[1.3rem]"
+                className="max-w-2xl text-pretty text-lg font-normal leading-[1.5] text-white/82 sm:text-[1.3rem]"
+                style={{ textShadow: "0 1px 12px rgba(0,0,0,0.4)" }}
               >
                 Venturescape Trading connects reliable sources of timber, veneers, plywood and wood-based materials with manufacturers and buyers across international markets. From identifying the right source to coordinating the transaction, our purpose is simple: to make international trade clear, dependable and secure for everyone involved.
               </motion.p>
 
               <motion.div
                 variants={bodyItemVariants}
-                className="flex flex-wrap items-center gap-6"
+                className="flex flex-wrap items-center gap-4"
               >
                 <a
                   href="#products"
-                  className="group flex min-h-[40px] items-center gap-2 rounded-sm bg-[#0C2448] px-7 py-4 text-[16px] font-medium text-white shadow-[0_16px_36px_rgba(12,36,72,0.24)] transition-all will-change-transform hover:bg-[#153564] active:scale-[0.96]"
+                  className="group flex min-h-[40px] items-center gap-2 rounded-sm bg-white px-7 py-4 text-[16px] font-medium text-[#0C2448] shadow-[0_16px_36px_rgba(0,0,0,0.35)] transition-all will-change-transform hover:bg-[#F7F2EB] active:scale-[0.96]"
                 >
                   Explore Our Products
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -308,7 +325,7 @@ export default function VenturescapeHero() {
 
                 <a
                   href="#enquiry"
-                  className="group flex min-h-[40px] items-center gap-3 rounded-sm border border-[#BB7D3E]/35 bg-white/10 px-4 py-4 text-[16px] font-medium text-[#0C2448] backdrop-blur-[2px] transition-all will-change-transform hover:border-[#BB7D3E] hover:text-[#91121D] active:scale-[0.96]"
+                  className="group flex min-h-[40px] items-center gap-3 rounded-sm border border-white/25 bg-white/10 px-4 py-4 text-[16px] font-medium text-white backdrop-blur-md transition-all will-change-transform hover:border-[#BB7D3E] hover:bg-white/15 active:scale-[0.96]"
                 >
                   Send Your Requirement
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#BB7D3E] text-white shadow-md transition-transform group-hover:scale-105 group-hover:bg-[#91121D]">
@@ -331,10 +348,10 @@ export default function VenturescapeHero() {
               <motion.div
                 key={point}
                 variants={footerItemVariants}
-                className="flex flex-col gap-3 rounded-2xl border border-white/60 bg-white/70 p-4 shadow-[0_10px_30px_rgba(12,36,72,0.08)] backdrop-blur-md"
+                className="flex flex-col gap-3 rounded-2xl border border-white/15 bg-white/[0.06] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md transition-colors hover:border-[#BB7D3E]/50 hover:bg-white/[0.10]"
               >
                 <MessageSquareMore className="h-6 w-6 stroke-[1.5] text-[#BB7D3E]" />
-                <p className="max-w-[240px] text-pretty text-[14px] font-medium leading-snug text-[#0C2448]">
+                <p className="max-w-[240px] text-pretty text-[14px] font-medium leading-snug text-white/90">
                   {point}
                 </p>
               </motion.div>
@@ -344,10 +361,10 @@ export default function VenturescapeHero() {
           <motion.a
             href="#about"
             variants={footerItemVariants}
-            className="group flex cursor-pointer items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-2 text-sm font-medium text-[#0C2448] shadow-[0_10px_30px_rgba(12,36,72,0.08)] backdrop-blur-md"
+            className="group flex cursor-pointer items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md transition-colors hover:border-[#BB7D3E]/50 hover:bg-white/15"
           >
             <span>Scroll to Discover</span>
-            <ArrowDown className="h-4 w-4 text-[#91121D] transition-transform group-hover:translate-y-1" />
+            <ArrowDown className="h-4 w-4 text-[#BB7D3E] transition-transform group-hover:translate-y-1" />
           </motion.a>
         </motion.div>
       </div>

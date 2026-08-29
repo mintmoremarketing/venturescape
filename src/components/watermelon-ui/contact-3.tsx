@@ -111,6 +111,7 @@ export default function VenturescapeEnquirySection() {
   });
 
   const [files, setFiles] = useState<FileEntry[]>([]);
+  const [submitting, setSubmitting] = useState(false);
 
   const updateField = (field: keyof EnquiryFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -130,55 +131,112 @@ export default function VenturescapeEnquirySection() {
     setFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
-  const buildMailtoBody = () => {
-    const lines: string[] = [
-      "New enquiry from the Venturescape website:",
-      "",
-      `Name: ${formData.fullName}`,
-      `Company: ${formData.company}`,
-      `Email: ${formData.email}`,
-      `Phone / WhatsApp: ${formData.phone}`,
-      "",
-      "— Requirement —",
-      `Product: ${formData.product}`,
-      `Species: ${formData.species}`,
-      `Grade: ${formData.grade}`,
-      `Thickness: ${formData.thickness}`,
-      `Dimensions: ${formData.dimensions}`,
-      `Quantity: ${formData.quantity}`,
-      `Destination country: ${formData.destinationCountry}`,
-      `Destination port: ${formData.destinationPort}`,
-      `Timeline: ${formData.timeline}`,
-      "",
-      "— Additional details —",
-      formData.message || "(none)",
-    ];
-    if (files.length > 0) {
-      lines.push("", "— Attachments to send separately —");
-      files.forEach((f) => lines.push(`• ${f.file.name}`));
-      lines.push(
-        "",
-        "Note: please attach the files above to this email before sending."
-      );
-    }
-    return lines.join("\n");
+  const resetForm = () => {
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      company: "",
+      product: "",
+      species: "",
+      grade: "",
+      thickness: "",
+      dimensions: "",
+      quantity: "",
+      destinationCountry: "",
+      destinationPort: "",
+      timeline: "",
+      message: "",
+    });
+    setFiles([]);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const subject = `Enquiry from ${formData.company || formData.fullName || "website"} — ${formData.product || "wood product"}`;
-    const body = buildMailtoBody();
-    const mailto = `mailto:${VENTURESCAPE_ENQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+  const showSuccessToast = () => {
     toast.custom(() => (
       <div className="flex items-center gap-2 rounded-sm border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-700 shadow-sm sm:w-[420px]">
         <FaCheckDouble className="animate-pulse" />
         <span className="text-sm font-medium">
-          Thank you for contacting Venturescape Trading. Your email client
-          should now open with your enquiry pre-filled — please review and send.
+          Thank you for contacting Venturescape Trading. Your requirement has
+          been received and will be reviewed by our team.
         </span>
       </div>
     ));
+  };
+
+  const showErrorToast = (msg: string) => {
+    toast.custom(() => (
+      <div className="rounded-sm border border-red-300 bg-red-50 px-4 py-3 text-red-700 shadow-sm sm:w-[420px]">
+        <p className="text-sm font-medium">
+          Sorry, we couldn't submit your enquiry. {msg}
+        </p>
+        <p className="mt-1 text-xs">
+          Please try again, or reach us on WhatsApp.
+        </p>
+      </div>
+    ));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+
+    const subject = `Enquiry from ${formData.company || formData.fullName || "website"} — ${formData.product || "wood product"}`;
+
+    // Formsubmit.co accepts multipart/form-data so we can send attachments.
+    const fd = new FormData();
+    fd.append("Name", formData.fullName);
+    fd.append("Company", formData.company);
+    fd.append("Email", formData.email);
+    fd.append("Phone / WhatsApp", formData.phone);
+    fd.append("Product", formData.product);
+    fd.append("Species", formData.species);
+    fd.append("Grade", formData.grade);
+    fd.append("Thickness", formData.thickness);
+    fd.append("Dimensions", formData.dimensions);
+    fd.append("Quantity", formData.quantity);
+    fd.append("Country", formData.destinationCountry);
+    fd.append("Destination Port", formData.destinationPort);
+    fd.append("Timeline", formData.timeline);
+    fd.append("Additional Requirements", formData.message);
+    files.forEach((f) => fd.append("attachment", f.file, f.file.name));
+
+    // Formsubmit hidden config fields — prefixed with `_`.
+    fd.append("_subject", subject);
+    fd.append("_captcha", "false");
+    fd.append("_template", "table");
+    if (formData.email) fd.append("_replyto", formData.email);
+
+    try {
+      const res = await fetch(
+        `https://formsubmit.co/ajax/${VENTURESCAPE_ENQUIRY_EMAIL}`,
+        {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: fd,
+        }
+      );
+      // Formsubmit returns { success: "true", message: "..." } on success.
+      let ok = res.ok;
+      try {
+        const json = await res.json();
+        if (typeof json?.success !== "undefined") {
+          ok = String(json.success).toLowerCase() === "true";
+        }
+      } catch {
+        // response wasn't JSON; fall back to HTTP status
+      }
+      if (ok) {
+        showSuccessToast();
+        resetForm();
+      } else {
+        showErrorToast("The delivery service returned an error.");
+      }
+    } catch {
+      showErrorToast("There was a network issue.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const whatsappHref = `https://wa.me/${VENTURESCAPE_WHATSAPP}?text=${encodeURIComponent(
@@ -290,7 +348,7 @@ export default function VenturescapeEnquirySection() {
                     >
                       <SelectValue placeholder="Choose a product" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
+                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
                       {productGroups.map((group) => (
                         <SelectGroup key={group.label}>
                           <SelectLabel className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/48">
@@ -388,7 +446,7 @@ export default function VenturescapeEnquirySection() {
                     >
                       <SelectValue placeholder="Select quantity" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
+                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
                       <SelectItem value="1 x 20 FCL" className="rounded-lg">1 x 20 FCL</SelectItem>
                       <SelectItem value="1 x 40 HC" className="rounded-lg">1 x 40 HC</SelectItem>
                       <SelectItem value="2-4 x 40 HC" className="rounded-lg">2 – 4 x 40 HC</SelectItem>
@@ -413,7 +471,7 @@ export default function VenturescapeEnquirySection() {
                     >
                       <SelectValue placeholder="Select your country" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
+                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
                       {destinations.map((d) => (
                         <SelectItem key={d.value} value={d.value} className="rounded-lg">
                           <span className="flex items-center gap-2">
@@ -461,7 +519,7 @@ export default function VenturescapeEnquirySection() {
                     >
                       <SelectValue placeholder="Select timeline" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
+                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
                       <SelectItem value="Under 4 weeks" className="rounded-lg">Under 4 weeks</SelectItem>
                       <SelectItem value="4 to 8 weeks" className="rounded-lg">4 – 8 weeks</SelectItem>
                       <SelectItem value="8 to 12 weeks" className="rounded-lg">8 – 12 weeks</SelectItem>
@@ -503,10 +561,11 @@ export default function VenturescapeEnquirySection() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="gap-2 rounded-md bg-[#0C2448] px-6 py-6 text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564]"
+                  disabled={submitting}
+                  className="gap-2 rounded-md bg-[#0C2448] px-6 py-6 text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564] disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  Submit Your Requirement
-                  <IoArrowForward className="h-4 w-4" />
+                  {submitting ? "Sending…" : "Submit Your Requirement"}
+                  {!submitting && <IoArrowForward className="h-4 w-4" />}
                 </Button>
                 <a
                   href={whatsappHref}
