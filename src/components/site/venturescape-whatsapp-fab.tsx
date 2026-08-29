@@ -7,7 +7,7 @@ import {
 export default function VenturescapeWhatsappFab() {
   const href = `https://wa.me/${VENTURESCAPE_WHATSAPP}?text=${encodeURIComponent(
     WHATSAPP_OPENING_MESSAGE
-  )}`;
+  )}&v=2`;
 
   return (
     <a

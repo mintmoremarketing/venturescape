@@ -250,7 +250,7 @@ export default function VenturescapeEnquirySection() {
 
   const whatsappHref = `https://wa.me/${VENTURESCAPE_WHATSAPP}?text=${encodeURIComponent(
     WHATSAPP_OPENING_MESSAGE,
-  )}`;
+  )}&v=2`;
 
   return (
     <section id="enquiry" className="w-full text-[#0C2448]">
