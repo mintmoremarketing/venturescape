@@ -1,13 +1,17 @@
 import { motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 import { standardItems } from "@/components/site/venturescape-data";
-import { SectionIntro, staggerContainer, riseItem } from "@/components/site/venturescape-shared";
+import {
+  SectionIntro,
+  staggerContainer,
+  riseItem,
+} from "@/components/site/venturescape-shared";
 
 export default function VenturescapeStandard() {
   return (
     <section
       id="standard"
-      className="relative overflow-hidden border-y border-[#0C2448]/8 bg-[#0C2448] text-white"
+      className="relative overflow-hidden border-y border-[#0C2448]/8 bg-[#0C2448] pt-16 text-white md:pt-20"
     >
       <div
         aria-hidden
@@ -31,8 +35,7 @@ export default function VenturescapeStandard() {
             supplier needs confidence in the buyer. Banks require accurate
             documentation. Logistics partners require timely information.
             Manufacturers depend on shipments arriving according to plan. The
-            role of a good trading partner is to respect all of those
-            interests.
+            role of a good trading partner is to respect all of those interests.
           </p>
         </div>
 
