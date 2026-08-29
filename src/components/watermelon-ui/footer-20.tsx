@@ -21,18 +21,6 @@ const riseItem: Variants = {
   },
 };
 
-const giantTextVariant: Variants = {
-  hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { type: "spring", duration: 0.8, bounce: 0 },
-  },
-};
-
-const brandName = "Venturescape";
-const tagline = "Global Wood Trade. Built on Trust.";
 
 const navigation = [
   { label: "About", href: "#about" },
@@ -73,20 +61,13 @@ export default function Footer20() {
             variants={riseItem}
             className="flex flex-col gap-6 md:gap-8 lg:col-span-5 xl:col-span-4"
           >
-            <div className="flex items-center gap-2 text-neutral-900">
-              <LogoIcon className="size-8 text-[#0C2448]" />
-              <span className="mt-0.5 text-lg font-medium tracking-wide">
-                {brandName} Trading
-              </span>
+            <div className="flex items-center">
+              <LogoIcon variant="black" className="h-10 w-auto" alt="Venturescape Trading" />
             </div>
-
-            <p className="max-w-[360px] text-[15px] leading-relaxed text-neutral-600">
-              {tagline}
-            </p>
 
             <a
               href="#enquiry"
-              className="group mt-2 inline-flex w-fit items-center gap-2 text-[17px] font-medium text-[#0C2448] transition-colors hover:text-[#153564]"
+              className="group inline-flex w-fit items-center gap-2 text-[17px] font-medium text-[#0C2448] transition-colors hover:text-[#153564]"
             >
               Send an enquiry
               <HugeiconsIcon
@@ -143,52 +124,6 @@ export default function Footer20() {
           </div>
         </div>
 
-        <motion.div
-          variants={giantTextVariant}
-          className="-mb-4 flex w-full justify-center overflow-hidden pt-6 md:mt-auto md:-mb-8"
-          style={{
-            maskImage:
-              "linear-gradient(180deg, rgba(0,0,0,1) 55%, rgba(0,0,0,0.35) 88%, rgba(0,0,0,0) 100%)",
-            WebkitMaskImage:
-              "linear-gradient(180deg, rgba(0,0,0,1) 55%, rgba(0,0,0,0.35) 88%, rgba(0,0,0,0) 100%)",
-          }}
-        >
-          <svg
-            className="block h-auto w-full select-none transition-colors duration-300"
-            viewBox={`0 0 ${Math.max(brandName.length * 80, 400)} 150`}
-            preserveAspectRatio="xMidYMax meet"
-            aria-label={brandName}
-          >
-            <defs>
-              <linearGradient
-                id="watermark-gradient-royal"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#4169E1" stopOpacity="0.85" />
-                <stop offset="25%" stopColor="#3559C7" stopOpacity="0.82" />
-                <stop offset="50%" stopColor="#1E3A8A" stopOpacity="0.78" />
-                <stop offset="75%" stopColor="#152C6E" stopOpacity="0.72" />
-                <stop offset="100%" stopColor="#0C2448" stopOpacity="0.65" />
-              </linearGradient>
-            </defs>
-            <text
-              x="0"
-              y="132"
-              dominantBaseline="alphabetic"
-              textAnchor="start"
-              textLength="100%"
-              lengthAdjust="spacingAndGlyphs"
-              fill="url(#watermark-gradient-royal)"
-              className="font-semibold tracking-tighter"
-              fontSize="140"
-            >
-              {brandName}
-            </text>
-          </svg>
-        </motion.div>
       </div>
 
       <div className="border-t border-neutral-200">

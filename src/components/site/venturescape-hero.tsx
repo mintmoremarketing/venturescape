@@ -118,8 +118,10 @@ export default function VenturescapeHero() {
     },
   };
 
+  const mobileTickerItems = [...productPills, ...productPills];
+
   return (
-    <section className="relative min-h-screen w-full overflow-hidden font-sans antialiased selection:bg-[#BB7D3E]/30 selection:text-[#0C2448]">
+    <section className="relative min-h-[82vh] w-full overflow-hidden font-sans antialiased selection:bg-[#BB7D3E]/30 selection:text-[#0C2448] md:min-h-screen">
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#040A1F]">
         <video
           src="/Venturescape_V1.mp4"
@@ -131,65 +133,56 @@ export default function VenturescapeHero() {
           aria-hidden="true"
           className="h-full w-full object-cover opacity-85"
         />
-        {/* Overlay stack for legibility over the video (which contains its own
-            wordmark near the centre). Strategy: leave the right side of the
-            video mostly visible, hide the centre wordmark behind a strong
-            horizontal darken gradient anchored on the left where the text
-            sits, and keep a soft bloom at the bottom for section blending. */}
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,10,31,0.90)_0%,rgba(4,10,31,0.78)_38%,rgba(4,10,31,0.45)_62%,rgba(4,10,31,0.25)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,10,31,0.55)_0%,rgba(4,10,31,0.15)_45%,rgba(4,10,31,0.45)_100%)]" />
-        {/* Extra darken pool covering the centre-left where body copy sits,
-            to fully hide the wordmark rendered in the middle of the video. */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_28%_58%,rgba(4,10,31,0.55),transparent_75%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#F7F2EB]/40 to-transparent" />
+        <div className="absolute inset-0 bg-[rgba(4,10,31,0.58)] md:hidden" />
+        <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(4,10,31,0.90)_0%,rgba(4,10,31,0.78)_38%,rgba(4,10,31,0.45)_62%,rgba(4,10,31,0.25)_100%)] md:block" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,10,31,0.66)_0%,rgba(4,10,31,0.22)_42%,rgba(4,10,31,0.05)_62%,rgba(4,10,31,0.62)_100%)]" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#040A1F] via-[#040A1F]/80 to-transparent md:hidden" />
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#040A1F] via-[#040A1F]/80 to-transparent md:hidden" />
+        <div className="absolute inset-0 hidden bg-[radial-gradient(ellipse_60%_55%_at_28%_58%,rgba(4,10,31,0.55),transparent_75%)] md:block" />
       </div>
 
-      <div className="relative z-10 flex min-h-screen flex-col">
+      <div className="relative z-10 flex min-h-screen flex-col pt-[76px] sm:pt-[92px]">
         <motion.nav
           variants={navVariants}
           initial="hidden"
           animate="show"
-          className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-6 py-6 md:px-8"
+          className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#040A1F]/30 backdrop-blur-md"
         >
-          <div className="group flex cursor-pointer items-center gap-2 text-white">
-            <motion.div
-              whileHover={{ rotate: 90 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            >
-              <LogoIcon className="h-7 w-7 text-[#BB7D3E]" />
-            </motion.div>
-            <span className="text-xl font-normal tracking-tight">Venturescape</span>
-          </div>
+          <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-5 py-4 sm:px-6 sm:py-6 md:px-8">
+            <div className="flex items-center text-white">
+              <LogoIcon className="h-9 w-auto" alt="Venturescape" />
+            </div>
 
-          <div className="hidden items-center gap-8 text-sm font-medium text-white/80 lg:flex xl:gap-10">
-            {navigation.map((item) => (
+            <div className="hidden items-center gap-8 text-sm font-medium text-white/80 lg:flex xl:gap-10">
+              {navigation.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="flex min-h-[40px] items-center transition-colors hover:text-[#BB7D3E]"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-3 lg:gap-6">
               <a
-                key={item.label}
-                href={item.href}
-                className="flex min-h-[40px] items-center transition-colors hover:text-[#BB7D3E]"
+                href="#enquiry"
+                className="hidden min-h-[40px] items-center gap-2 rounded-sm bg-white px-5 py-2.5 text-[14px] font-medium text-[#0C2448] shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition-all will-change-transform hover:bg-[#F7F2EB] active:scale-[0.96] lg:flex"
               >
-                {item.label}
+                Request a Quote
+                <ArrowRight className="h-4 w-4" />
               </a>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-3 lg:gap-6">
-            <a
-              href="#enquiry"
-              className="hidden min-h-[40px] items-center gap-2 rounded-sm bg-white px-5 py-2.5 text-[14px] font-medium text-[#0C2448] shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition-all will-change-transform hover:bg-[#F7F2EB] active:scale-[0.96] lg:flex"
-            >
-              Request a Quote
-              <ArrowRight className="h-4 w-4" />
-            </a>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
-              aria-expanded={mobileMenuOpen}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 lg:hidden"
-            >
-              <Menu className="h-4 w-4" />
-            </button>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open menu"
+                aria-expanded={mobileMenuOpen}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 lg:hidden"
+              >
+                <Menu className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </motion.nav>
 
@@ -216,10 +209,11 @@ export default function VenturescapeHero() {
                 className="absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col bg-[#F7F2EB] shadow-2xl"
               >
                 <div className="flex items-center justify-between px-6 py-6">
-                  <div className="flex items-center gap-2 text-[#0C2448]">
-                    <LogoIcon className="h-7 w-7" />
-                    <span className="text-lg font-normal tracking-tight">Venturescape</span>
-                  </div>
+                  <LogoIcon
+                    variant="black"
+                    className="h-8 w-auto"
+                    alt="Venturescape"
+                  />
                   <button
                     type="button"
                     onClick={() => setMobileMenuOpen(false)}
@@ -258,35 +252,63 @@ export default function VenturescapeHero() {
           )}
         </AnimatePresence>
 
-        <main className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center px-6 pb-24 pt-10 md:px-8">
+        <main className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-between px-5 pb-8 pt-6 sm:justify-center sm:px-6 sm:pb-24 sm:pt-10 md:px-8">
+          {/* Top group: pill row, headline, body paragraph */}
           <div className="flex max-w-5xl flex-col items-start">
             <motion.div
               variants={supportVariants}
               initial="hidden"
               animate="show"
               transition={{ delay: 0.2 }}
-              className="mb-8 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 rounded-full border border-white/15 bg-white/[0.08] px-4 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md"
+              className="mb-8 w-full sm:mx-0 sm:max-w-none sm:pl-0 sm:pr-0"
             >
-              {productPills.map((pill, i) => (
-                <span key={pill} className="flex items-center gap-3">
-                  <a
-                    href="#products"
-                    className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85 transition-colors hover:text-[#BB7D3E]"
-                  >
-                    {pill}
-                  </a>
-                  {i < productPills.length - 1 && (
-                    <span className="h-1 w-1 rounded-full bg-[#BB7D3E]/70" />
-                  )}
-                </span>
-              ))}
+              <div className="hidden sm:block sm:max-w-none sm:overflow-visible">
+                <div className="flex w-max flex-nowrap items-center gap-x-3 gap-y-2 rounded-full border border-white/15 bg-white/[0.08] px-4 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md sm:w-fit sm:flex-wrap">
+                  {productPills.map((pill, i) => (
+                    <span
+                      key={pill}
+                      className="flex shrink-0 items-center gap-3"
+                    >
+                      <a
+                        href="#products"
+                        className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85 transition-colors hover:text-[#BB7D3E]"
+                      >
+                        {pill}
+                      </a>
+                      {i < productPills.length - 1 && (
+                        <span className="h-1 w-1 shrink-0 rounded-full bg-[#BB7D3E]/70" />
+                      )}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="sm:hidden">
+                <div className="overflow-hidden rounded-full border border-white/15 bg-white/[0.08] px-4 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md">
+                  <div className="ticker-track flex w-max items-center gap-x-3 whitespace-nowrap">
+                    {mobileTickerItems.map((pill, i) => (
+                      <span
+                        key={`${pill}-${i}`}
+                        className="flex shrink-0 items-center gap-3"
+                      >
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85">
+                          {pill}
+                        </span>
+                        {i < mobileTickerItems.length - 1 && (
+                          <span className="h-1 w-1 shrink-0 rounded-full bg-[#BB7D3E]/70" />
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             <motion.h1
               variants={titleContainerVariants}
               initial="hidden"
               animate="show"
-              className="mb-6 max-w-5xl text-[4rem] font-normal leading-[1.05] tracking-[-0.02em] text-white sm:text-[4.5rem]"
+              className="mb-6 max-w-5xl text-[2.75rem] font-normal leading-[1.05] tracking-[-0.02em] text-white sm:text-[4rem] lg:text-[4.5rem]"
               style={{ textShadow: "0 2px 24px rgba(0,0,0,0.45)" }}
             >
               <motion.span variants={titleLineVariants} className="block">
@@ -297,61 +319,66 @@ export default function VenturescapeHero() {
               </motion.span>
             </motion.h1>
 
-            <motion.div
-              variants={bodyContainerVariants}
+            <motion.p
+              variants={bodyItemVariants}
               initial="hidden"
               animate="show"
-              className="flex flex-col items-start gap-10"
+              transition={{ delay: 0.85 }}
+              className="max-w-2xl text-pretty text-base font-normal leading-[1.5] text-white/82 sm:text-lg lg:text-[1.3rem]"
+              style={{ textShadow: "0 1px 12px rgba(0,0,0,0.4)" }}
             >
-              <motion.p
-                variants={bodyItemVariants}
-                className="max-w-2xl text-pretty text-lg font-normal leading-[1.5] text-white/82 sm:text-[1.3rem]"
-                style={{ textShadow: "0 1px 12px rgba(0,0,0,0.4)" }}
-              >
-                Venturescape Trading connects reliable sources of timber, veneers, plywood and wood-based materials with manufacturers and buyers across international markets. From identifying the right source to coordinating the transaction, our purpose is simple: to make international trade clear, dependable and secure for everyone involved.
-              </motion.p>
-
-              <motion.div
-                variants={bodyItemVariants}
-                className="flex flex-wrap items-center gap-4"
-              >
-                <a
-                  href="#products"
-                  className="group flex min-h-[40px] items-center gap-2 rounded-sm bg-white px-7 py-4 text-[16px] font-medium text-[#0C2448] shadow-[0_16px_36px_rgba(0,0,0,0.35)] transition-all will-change-transform hover:bg-[#F7F2EB] active:scale-[0.96]"
-                >
-                  Explore Our Products
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </a>
-
-                <a
-                  href="#enquiry"
-                  className="group flex min-h-[40px] items-center gap-3 rounded-sm border border-white/25 bg-white/10 px-4 py-4 text-[16px] font-medium text-white backdrop-blur-md transition-all will-change-transform hover:border-[#BB7D3E] hover:bg-white/15 active:scale-[0.96]"
-                >
-                  Send Your Requirement
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#BB7D3E] text-white shadow-md transition-transform group-hover:scale-105 group-hover:bg-[#91121D]">
-                    <Play className="ml-0.5 h-4 w-4" fill="currentColor" />
-                  </div>
-                </a>
-              </motion.div>
-            </motion.div>
+              Venturescape Trading connects reliable sources of timber, veneers,
+              plywood and wood-based materials with manufacturers and buyers
+              worldwide — making international trade clear, dependable and
+              secure for everyone involved.
+            </motion.p>
           </div>
+
+          {/* Bottom group: CTAs. On mobile, pushed to the bottom via
+              main's justify-between. On sm+ they sit inline just below the
+              body paragraph via the negative margin so the classic layout
+              is preserved. */}
+          <motion.div
+            variants={bodyContainerVariants}
+            initial="hidden"
+            animate="show"
+            className="mt-8 flex w-full flex-col gap-3 sm:mt-10 sm:w-auto sm:max-w-5xl sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
+          >
+            <a
+              href="#products"
+              className="group flex min-h-[40px] items-center justify-center gap-2 rounded-sm bg-white px-6 py-4 text-[15px] font-medium text-[#0C2448] shadow-[0_16px_36px_rgba(0,0,0,0.35)] transition-all will-change-transform hover:bg-[#F7F2EB] active:scale-[0.96] sm:justify-start sm:px-7 sm:text-[16px]"
+            >
+              Explore Our Products
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+
+            <a
+              href="#enquiry"
+              className="group flex min-h-[40px] items-center justify-between gap-3 rounded-sm border border-white/25 bg-white/10 px-4 py-3 text-[15px] font-medium text-white backdrop-blur-md transition-all will-change-transform hover:border-[#BB7D3E] hover:bg-white/15 active:scale-[0.96] sm:justify-start sm:py-4 sm:text-[16px]"
+            >
+              Send Your Requirement
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#BB7D3E] text-white shadow-md transition-transform group-hover:scale-105 group-hover:bg-[#91121D]">
+                <Play className="ml-0.5 h-4 w-4" fill="currentColor" />
+              </div>
+            </a>
+          </motion.div>
         </main>
 
         <motion.div
           variants={footerContainerVariants}
           initial="hidden"
           animate="show"
-          className="mx-auto flex w-full max-w-[1600px] flex-col items-end justify-between gap-10 px-6 pb-10 md:px-16 lg:flex-row"
+          className="mx-auto flex w-full max-w-[1600px] flex-col items-center justify-between gap-6 px-5 pb-8 sm:gap-10 sm:px-6 sm:pb-10 md:px-16 lg:flex-row lg:items-end"
         >
-          <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-3 md:gap-5 lg:w-3/4">
+          <div className="hidden w-full grid-cols-1 gap-3 sm:grid sm:grid-cols-3 sm:gap-4 md:gap-5 lg:w-3/4">
             {featurePoints.map((point) => (
               <motion.div
                 key={point}
                 variants={footerItemVariants}
-                className="flex flex-col gap-3 rounded-2xl border border-white/15 bg-white/[0.06] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md transition-colors hover:border-[#BB7D3E]/50 hover:bg-white/[0.10]"
+                className="flex flex-col gap-2 rounded-2xl border border-white/15 bg-white/[0.06] p-3 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md transition-colors hover:border-[#BB7D3E]/50 hover:bg-white/[0.10] sm:gap-3 sm:p-4"
               >
-                <MessageSquareMore className="h-6 w-6 stroke-[1.5] text-[#BB7D3E]" />
-                <p className="max-w-[240px] text-pretty text-[14px] font-medium leading-snug text-white/90">
+                <MessageSquareMore className="h-5 w-5 stroke-[1.5] text-[#BB7D3E] sm:h-6 sm:w-6" />
+                <p className="max-w-[240px] text-pretty text-[13px] font-medium leading-snug text-white/90 sm:text-[14px]">
                   {point}
                 </p>
               </motion.div>
