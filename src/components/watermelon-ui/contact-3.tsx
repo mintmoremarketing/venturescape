@@ -218,8 +218,10 @@ export default function VenturescapeEnquirySection() {
       );
       // Formsubmit returns { success: "true", message: "..." } on success.
       let ok = res.ok;
+      let responseMessage = "";
       try {
         const json = await res.json();
+        responseMessage = json?.message || "";
         if (typeof json?.success !== "undefined") {
           ok = String(json.success).toLowerCase() === "true";
         }
@@ -230,10 +232,13 @@ export default function VenturescapeEnquirySection() {
         showSuccessToast();
         resetForm();
       } else {
-        showErrorToast("The delivery service returned an error.");
+        showErrorToast(
+          responseMessage ||
+            "The form email may not be activated in FormSubmit yet. Please activate the inbox and try again."
+        );
       }
     } catch {
-      showErrorToast("There was a network issue.");
+      showErrorToast("There was a network issue. Please try again.");
     } finally {
       setSubmitting(false);
     }
