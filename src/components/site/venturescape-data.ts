@@ -266,43 +266,31 @@ export const standardItems: FeatureItem[] = [
     title: "Protecting both sides of the transaction",
     body: "Serving the buyer should not mean disregarding the supplier, or vice versa. We structure transactions in which commercial expectations are understood and every party's legitimate interests are respected.",
     icon: ShieldCheck,
-    pill: "Trust",
   },
   {
     title: "Clarity before commitment",
-    body: "Problems in trade often begin with assumptions. We clarify specifications, quantities, commercial terms, documentation requirements and timelines before execution wherever possible.",
+    body: "Problems in trade often begin with assumptions. We clarify specifications, quantities, commercial terms, documentation and timelines before execution wherever possible.",
     icon: ClipboardCheck,
-    pill: "Clarity",
   },
   {
     title: "Transparent communication",
     body: "If something changes, the right people should know. We would rather communicate an issue early than allow uncertainty to become a larger problem later.",
     icon: Users2,
-    pill: "Communication",
   },
   {
     title: "Respect for every stakeholder",
-    body: "Suppliers, buyers, manufacturers, logistics partners, financial institutions — each deserves professional communication, fair dealing and respect for their legitimate interests.",
+    body: "Suppliers, buyers, manufacturers, logistics and financial partners — each deserves professional communication, fair dealing and respect for their interests.",
     icon: BadgeCheck,
-    pill: "Fair dealing",
   },
   {
     title: "Documentation discipline",
-    body: "Documentation is not paperwork that comes after the trade. It is part of the trade. We coordinate commercial, shipping and banking documents so avoidable issues don't compromise the transaction.",
+    body: "Documentation is not paperwork that comes after the trade. It is part of the trade. Commercial, shipping and banking documents are coordinated with the same care as the material itself.",
     icon: FileText,
-    pill: "Discipline",
   },
   {
     title: "Accountability",
     body: "When we undertake a responsibility, we remain involved. Our customers and suppliers know who is handling the transaction and whom to speak to when something requires attention.",
     icon: CheckCircle2,
-    pill: "Ownership",
-  },
-  {
-    title: "Long-term thinking",
-    body: "We're not building Venturescape around one-off transactions. Successful trade is not \"was the shipment completed?\" — it's \"would everyone involved choose to work together again?\"",
-    icon: Warehouse,
-    pill: "Relationships",
   },
 ];
 

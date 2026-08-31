@@ -7,7 +7,7 @@ const originToMarket = ["Source", "Evaluate", "Coordinate", "Ship", "Deliver"];
 
 export default function VenturescapeNetwork() {
   return (
-    <section id="global-sourcing" className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+    <section id="global-sourcing" className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
       <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
         <div>
           <SectionIntro
@@ -64,12 +64,55 @@ export default function VenturescapeNetwork() {
               <PremiumIconTile icon={Globe2} />
             </div>
 
-            <div className="overflow-hidden rounded-[1.5rem] bg-[#0C2448]/[0.035] p-5">
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-[#0C2448]/[0.035] p-5">
               <img
                 src="/world-map-raw.svg"
                 alt="World sourcing network map"
                 className="w-full opacity-85 mix-blend-multiply"
               />
+              {/* Region markers — approximate world-map percentage positions.
+                  Sources in amber, destination market in red. */}
+              {[
+                { label: "Gabon", type: "source", left: "50%", top: "56%" },
+                { label: "South Africa", type: "source", left: "55%", top: "78%" },
+                { label: "Indonesia", type: "source", left: "78%", top: "66%" },
+                { label: "India", type: "destination", left: "70%", top: "52%" },
+              ].map((m) => (
+                <div
+                  key={m.label}
+                  className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{ left: m.left, top: m.top }}
+                >
+                  <div className="relative flex items-center justify-center">
+                    <span
+                      className={`absolute h-4 w-4 animate-ping rounded-full ${
+                        m.type === "source"
+                          ? "bg-[#BB7D3E]/45"
+                          : "bg-[#91121D]/45"
+                      }`}
+                    />
+                    <span
+                      className={`relative h-2 w-2 rounded-full ring-2 ring-white ${
+                        m.type === "source" ? "bg-[#BB7D3E]" : "bg-[#91121D]"
+                      }`}
+                    />
+                  </div>
+                  <div className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/8">
+                    {m.label}
+                  </div>
+                </div>
+              ))}
+              {/* Legend */}
+              <div className="absolute bottom-3 right-3 flex flex-col gap-1.5 rounded-lg bg-white/85 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0C2448]/70 shadow-sm ring-1 ring-[#0C2448]/8 backdrop-blur-sm">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#BB7D3E]" />
+                  Sourcing region
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#91121D]" />
+                  Destination market
+                </div>
+              </div>
             </div>
 
             <div className="mt-5 rounded-2xl bg-[#0C2448]/[0.04] p-4">

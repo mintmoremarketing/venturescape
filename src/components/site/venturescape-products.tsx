@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { productItems } from "@/components/site/venturescape-data";
 import { SectionIntro } from "@/components/site/venturescape-shared";
 import { ArrowRight } from "lucide-react";
@@ -108,7 +107,7 @@ export default function VenturescapeProducts() {
 
   return (
     <section id="products" className="border-y border-[#0C2448]/8 bg-white/55">
-      <div className="mx-auto flex max-w-7xl flex-col items-center px-5 py-20 md:px-8">
+      <div className="mx-auto flex max-w-6xl flex-col items-center px-5 py-20 md:px-8 md:py-24">
         <SectionIntro
           eyebrow="Wood Products. Sourced to Requirement."
           title="Our Products"
@@ -179,9 +178,6 @@ export default function VenturescapeProducts() {
 
                   <div className="flex flex-col gap-6 rounded-3xl bg-white/70 p-8 ring-1 ring-[#0C2448]/8">
                     <div>
-                      <Badge className="mb-3 rounded-full bg-[#0C2448]/[0.06] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#91121D] hover:bg-[#0C2448]/[0.08]">
-                        {item.pill}
-                      </Badge>
                       <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[#0C2448] md:text-3xl">
                         {item.title}
                       </h3>

@@ -89,21 +89,6 @@ export function PremiumCard({
         <PremiumIconTile icon={icon} />
         <h3 className={`text-lg font-medium ${dark ? "text-white" : "text-[#0C2448]"}`}>{title}</h3>
         <p className={`mt-2 text-sm leading-7 ${dark ? "text-white/72" : "text-[#0C2448]/70"}`}>{body}</p>
-        {pill ? (
-          <div
-            className={`mt-5 self-start ${dark ? "inline-flex rounded-lg bg-white/10 p-0.5" : "inline-flex rounded-lg bg-[#0C2448]/6 p-0.5"}`}
-          >
-            <div
-              className={
-                dark
-                  ? "inline-flex items-center rounded-md bg-white/10 px-2.5 py-1 text-[10px] font-medium whitespace-nowrap text-white/80 shadow-[inset_0_-1px_0px_0px_rgba(0,0,0,0.1),inset_0px_1px_0px_0px_rgba(255,255,255,0.04),0_0px_2px_0_rgba(0,0,0,0.08),0_1px_4px_0_rgba(0,0,0,0.05)]"
-                  : "inline-flex items-center rounded-md bg-white/90 px-2.5 py-1 text-[10px] font-medium whitespace-nowrap text-[#0C2448]/72 shadow-[inset_0_-2px_0.5px_0px_rgba(0,0,0,0),inset_0px_2px_0_2px_rgba(255,255,255,1),0_0px_2px_0_rgba(0,0,0,0.08),0_1px_4px_0_rgba(0,0,0,0.05)]"
-              }
-            >
-              {pill}
-            </div>
-          </div>
-        ) : null}
       </div>
     </motion.article>
   );

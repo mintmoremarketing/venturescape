@@ -329,8 +329,10 @@ export default function VenturescapeHero() {
             >
               Venturescape Trading connects reliable sources of timber, veneers,
               plywood and wood-based materials with manufacturers and buyers
-              worldwide — making international trade clear, dependable and
-              secure for everyone involved.
+              across international markets. From identifying the right source
+              to coordinating the transaction, our purpose is simple: to make
+              international trade clear, dependable and secure for everyone
+              involved.
             </motion.p>
           </div>
 

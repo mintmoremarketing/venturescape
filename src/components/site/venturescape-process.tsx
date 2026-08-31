@@ -4,7 +4,7 @@ import { SectionIntro, staggerContainer, riseItem } from "@/components/site/vent
 
 export default function VenturescapeProcess() {
   return (
-    <section id="how-we-work" className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+    <section id="how-we-work" className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
       <SectionIntro
         eyebrow="A Clear Route from Requirement to Shipment."
         title="How We Work"

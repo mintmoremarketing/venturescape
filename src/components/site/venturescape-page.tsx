@@ -7,10 +7,8 @@ import VenturescapeStandard from "@/components/site/venturescape-standard";
 import VenturescapeMarkets from "@/components/site/venturescape-markets";
 import VenturescapePhilosophy from "@/components/site/venturescape-philosophy";
 import VenturescapeWhyFeature from "@/components/watermelon-ui/feature-1";
-import VenturescapeCta from "@/components/watermelon-ui/cta-4";
 import VenturescapeEnquirySection from "@/components/watermelon-ui/contact-3";
 import Footer20 from "@/components/watermelon-ui/footer-20";
-import VenturescapeWhatsappFab from "@/components/site/venturescape-whatsapp-fab";
 import {
   aboutItems,
   capabilityItems,
@@ -45,11 +43,9 @@ export default function VenturescapePage() {
         <VenturescapeWhyFeature />
         <VenturescapeMarkets />
         <VenturescapePhilosophy />
-        <VenturescapeCta />
         <VenturescapeEnquirySection />
       </main>
       <Footer20 />
-      <VenturescapeWhatsappFab />
     </div>
   );
 }

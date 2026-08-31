@@ -65,6 +65,10 @@ export default function Footer20() {
               <LogoIcon variant="black" className="h-10 w-auto" alt="Venturescape Trading" />
             </div>
 
+            <p className="max-w-[360px] text-[15px] leading-relaxed text-neutral-600">
+              Global Wood Trade. Built on Trust.
+            </p>
+
             <a
               href="#enquiry"
               className="group inline-flex w-fit items-center gap-2 text-[17px] font-medium text-[#0C2448] transition-colors hover:text-[#153564]"

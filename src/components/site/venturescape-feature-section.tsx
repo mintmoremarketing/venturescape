@@ -30,7 +30,7 @@ export default function VenturescapeFeatureSection({
 
   return (
     <section id={id} className={sectionClass}>
-      <div className="mx-auto flex max-w-7xl flex-col items-center px-5 py-20 md:px-8">
+      <div className="mx-auto flex max-w-6xl flex-col items-center px-5 py-20 md:px-8 md:py-24">
         <SectionIntro eyebrow={eyebrow} title={title} description={description} align="center" />
 
         {/* Mobile: simple swipeable row with progress dots */}

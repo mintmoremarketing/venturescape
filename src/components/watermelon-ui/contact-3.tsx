@@ -50,7 +50,7 @@ export interface EnquiryFormData {
   message: string;
 }
 
-// Placeholder — swap for real UAE number when confirmed.
+// Placeholder — swap for the confirmed UAE number when the client provides it.
 export const VENTURESCAPE_WHATSAPP = "971500000000";
 export const WHATSAPP_OPENING_MESSAGE =
   "Hello, I would like to enquire about a wood-product requirement.";
@@ -83,18 +83,21 @@ const productGroups = [
   {
     label: "Other",
     items: [
-      {
-        value: "Wood-Based Panels",
-        label: "Wood-Based Panels",
-        icon: IoLayers,
-      },
+      { value: "Wood-Based Panels", label: "Wood-Based Panels", icon: IoLayers },
       { value: "Other", label: "Other wood product", icon: IoConstruct },
     ],
   },
 ];
 
+// The soft inset-shadow field style the client liked from the previous
+// design — restored verbatim.
 const fieldShadow =
   "shadow-[inset_0_1px_0_0_rgba(255,255,255,1),0px_0px_0px_1px_rgba(12,36,72,0.08),0px_1px_2px_-1px_rgba(12,36,72,0.08),0px_2px_4px_0px_rgba(12,36,72,0.06)]";
+
+const inputClass =
+  "rounded-md border-0 bg-transparent pl-10 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15";
+
+const labelClass = "block text-sm font-medium text-[#0C2448]";
 
 export default function VenturescapeEnquirySection() {
   const [formData, setFormData] = useState<EnquiryFormData>({
@@ -173,9 +176,7 @@ export default function VenturescapeEnquirySection() {
         <p className="text-sm font-medium">
           Sorry, we couldn't submit your enquiry. {msg}
         </p>
-        <p className="mt-1 text-xs">
-          Please try again, or reach us on WhatsApp.
-        </p>
+        <p className="mt-1 text-xs">Please try again, or reach us on WhatsApp.</p>
       </div>
     ));
   };
@@ -187,7 +188,6 @@ export default function VenturescapeEnquirySection() {
 
     const subject = `Enquiry from ${formData.company || formData.fullName || "website"} — ${formData.product || "wood product"}`;
 
-    // Formsubmit.co accepts multipart/form-data so we can send attachments.
     const fd = new FormData();
     fd.append("Name", formData.fullName);
     fd.append("Company", formData.company);
@@ -205,7 +205,6 @@ export default function VenturescapeEnquirySection() {
     fd.append("Additional Requirements", formData.message);
     files.forEach((f) => fd.append("attachment", f.file, f.file.name));
 
-    // Formsubmit hidden config fields — prefixed with `_`.
     fd.append("_subject", subject);
     fd.append("_captcha", "false");
     fd.append("_template", "table");
@@ -214,13 +213,8 @@ export default function VenturescapeEnquirySection() {
     try {
       const res = await fetch(
         `https://formsubmit.co/ajax/${VENTURESCAPE_ENQUIRY_EMAIL}`,
-        {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: fd,
-        },
+        { method: "POST", headers: { Accept: "application/json" }, body: fd },
       );
-      // Formsubmit returns { success: "true", message: "..." } on success.
       let ok = res.ok;
       let responseMessage = "";
       try {
@@ -230,7 +224,7 @@ export default function VenturescapeEnquirySection() {
           ok = String(json.success).toLowerCase() === "true";
         }
       } catch {
-        // response wasn't JSON; fall back to HTTP status
+        // fall back to HTTP status
       }
       if (ok) {
         showSuccessToast();
@@ -250,481 +244,415 @@ export default function VenturescapeEnquirySection() {
 
   const whatsappHref = `https://wa.me/${VENTURESCAPE_WHATSAPP}?text=${encodeURIComponent(
     WHATSAPP_OPENING_MESSAGE,
-  )}&v=2`;
+  )}`;
+
+  const selectContentClass =
+    "w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg";
+  const triggerClass = `w-full rounded-md border-0 bg-transparent pl-10 text-left text-[#0C2448] focus-visible:ring-2 focus-visible:ring-[#0C2448]/15`;
 
   return (
-    <section id="enquiry" className="w-full text-[#0C2448]">
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-12 max-w-2xl">
+    <section id="enquiry" className="w-full px-5 py-20 md:px-8 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        {/* Section head (outside the box, on the page cream bg) */}
+        <div className="mx-auto mb-10 max-w-2xl text-center">
           <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
             Tell Us What You Need. Start a Conversation.
           </p>
-          <h2 className="text-3xl font-semibold tracking-[-0.02em] text-[#0C2448] sm:text-5xl">
-            Contact / Enquiry
+          <h2 className="text-3xl font-semibold tracking-[-0.02em] text-[#0C2448] sm:text-4xl md:text-5xl">
+            Contact Us
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-[#0C2448]/68 md:text-lg">
-            Looking for timber, veneer, plywood, MDF or another wood-based
-            material? Share the requirement with us and we will evaluate the
-            appropriate sourcing and commercial possibilities. The more complete
-            the specification, the more accurately we can assess it.
+          <p className="mt-4 text-base leading-relaxed text-[#0C2448]/72">
+            Share your requirement — species, quantity, destination and
+            timeline — and our team will evaluate the appropriate sourcing and
+            commercial options.
           </p>
         </div>
 
-        <div className="grid gap-12 lg:grid-cols-5 lg:gap-16">
-          <div className="lg:col-span-3">
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="fullName"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Full Name
-                  </Label>
-                  <div
-                    className={`relative rounded-md bg-white ${fieldShadow}`}
-                  >
-                    <IoPerson className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
-                    <Input
-                      id="fullName"
-                      placeholder="Your name"
-                      value={formData.fullName}
-                      onChange={(e) => updateField("fullName", e.target.value)}
-                      required
-                      className="rounded-md border-0 bg-transparent pl-10 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
-                  </div>
-                </div>
+        {/* One unified dark navy container that holds the entire form area */}
+        <div className="relative overflow-hidden rounded-3xl bg-[#0C2448] p-4 shadow-[0_20px_60px_rgba(12,36,72,0.20)] sm:p-6">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-70"
+            style={{
+              background:
+                "radial-gradient(circle at 12% -8%, rgba(65,105,225,0.30), transparent 45%), radial-gradient(circle at 88% 100%, rgba(187,125,62,0.18), transparent 45%)",
+            }}
+          />
 
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="email"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Work Email
-                  </Label>
-                  <div
-                    className={`relative rounded-md bg-white ${fieldShadow}`}
-                  >
-                    <IoMail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="you@company.com"
-                      value={formData.email}
-                      onChange={(e) => updateField("email", e.target.value)}
-                      required
-                      className="rounded-md border-0 bg-transparent pl-10 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
+          {/* Inner cream card preserves the previous smooth-shadow form styling */}
+          <div className="relative rounded-2xl bg-[#F7F2EB]/95 p-6 sm:p-8 md:p-10">
+            <div className="grid gap-10 lg:grid-cols-[1.35fr_0.65fr]">
+              {/* Form column */}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName" className={labelClass}>
+                      Full Name
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoPerson className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="fullName"
+                        placeholder="Your name"
+                        value={formData.fullName}
+                        onChange={(e) => updateField("fullName", e.target.value)}
+                        required
+                        className={inputClass}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="phone"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Phone or WhatsApp
-                  </Label>
-                  <div
-                    className={`relative rounded-md bg-white ${fieldShadow}`}
-                  >
-                    <IoCall className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
-                    <Input
-                      id="phone"
-                      placeholder="Include country code"
-                      value={formData.phone}
-                      onChange={(e) => updateField("phone", e.target.value)}
-                      required
-                      className="rounded-md border-0 bg-transparent pl-10 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className={labelClass}>
+                      Work Email
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoMail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="you@company.com"
+                        value={formData.email}
+                        onChange={(e) => updateField("email", e.target.value)}
+                        required
+                        className={inputClass}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="company"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Company
-                  </Label>
-                  <div
-                    className={`relative rounded-md bg-white ${fieldShadow}`}
-                  >
-                    <IoBusiness className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
-                    <Input
-                      id="company"
-                      placeholder="Company name"
-                      value={formData.company}
-                      onChange={(e) => updateField("company", e.target.value)}
-                      required
-                      className="rounded-md border-0 bg-transparent pl-10 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className={labelClass}>
+                      Phone or WhatsApp
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoCall className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="phone"
+                        placeholder="Include country code"
+                        value={formData.phone}
+                        onChange={(e) => updateField("phone", e.target.value)}
+                        required
+                        className={inputClass}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="product"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Product Required
-                  </Label>
-                  <Select
-                    value={formData.product}
-                    onValueChange={(value) =>
-                      updateField("product", value ?? "")
-                    }
-                  >
-                    <SelectTrigger
-                      id="product"
-                      className={`rounded-md border-0 bg-white text-[#0C2448] ${fieldShadow}`}
-                    >
-                      <SelectValue placeholder="Choose a product" />
-                    </SelectTrigger>
-                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
-                      {productGroups.map((group) => (
-                        <SelectGroup key={group.label}>
-                          <SelectLabel className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/48">
-                            {group.label}
-                          </SelectLabel>
-                          {group.items.map((item) => (
+                  <div className="space-y-2">
+                    <Label htmlFor="company" className={labelClass}>
+                      Company
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoBusiness className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="company"
+                        placeholder="Company name"
+                        value={formData.company}
+                        onChange={(e) => updateField("company", e.target.value)}
+                        required
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="product" className={labelClass}>
+                      Product Required
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoLeaf className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Select
+                        value={formData.product}
+                        onValueChange={(v) => updateField("product", v ?? "")}
+                      >
+                        <SelectTrigger id="product" className={triggerClass}>
+                          <SelectValue placeholder="Choose a product" />
+                        </SelectTrigger>
+                        <SelectContent className={selectContentClass}>
+                          {productGroups.map((group) => (
+                            <SelectGroup key={group.label}>
+                              <SelectLabel className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/48">
+                                {group.label}
+                              </SelectLabel>
+                              {group.items.map((item) => (
+                                <SelectItem
+                                  key={item.value}
+                                  value={item.value}
+                                  className="rounded-lg"
+                                >
+                                  <span className="flex items-center gap-2">
+                                    <item.icon className="size-4 text-[#BB7D3E]" />
+                                    {item.label}
+                                  </span>
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="species" className={labelClass}>
+                      Species
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoLeaf className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="species"
+                        placeholder="e.g. Meranti, Oak, Poplar"
+                        value={formData.species}
+                        onChange={(e) => updateField("species", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="grade" className={labelClass}>
+                      Grade
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoAlbums className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="grade"
+                        placeholder="e.g. BB/CC, FAS, No.1 Common"
+                        value={formData.grade}
+                        onChange={(e) => updateField("grade", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="thickness" className={labelClass}>
+                      Thickness
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoLayers className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="thickness"
+                        placeholder="e.g. 18mm, 0.5mm"
+                        value={formData.thickness}
+                        onChange={(e) => updateField("thickness", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="dimensions" className={labelClass}>
+                      Dimensions
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoGrid className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="dimensions"
+                        placeholder="e.g. 4x8 ft, 1220x2440 mm"
+                        value={formData.dimensions}
+                        onChange={(e) => updateField("dimensions", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="quantity" className={labelClass}>
+                      Required Quantity
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoCube className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Select
+                        value={formData.quantity}
+                        onValueChange={(v) => updateField("quantity", v ?? "")}
+                      >
+                        <SelectTrigger id="quantity" className={triggerClass}>
+                          <SelectValue placeholder="Select quantity" />
+                        </SelectTrigger>
+                        <SelectContent className={selectContentClass}>
+                          {[
+                            "1 x 20 FCL",
+                            "1 x 40 HC",
+                            "2 – 4 x 40 HC",
+                            "5+ x 40 HC",
+                            "Trial order",
+                            "Custom / to be discussed",
+                          ].map((q) => (
+                            <SelectItem key={q} value={q} className="rounded-lg">
+                              {q}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="country" className={labelClass}>
+                      Country
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Select
+                        value={formData.destinationCountry}
+                        onValueChange={(v) =>
+                          updateField("destinationCountry", v ?? "")
+                        }
+                      >
+                        <SelectTrigger id="country" className={triggerClass}>
+                          <SelectValue placeholder="Select your country" />
+                        </SelectTrigger>
+                        <SelectContent className={selectContentClass}>
+                          {destinations.map((d) => (
                             <SelectItem
-                              key={item.value}
-                              value={item.value}
+                              key={d.value}
+                              value={d.value}
                               className="rounded-lg"
                             >
                               <span className="flex items-center gap-2">
-                                <item.icon className="size-4 text-[#BB7D3E]" />
-                                {item.label}
+                                <img
+                                  src={`https://flagcdn.com/w40/${d.flag}.png`}
+                                  alt=""
+                                  className="h-3 w-4.5 rounded-xs border border-[#0C2448]/10 object-cover"
+                                />
+                                <span className="truncate">{d.label}</span>
                               </span>
                             </SelectItem>
                           ))}
-                        </SelectGroup>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="species"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Species
-                  </Label>
-                  <div className={`rounded-md bg-white ${fieldShadow}`}>
-                    <Input
-                      id="species"
-                      placeholder="e.g. Meranti, Oak, Poplar"
-                      value={formData.species}
-                      onChange={(e) => updateField("species", e.target.value)}
-                      className="rounded-md border-0 bg-transparent text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="grade"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Grade
-                  </Label>
-                  <div className={`rounded-md bg-white ${fieldShadow}`}>
-                    <Input
-                      id="grade"
-                      placeholder="e.g. BB/CC, FAS, No.1 Common"
-                      value={formData.grade}
-                      onChange={(e) => updateField("grade", e.target.value)}
-                      className="rounded-md border-0 bg-transparent text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
+                  <div className="space-y-2">
+                    <Label htmlFor="port" className={labelClass}>
+                      Destination Port
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Input
+                        id="port"
+                        placeholder="e.g. Jebel Ali, Nhava Sheva"
+                        value={formData.destinationPort}
+                        onChange={(e) =>
+                          updateField("destinationPort", e.target.value)
+                        }
+                        className={inputClass}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="thickness"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Thickness
-                  </Label>
-                  <div className={`rounded-md bg-white ${fieldShadow}`}>
-                    <Input
-                      id="thickness"
-                      placeholder="e.g. 18mm, 0.5mm"
-                      value={formData.thickness}
-                      onChange={(e) => updateField("thickness", e.target.value)}
-                      className="rounded-md border-0 bg-transparent text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="dimensions"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Dimensions
-                  </Label>
-                  <div className={`rounded-md bg-white ${fieldShadow}`}>
-                    <Input
-                      id="dimensions"
-                      placeholder="e.g. 4x8 ft, 1220x2440 mm"
-                      value={formData.dimensions}
-                      onChange={(e) =>
-                        updateField("dimensions", e.target.value)
-                      }
-                      className="rounded-md border-0 bg-transparent text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="quantity"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Required Quantity
-                  </Label>
-                  <Select
-                    value={formData.quantity}
-                    onValueChange={(value) =>
-                      updateField("quantity", value ?? "")
-                    }
-                  >
-                    <SelectTrigger
-                      id="quantity"
-                      className={`rounded-md border-0 bg-white text-[#0C2448] ${fieldShadow}`}
-                    >
-                      <SelectValue placeholder="Select quantity" />
-                    </SelectTrigger>
-                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
-                      <SelectItem value="1 x 20 FCL" className="rounded-lg">
-                        1 x 20 FCL
-                      </SelectItem>
-                      <SelectItem value="1 x 40 HC" className="rounded-lg">
-                        1 x 40 HC
-                      </SelectItem>
-                      <SelectItem value="2-4 x 40 HC" className="rounded-lg">
-                        2 – 4 x 40 HC
-                      </SelectItem>
-                      <SelectItem value="5+ x 40 HC" className="rounded-lg">
-                        5+ x 40 HC
-                      </SelectItem>
-                      <SelectItem value="Trial order" className="rounded-lg">
-                        Trial order
-                      </SelectItem>
-                      <SelectItem value="Custom" className="rounded-lg">
-                        Custom / to be discussed
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="destinationCountry"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Country
-                  </Label>
-                  <Select
-                    value={formData.destinationCountry}
-                    onValueChange={(value) =>
-                      updateField("destinationCountry", value ?? "")
-                    }
-                  >
-                    <SelectTrigger
-                      id="destinationCountry"
-                      className={`rounded-md border-0 bg-white text-[#0C2448] ${fieldShadow}`}
-                    >
-                      <SelectValue placeholder="Select your country" />
-                    </SelectTrigger>
-                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
-                      {destinations.map((d) => (
-                        <SelectItem
-                          key={d.value}
-                          value={d.value}
-                          className="rounded-lg"
-                        >
-                          <span className="flex items-center gap-2">
-                            <img
-                              src={`https://flagcdn.com/w40/${d.flag}.png`}
-                              alt=""
-                              className="h-3 w-4.5 rounded-xs border border-[#0C2448]/10 object-cover"
-                            />
-                            <span className="truncate">{d.label}</span>
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="destinationPort"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Destination Port
-                  </Label>
-                  <div
-                    className={`relative rounded-md bg-white ${fieldShadow}`}
-                  >
-                    <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
-                    <Input
-                      id="destinationPort"
-                      placeholder="e.g. Jebel Ali, Nhava Sheva"
-                      value={formData.destinationPort}
-                      onChange={(e) =>
-                        updateField("destinationPort", e.target.value)
-                      }
-                      required
-                      className="rounded-md border-0 bg-transparent pl-10 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5 sm:col-span-2">
-                  <Label
-                    htmlFor="timeline"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Delivery Timeline
-                  </Label>
-                  <Select
-                    value={formData.timeline}
-                    onValueChange={(value) =>
-                      updateField("timeline", value ?? "")
-                    }
-                  >
-                    <SelectTrigger
-                      id="timeline"
-                      className={`rounded-md border-0 bg-white text-[#0C2448] ${fieldShadow}`}
-                    >
-                      <SelectValue placeholder="Select timeline" />
-                    </SelectTrigger>
-                    <SelectContent className="w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg">
-                      <SelectItem value="Under 4 weeks" className="rounded-lg">
-                        Under 4 weeks
-                      </SelectItem>
-                      <SelectItem value="4 to 8 weeks" className="rounded-lg">
-                        4 – 8 weeks
-                      </SelectItem>
-                      <SelectItem value="8 to 12 weeks" className="rounded-lg">
-                        8 – 12 weeks
-                      </SelectItem>
-                      <SelectItem value="Flexible" className="rounded-lg">
-                        Flexible
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5 sm:col-span-2">
-                  <Label
-                    htmlFor="message"
-                    className="text-sm font-medium text-[#0C2448]"
-                  >
-                    Additional Requirements
-                  </Label>
-                  <Textarea
-                    id="message"
-                    rows={5}
-                    placeholder="Moisture, packing preferences, certifications, end use — anything that helps us understand the requirement."
-                    value={formData.message}
-                    onChange={(e) => updateField("message", e.target.value)}
-                    required
-                    className={`min-h-32 resize-none rounded-md border-0 bg-white text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15 ${fieldShadow}`}
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <FileUploadArea
-                    title="Attach supporting files (optional)"
-                    description="Spec sheets, PO drafts, drawings, or reference photos. PDF, images, Excel accepted."
-                    maxFiles={5}
-                    maxSizeMB={10}
-                    accept=".pdf,.png,.jpg,.jpeg,.xls,.xlsx,.csv,.doc,.docx"
-                    files={files}
-                    onFilesSelect={handleFilesSelect}
-                    onFileRemove={handleFileRemove}
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={submitting}
-                  className="gap-2 rounded-md bg-[#0C2448] px-6 py-6 text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564] disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {submitting ? "Sending…" : "Submit Your Requirement"}
-                  {!submitting && <IoArrowForward className="h-4 w-4" />}
-                </Button>
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-md border border-[#0C2448]/12 bg-white px-6 py-4 text-sm font-medium text-[#0C2448] transition-colors hover:bg-[#F7F2EB]"
-                >
-                  <FaWhatsapp className="h-4 w-4 text-[#25D366]" />
-                  Speak to us on WhatsApp
-                </a>
-              </div>
-              <p className="text-xs text-[#0C2448]/54">
-                Prefer a direct conversation? Speak to us on WhatsApp.
-              </p>
-            </form>
-          </div>
-
-          <div className="lg:col-span-2">
-            <div className="sticky top-8 space-y-6">
-              <Card className="rounded-2xl border-0 bg-white/70 ring-1 ring-[#0C2448]/8 shadow-[0_10px_30px_rgba(12,36,72,0.06)]">
-                <CardHeader>
-                  <CardTitle className="text-[#0C2448]">
-                    What you can expect
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-4">
-                    {[
-                      "A personal reply from the team actually running the sourcing.",
-                      "Origin, specification, and price options weighed together.",
-                      "Documentation and shipping coordination handled end-to-end.",
-                      "Same commitment on the second order as on the first.",
-                    ].map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-3 text-sm leading-6 text-[#0C2448]/72"
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="timeline" className={labelClass}>
+                      Delivery Timeline
+                    </Label>
+                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
+                      <IoArrowForward className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <Select
+                        value={formData.timeline}
+                        onValueChange={(v) => updateField("timeline", v ?? "")}
                       >
-                        <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#BB7D3E]" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                        <SelectTrigger id="timeline" className={triggerClass}>
+                          <SelectValue placeholder="Select timeline" />
+                        </SelectTrigger>
+                        <SelectContent className={selectContentClass}>
+                          {[
+                            "Under 4 weeks",
+                            "4 – 8 weeks",
+                            "8 – 12 weeks",
+                            "Flexible",
+                          ].map((t) => (
+                            <SelectItem key={t} value={t} className="rounded-lg">
+                              {t}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
 
-              <Card className="relative overflow-hidden rounded-2xl border-0 bg-[#0C2448] text-white ring-0 shadow-[0_14px_40px_rgba(12,36,72,0.25)]">
-                <div className="absolute -top-8 -right-8 h-32 w-32 rounded-full bg-white/10" />
-                <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-white/10" />
-                <CardHeader>
-                  <CardTitle className="text-white">Response Time</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold text-white">
-                    Same business day
-                  </p>
-                  <p className="mt-4 text-sm leading-6 text-white/70">
-                    Every enquiry is reviewed personally. Expect a first
-                    response within one business day, with sourcing options to
-                    follow shortly after.
-                  </p>
-                </CardContent>
-              </Card>
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="message" className={labelClass}>
+                      Additional Requirements
+                    </Label>
+                    <Textarea
+                      id="message"
+                      rows={5}
+                      placeholder="Moisture, packing preferences, certifications, end use — anything that helps us understand the requirement."
+                      value={formData.message}
+                      onChange={(e) => updateField("message", e.target.value)}
+                      required
+                      className={`min-h-32 resize-none rounded-md border-0 bg-white text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15 ${fieldShadow}`}
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <FileUploadArea
+                      title="Attach supporting files (optional)"
+                      description="Spec sheets, PO drafts, drawings, or reference photos. PDF, images, Excel accepted."
+                      maxFiles={5}
+                      maxSizeMB={10}
+                      accept=".pdf,.png,.jpg,.jpeg,.xls,.xlsx,.csv,.doc,.docx"
+                      files={files}
+                      onFilesSelect={handleFilesSelect}
+                      onFileRemove={handleFileRemove}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={submitting}
+                    className="gap-2 rounded-md bg-[#0C2448] px-6 py-6 text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564] disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {submitting ? "Sending…" : "Submit Your Requirement"}
+                    {!submitting && <IoArrowForward className="h-4 w-4" />}
+                  </Button>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-[#0C2448]/12 bg-white px-6 py-4 text-sm font-medium text-[#0C2448] transition-colors hover:bg-[#F7F2EB]"
+                  >
+                    <FaWhatsapp className="h-4 w-4 text-[#25D366]" />
+                    Speak to us on WhatsApp
+                  </a>
+                </div>
+                <p className="text-xs text-[#0C2448]/54">
+                  Prefer a direct conversation? Speak to us on WhatsApp.
+                </p>
+              </form>
+
+              {/* Slim right-column info card — simplified per client's ask,
+                  no response-time claim. */}
+              <div className="lg:pl-2">
+                <Card className="sticky top-8 rounded-2xl border-0 bg-white/80 ring-1 ring-[#0C2448]/8 shadow-[0_10px_30px_rgba(12,36,72,0.06)]">
+                  <CardHeader>
+                    <CardTitle className="text-[#0C2448]">
+                      What you can expect
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-4">
+                      {[
+                        "A personal reply from the team handling the sourcing.",
+                        "Origin, specification and price options weighed together.",
+                        "Documentation and shipping coordinated end to end.",
+                      ].map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-start gap-3 text-sm leading-6 text-[#0C2448]/72"
+                        >
+                          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#BB7D3E]" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
