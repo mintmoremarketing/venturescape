@@ -40,9 +40,9 @@ export default function VenturescapeNav() {
   const barClass = scrolled
     ? "border-b border-[#0C2448]/8 bg-[#F7F2EB]/90 backdrop-blur-md shadow-[0_4px_20px_rgba(12,36,72,0.06)]"
     : "border-b border-transparent bg-transparent";
-  const linkClass = scrolled
-    ? "text-[#0C2448]/72 hover:text-[#91121D]"
-    : "text-white/80 hover:text-[#BB7D3E]";
+  const desktopLinkClass = scrolled
+    ? "text-[#0C2448]/72 hover:text-[#91121D] hover:bg-[#0C2448]/[0.04]"
+    : "text-white/80 hover:text-[#BB7D3E] hover:bg-white/[0.06]";
   const ctaClass = scrolled
     ? "bg-[#0C2448] text-white hover:bg-[#153564]"
     : "bg-white text-[#0C2448] hover:bg-[#F7F2EB]";
@@ -64,14 +64,12 @@ export default function VenturescapeNav() {
             />
           </a>
 
-          <div
-            className={`hidden items-center gap-8 text-sm font-medium transition-colors duration-300 lg:flex xl:gap-10 ${linkClass}`}
-          >
+          <div className="hidden items-center gap-8 text-sm font-medium lg:flex xl:gap-10">
             {navigation.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="flex min-h-[40px] items-center transition-colors"
+                className={`flex min-h-[40px] items-center rounded-sm px-2 transition-colors duration-200 ${desktopLinkClass}`}
               >
                 {item.label}
               </a>
