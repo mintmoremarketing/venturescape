@@ -1,3 +1,4 @@
+import VenturescapeNav from "@/components/site/venturescape-nav";
 import VenturescapeHero from "@/components/site/venturescape-hero";
 import VenturescapeFeatureSection from "@/components/site/venturescape-feature-section";
 import VenturescapeProducts from "@/components/site/venturescape-products";
@@ -18,6 +19,7 @@ export default function VenturescapePage() {
   return (
     <div className="min-h-screen bg-[#F7F2EB] text-[#0C2448] selection:bg-[#BB7D3E]/30 selection:text-[#0C2448]">
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top_left,rgba(12,36,72,0.08),transparent_26%),radial-gradient(circle_at_80%_16%,rgba(187,125,62,0.12),transparent_22%),linear-gradient(180deg,#f7f2eb_0%,#f4eee4_100%)]" />
+      <VenturescapeNav />
       <main id="top" className="relative z-10">
         <VenturescapeHero />
         <VenturescapeFeatureSection

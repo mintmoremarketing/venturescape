@@ -1,23 +1,5 @@
-import LogoIcon from "@/assets/logo-icon";
-import { AnimatePresence, motion, type Variants } from "framer-motion";
-import { useEffect, useState } from "react";
-import {
-  ArrowDown,
-  ArrowRight,
-  Menu,
-  MessageSquareMore,
-  Play,
-  X,
-} from "lucide-react";
-
-const navigation = [
-  { label: "About", href: "#about" },
-  { label: "Products", href: "#products" },
-  { label: "Global Sourcing", href: "#global-sourcing" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Our Standard", href: "#standard" },
-  { label: "Contact", href: "#enquiry" },
-];
+import { motion, type Variants } from "framer-motion";
+import { ArrowDown, ArrowRight, MessageSquareMore, Play } from "lucide-react";
 
 const productPills = [
   "Timber",
@@ -35,27 +17,6 @@ const featurePoints = [
 ];
 
 export default function VenturescapeHero() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const original = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = original;
-    };
-  }, [mobileMenuOpen]);
-
-  const navVariants: Variants = {
-    hidden: { opacity: 0, y: -14, filter: "blur(5px)" },
-    show: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { type: "spring", damping: 20, stiffness: 160, delay: 0.05 },
-    },
-  };
-
   const supportVariants: Variants = {
     hidden: { opacity: 0, y: 10 },
     show: {
@@ -142,116 +103,6 @@ export default function VenturescapeHero() {
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col pt-[76px] sm:pt-[92px]">
-        <motion.nav
-          variants={navVariants}
-          initial="hidden"
-          animate="show"
-          className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#040A1F]/30 backdrop-blur-md"
-        >
-          <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-5 py-4 sm:px-6 sm:py-6 md:px-8">
-            <div className="flex items-center text-white">
-              <LogoIcon className="h-9 w-auto" alt="Venturescape" />
-            </div>
-
-            <div className="hidden items-center gap-8 text-sm font-medium text-white/80 lg:flex xl:gap-10">
-              {navigation.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="flex min-h-[40px] items-center transition-colors hover:text-[#BB7D3E]"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-3 lg:gap-6">
-              <a
-                href="#enquiry"
-                className="hidden min-h-[40px] items-center gap-2 rounded-sm bg-white px-5 py-2.5 text-[14px] font-medium text-[#0C2448] shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition-all will-change-transform hover:bg-[#F7F2EB] active:scale-[0.96] lg:flex"
-              >
-                Request a Quote
-                <ArrowRight className="h-4 w-4" />
-              </a>
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(true)}
-                aria-label="Open menu"
-                aria-expanded={mobileMenuOpen}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-white/25 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20 lg:hidden"
-              >
-                <Menu className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </motion.nav>
-
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-50 lg:hidden"
-            >
-              <button
-                type="button"
-                aria-label="Close menu"
-                onClick={() => setMobileMenuOpen(false)}
-                className="absolute inset-0 bg-[#0C2448]/40 backdrop-blur-[2px]"
-              />
-              <motion.div
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "100%" }}
-                transition={{ type: "spring", damping: 30, stiffness: 260 }}
-                className="absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col bg-[#F7F2EB] shadow-2xl"
-              >
-                <div className="flex items-center justify-between px-6 py-6">
-                  <LogoIcon
-                    variant="black"
-                    className="h-8 w-auto"
-                    alt="Venturescape"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setMobileMenuOpen(false)}
-                    aria-label="Close menu"
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[#0C2448]/12 bg-white text-[#0C2448]"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-
-                <nav className="flex flex-col gap-1 px-4 py-2">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="rounded-sm px-3 py-3 text-base font-medium text-[#0C2448] transition-colors hover:bg-white"
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </nav>
-
-                <div className="mt-auto flex flex-col gap-3 border-t border-[#0C2448]/10 px-6 py-6">
-                  <a
-                    href="#enquiry"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 rounded-sm bg-[#0C2448] px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564]"
-                  >
-                    Request a Quote
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         <main className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-between px-5 pb-8 pt-6 sm:justify-center sm:px-6 sm:pb-24 sm:pt-10 md:px-8">
           {/* Top group: pill row, headline, body paragraph */}
           <div className="flex max-w-5xl flex-col items-start">

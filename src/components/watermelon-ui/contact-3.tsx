@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -281,8 +280,7 @@ export default function VenturescapeEnquirySection() {
 
           {/* Inner cream card preserves the previous smooth-shadow form styling */}
           <div className="relative rounded-2xl bg-[#F7F2EB]/95 p-6 sm:p-8 md:p-10">
-            <div className="grid gap-10 lg:grid-cols-[1.35fr_0.65fr]">
-              {/* Form column */}
+            <div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div className="space-y-2">
@@ -624,35 +622,6 @@ export default function VenturescapeEnquirySection() {
                   Prefer a direct conversation? Speak to us on WhatsApp.
                 </p>
               </form>
-
-              {/* Slim right-column info card — simplified per client's ask,
-                  no response-time claim. */}
-              <div className="lg:pl-2">
-                <Card className="sticky top-8 rounded-2xl border-0 bg-white/80 ring-1 ring-[#0C2448]/8 shadow-[0_10px_30px_rgba(12,36,72,0.06)]">
-                  <CardHeader>
-                    <CardTitle className="text-[#0C2448]">
-                      What you can expect
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-4">
-                      {[
-                        "A personal reply from the team handling the sourcing.",
-                        "Origin, specification and price options weighed together.",
-                        "Documentation and shipping coordinated end to end.",
-                      ].map((item) => (
-                        <li
-                          key={item}
-                          className="flex items-start gap-3 text-sm leading-6 text-[#0C2448]/72"
-                        >
-                          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#BB7D3E]" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
             </div>
           </div>
         </div>
