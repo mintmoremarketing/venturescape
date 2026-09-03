@@ -89,6 +89,50 @@ section[id] {
   scroll-margin-top: 96px;
 }
 
+/* Brand gradient used on dark sections + primary CTA buttons.
+   Same gradient as the hero background for consistency. */
+.bg-brand-gradient {
+  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 10%, rgb(3, 3, 50) 57%, rgb(21, 21, 84) 100%);
+}
+.bg-brand-gradient:hover {
+  background: linear-gradient(180deg, rgba(4, 2, 46, 1) 0%, rgb(8, 8, 76) 55%, rgb(30, 30, 108) 100%);
+}
+
+/* Animated dashed "flow" for the Global Sourcing map's trade-route lines:
+   the dashes drift from source → India so the direction of trade reads at
+   a glance. Slow, subtle — never distracting. */
+@keyframes route-flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -20; }
+}
+.route-flow {
+  animation: route-flow 1.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-flow { animation: none; }
+}
+
+/* India destination marker: slowly fills between red and blue so the
+   viewer reads "this is where we sell." Two synced keyframes drive the
+   dot itself and the surrounding halos in lockstep. */
+@keyframes destination-pulse-dot {
+  0%, 100% { background-color: #DC2626; }
+  50%      { background-color: #4169E1; }
+}
+@keyframes destination-pulse-halo {
+  0%, 100% { background-color: rgba(220, 38, 38, 0.30); }
+  50%      { background-color: rgba(65, 105, 225, 0.30); }
+}
+.destination-dot {
+  animation: destination-pulse-dot 3.6s ease-in-out infinite;
+}
+.destination-halo {
+  animation: destination-pulse-halo 3.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .destination-dot, .destination-halo { animation: none; }
+}
+
 body {
   margin: 0;
   background: #f4efe8;

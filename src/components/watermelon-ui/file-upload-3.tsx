@@ -185,7 +185,7 @@ export default function FileUploadArea({
         </div>
         <Button
           type="button"
-          className="pointer-events-none shrink-0 bg-[#0C2448] text-white hover:bg-[#153564]"
+          className="bg-brand-gradient pointer-events-none shrink-0 text-white"
         >
           Select files
         </Button>

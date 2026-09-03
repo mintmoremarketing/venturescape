@@ -1,7 +1,7 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { motion, type Variants } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LogoIcon from "@/assets/logo-icon";
 
 const staggerContainer: Variants = {
@@ -49,6 +49,27 @@ const legal = [
 const address = "Dubai, United Arab Emirates";
 
 export default function Footer20() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const onHomePage = location.pathname === "/";
+
+  // Anchor links only exist on the home page. From /privacy or /terms, route
+  // back to `/#anchor` so ScrollToTop can pick up the hash and scroll to it.
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    if (onHomePage) {
+      const id = href.slice(1);
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      navigate(`/${href}`);
+    }
+  };
+
   return (
     <motion.footer
       variants={staggerContainer}
@@ -72,7 +93,8 @@ export default function Footer20() {
             </p>
 
             <a
-              href="#enquiry"
+              href={onHomePage ? "#enquiry" : "/#enquiry"}
+              onClick={(e) => handleAnchorClick(e, "#enquiry")}
               className="group inline-flex w-fit items-center gap-2 text-[17px] font-medium text-[#0C2448] transition-colors hover:text-[#153564]"
             >
               Send an enquiry
@@ -91,7 +113,8 @@ export default function Footer20() {
                 {navigation.map((link) => (
                   <li key={link.label}>
                     <a
-                      href={link.href}
+                      href={onHomePage ? link.href : `/${link.href}`}
+                      onClick={(e) => handleAnchorClick(e, link.href)}
                       className="text-[15px] text-neutral-600 transition-colors hover:text-neutral-900"
                     >
                       {link.label}

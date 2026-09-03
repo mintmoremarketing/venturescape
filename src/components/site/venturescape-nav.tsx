@@ -66,7 +66,7 @@ export default function VenturescapeNav() {
     ? "text-[#0C2448]/72 hover:text-[#91121D]"
     : "text-white/85 hover:text-[#BB7D3E]";
   const ctaClass = scrolled
-    ? "bg-[#0C2448] text-white hover:bg-[#153564]"
+    ? "bg-brand-gradient text-white"
     : "bg-white text-[#0C2448] hover:bg-[#F7F2EB]";
   const menuBtnClass = scrolled
     ? "border-[#0C2448]/12 bg-white text-[#0C2448] hover:bg-[#F7F2EB]"
@@ -189,7 +189,7 @@ export default function VenturescapeNav() {
                     setMobileMenuOpen(false);
                     handleAnchorClick(e, "#enquiry");
                   }}
-                  className="flex items-center justify-center gap-2 rounded-sm bg-[#0C2448] px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564]"
+                  className="bg-brand-gradient flex items-center justify-center gap-2 rounded-sm px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)]"
                 >
                   Request a Quote
                   <ArrowRight className="h-4 w-4" />

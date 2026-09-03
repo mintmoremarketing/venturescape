@@ -219,7 +219,7 @@ export default function VenturescapeProducts() {
 
                     <a
                       href="#enquiry"
-                      className="mt-2 inline-flex w-fit items-center gap-2 rounded-sm bg-[#0C2448] px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564]"
+                      className="bg-brand-gradient mt-2 inline-flex w-fit items-center gap-2 rounded-sm px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)]"
                     >
                       {isCustom
                         ? "Send Your Requirement"

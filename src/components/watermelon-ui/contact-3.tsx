@@ -248,7 +248,11 @@ export default function VenturescapeEnquirySection() {
   return (
     <section
       id="enquiry"
-      className="relative w-full overflow-hidden bg-[#0C2448] px-5 py-20 text-white md:px-8 md:py-28"
+      className="relative w-full overflow-hidden px-5 py-20 text-white md:px-8 md:py-28"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(2,0,36,1) 10%, rgb(3, 3, 50) 57%, rgb(21, 21, 84) 100%)",
+      }}
     >
       <div
         aria-hidden
@@ -599,7 +603,7 @@ export default function VenturescapeEnquirySection() {
                     type="submit"
                     size="lg"
                     disabled={submitting}
-                    className="gap-2 rounded-md bg-[#0C2448] px-6 py-6 text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] transition-colors hover:bg-[#153564] disabled:cursor-not-allowed disabled:opacity-70"
+                    className="bg-brand-gradient gap-2 rounded-md px-6 py-6 text-white shadow-[0_10px_30px_rgba(12,36,72,0.22)] disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {submitting ? "Sending…" : "Submit Your Requirement"}
                     {!submitting && <IoArrowForward className="h-4 w-4" />}

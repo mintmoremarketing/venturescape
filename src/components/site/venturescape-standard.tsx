@@ -7,7 +7,11 @@ export default function VenturescapeStandard() {
   return (
     <section
       id="standard"
-      className="relative overflow-hidden border-y border-[#0C2448]/8 bg-[#0C2448] py-24 text-white md:py-28"
+      className="relative overflow-hidden border-y border-[#0C2448]/8 py-24 text-white md:py-28"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(2,0,36,1) 10%, rgb(3, 3, 50) 57%, rgb(21, 21, 84) 100%)",
+      }}
     >
       <div
         aria-hidden
