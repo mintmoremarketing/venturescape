@@ -31,7 +31,7 @@ export default function VenturescapeProcess() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#0C2448]/10 bg-white text-[#0C2448] shadow-sm">
                   <Icon className="h-5 w-5 text-[#BB7D3E]" />
                 </div>
-                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#0C2448]/48">
+                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#0C2448]/72">
                   Step {String(i + 1).padStart(2, "0")}
                 </span>
               </div>

@@ -6,6 +6,8 @@ import {
   HiUserGroup,
   HiRefresh,
   HiGlobeAlt,
+  HiUsers,
+  HiChatAlt2,
 } from "react-icons/hi";
 import type { IconType } from "react-icons";
 
@@ -15,10 +17,8 @@ interface Point {
   body: string;
 }
 
-// Six points — clean 3×2 grid on lg, 2×3 on sm, 1×6 on mobile. Selected from
-// the doc's 8-point Why V list; overlapping items ("Clear commercial
-// communication" is covered by "Direct accountability"; "Stakeholder-first"
-// is covered by "Documentation-focused execution" + "Direct accountability").
+// All 8 points from the Website Content Draft, laid out as a symmetric 4×2
+// grid on lg, 2×4 on sm, 1×8 on mobile.
 const points: Point[] = [
   {
     icon: HiCube,
@@ -30,13 +30,25 @@ const points: Point[] = [
     icon: HiGlobeAlt,
     title: "Global source access",
     body:
-      "We develop sourcing relationships across established wood-producing regions to give customers access to different origins and product possibilities.",
+      "Sourcing relationships across established wood-producing regions to give customers access to different origins and product possibilities.",
   },
   {
     icon: HiClipboardList,
     title: "Requirement-led sourcing",
     body:
       "We don't begin by asking what we want to sell. We begin by understanding what the customer needs to buy.",
+  },
+  {
+    icon: HiUsers,
+    title: "Stakeholder-first approach",
+    body:
+      "We consider the interests of buyers, suppliers and the other parties necessary to successfully complete the transaction.",
+  },
+  {
+    icon: HiChatAlt2,
+    title: "Clear commercial communication",
+    body:
+      "Specifications, quantities, timelines and commercial expectations aligned as clearly as possible before execution.",
   },
   {
     icon: HiDocumentText,
@@ -73,12 +85,13 @@ export default function VenturescapeWhyFeature() {
         </h2>
         <p className="mt-4 text-base leading-relaxed text-[#0C2448]/72 md:text-lg">
           Wood-focused understanding, global source access, requirement-led
-          sourcing, documentation-focused execution, direct accountability, and
-          relationships built for repeat business.
+          sourcing, a stakeholder-first approach, clear commercial
+          communication, documentation-focused execution, direct accountability
+          and relationships built for repeat business.
         </p>
       </div>
 
-      <div className="grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {points.map((p) => {
           const Icon = p.icon;
           return (

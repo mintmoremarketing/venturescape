@@ -40,7 +40,7 @@ export const navigation = [
   { label: "Global Sourcing", href: "#global-sourcing" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Our Standard", href: "#standard" },
-  { label: "Contact", href: "#enquiry" },
+  { label: "Contact Us", href: "#enquiry" },
 ];
 
 export const footerNavigation = navigation;

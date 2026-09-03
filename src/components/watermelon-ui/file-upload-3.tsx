@@ -135,7 +135,7 @@ export default function FileUploadArea({
     <div className={cn("space-y-4", className)}>
       <div>
         <p className="text-sm font-medium text-[#0C2448]">{title}</p>
-        <p className="mt-0.5 text-xs text-[#0C2448]/60">{description}</p>
+        <p className="mt-0.5 text-xs text-[#0C2448]/72">{description}</p>
       </div>
       <div
         className={cn(
@@ -169,7 +169,7 @@ export default function FileUploadArea({
               "rounded p-3 transition-colors duration-300",
               isDragging
                 ? "bg-[#0C2448]/15 text-[#0C2448]"
-                : "border border-[#0C2448]/10 bg-white text-[#0C2448]/60 shadow-sm"
+                : "border border-[#0C2448]/10 bg-white text-[#0C2448]/72 shadow-sm"
             )}
           >
             <FaCloudUploadAlt className="h-6 w-6" />
@@ -178,7 +178,7 @@ export default function FileUploadArea({
             <p className="text-sm font-medium text-[#0C2448]">
               Drop files here or click to browse
             </p>
-            <p className="mt-0.5 text-xs text-[#0C2448]/60">
+            <p className="mt-0.5 text-xs text-[#0C2448]/72">
               Up to {maxFiles} files, {maxSizeMB}MB each
             </p>
           </div>
@@ -205,7 +205,7 @@ export default function FileUploadArea({
                     ? "bg-red-50 text-red-600"
                     : f.state === "completed"
                     ? "bg-[#0C2448]/10 text-[#0C2448]"
-                    : "bg-[#0C2448]/[0.04] text-[#0C2448]/60"
+                    : "bg-[#0C2448]/[0.04] text-[#0C2448]/72"
                 )}
               >
                 <FileIcon type={f.file.type} name={f.file.name} />
@@ -215,7 +215,7 @@ export default function FileUploadArea({
                   {f.file.name}
                 </p>
                 <div className="mt-0.5 flex items-center gap-2 text-xs">
-                  <span className="font-medium text-[#0C2448]/60">
+                  <span className="font-medium text-[#0C2448]/72">
                     {formatBytes(f.file.size)}
                   </span>
                   {f.error && (
@@ -247,7 +247,7 @@ export default function FileUploadArea({
                     e.stopPropagation();
                     onFileRemove(f.id);
                   }}
-                  className="text-[#0C2448]/60 hover:bg-red-50 hover:text-red-600"
+                  className="text-[#0C2448]/72 hover:bg-red-50 hover:text-red-600"
                   aria-label={`Remove ${f.file.name}`}
                 >
                   <FaTrashAlt className="h-4 w-4" />

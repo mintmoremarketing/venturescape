@@ -1,27 +1,41 @@
 import { motion } from "framer-motion";
-import { Globe2, ArrowRight } from "lucide-react";
 import { networkPartners } from "@/components/site/venturescape-data";
-import { PremiumIconTile, SectionIntro, staggerContainer, riseItem } from "@/components/site/venturescape-shared";
+import { SectionIntro, staggerContainer, riseItem } from "@/components/site/venturescape-shared";
 
-const originToMarket = ["Source", "Evaluate", "Coordinate", "Ship", "Deliver"];
+// Approximate percentage positions on the world-map-raw.svg equirectangular
+// projection. Sources are highlighted with a small amber dot; destination
+// (India) is highlighted with a red dot; thin route lines connect each
+// source directly to the destination.
+const INDIA = { label: "India", left: 70, top: 45 };
+const SOURCES = [
+  { label: "Gabon", left: 50, top: 55 },
+  { label: "South Africa", left: 55, top: 76 },
+  { label: "Mozambique", left: 58, top: 68 },
+  { label: "Indonesia", left: 78, top: 63 },
+  { label: "Vietnam", left: 74, top: 52 },
+  { label: "Brazil", left: 33, top: 65 },
+];
 
 export default function VenturescapeNetwork() {
   return (
-    <section id="global-sourcing" className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
-      <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+    <section
+      id="global-sourcing"
+      className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24"
+    >
+      <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <SectionIntro
             eyebrow="Closer to the Source."
             title="Global Sourcing"
-            description="Wood is not a uniform commodity. Species, climate, origin, processing practices, moisture, grade and dimensions can significantly influence whether a material is suitable for its intended application. That makes the source important."
+            description="Wood is not a uniform commodity. Species, climate, origin and processing all influence whether a material is suitable for its intended application. That's why the source matters."
           />
-          <p className="mt-5 max-w-xl text-sm leading-6 text-[#0C2448]/72">
-            Venturescape develops relationships across established timber and
-            wood-product markets in Africa, Southeast Asia and other major
-            producing regions, including markets such as Gabon, South Africa
-            and Indonesia, depending on the product and requirement.
+          <p className="mt-5 max-w-xl text-sm leading-6 text-[#0C2448]/78">
+            We develop relationships across established timber and wood-product
+            markets in Africa, Southeast Asia and Latin America — including
+            markets such as Gabon, South Africa, Mozambique, Indonesia,
+            Vietnam and Brazil — depending on the product and requirement.
           </p>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-[#0C2448]/72">
+          <p className="mt-3 max-w-xl text-sm leading-6 text-[#0C2448]/78">
             With India currently serving as a major destination for our
             business, we focus particularly on materials required by Indian
             manufacturers and wood-product businesses.
@@ -38,7 +52,7 @@ export default function VenturescapeNetwork() {
               <motion.div
                 key={partner}
                 variants={riseItem}
-                className="rounded-2xl bg-[#0C2448]/[0.035] px-4 py-3 text-sm font-medium text-[#0C2448]/74 shadow-[0_10px_24px_rgba(12,36,72,0.04)]"
+                className="rounded-2xl bg-[#0C2448]/[0.04] px-4 py-3 text-sm font-medium text-[#0C2448]/80"
               >
                 {partner}
               </motion.div>
@@ -47,94 +61,85 @@ export default function VenturescapeNetwork() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.97, y: 20 }}
+          initial={{ opacity: 0, scale: 0.98, y: 20 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7 }}
-          className="rounded-3xl bg-[#0C2448]/[0.035] p-2 shadow-[0_14px_40px_rgba(12,36,72,0.10)]"
+          className="relative overflow-hidden rounded-3xl bg-white p-6 ring-1 ring-[#0C2448]/8 shadow-[0_14px_40px_rgba(12,36,72,0.06)] md:p-8"
         >
-          <div className="rounded-3xl bg-white/90 p-6 shadow-[inset_0_-2px_0.5px_0px_rgba(0,0,0,0),inset_0px_2px_0_2px_rgba(255,255,255,1),0_0px_6px_0_rgba(0,0,0,0.07),0_2px_4px_0_rgba(0,0,0,0.05)]">
-            <div className="mb-5 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">From Origin to Market</p>
-                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[#0C2448]">
-                  A source that makes sense for the material.
-                </h3>
-              </div>
-              <PremiumIconTile icon={Globe2} />
-            </div>
-
-            <div className="relative overflow-hidden rounded-[1.5rem] bg-[#0C2448]/[0.035] p-5">
-              <img
-                src="/world-map-raw.svg"
-                alt="World sourcing network map"
-                className="w-full opacity-85 mix-blend-multiply"
-              />
-              {/* Region markers — approximate world-map percentage positions.
-                  Sources in amber, destination market in red. */}
-              {[
-                { label: "Gabon", type: "source", left: "50%", top: "56%" },
-                { label: "South Africa", type: "source", left: "55%", top: "78%" },
-                { label: "Indonesia", type: "source", left: "78%", top: "66%" },
-                { label: "India", type: "destination", left: "70%", top: "52%" },
-              ].map((m) => (
-                <div
-                  key={m.label}
-                  className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
-                  style={{ left: m.left, top: m.top }}
-                >
-                  <div className="relative flex items-center justify-center">
-                    <span
-                      className={`absolute h-4 w-4 animate-ping rounded-full ${
-                        m.type === "source"
-                          ? "bg-[#BB7D3E]/45"
-                          : "bg-[#91121D]/45"
-                      }`}
-                    />
-                    <span
-                      className={`relative h-2 w-2 rounded-full ring-2 ring-white ${
-                        m.type === "source" ? "bg-[#BB7D3E]" : "bg-[#91121D]"
-                      }`}
-                    />
-                  </div>
-                  <div className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/8">
-                    {m.label}
-                  </div>
-                </div>
-              ))}
-              {/* Legend */}
-              <div className="absolute bottom-3 right-3 flex flex-col gap-1.5 rounded-lg bg-white/85 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0C2448]/70 shadow-sm ring-1 ring-[#0C2448]/8 backdrop-blur-sm">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#BB7D3E]" />
-                  Sourcing region
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#91121D]" />
-                  Destination market
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 rounded-2xl bg-[#0C2448]/[0.04] p-4">
-              <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72">
-                {originToMarket.map((step, i) => (
-                  <span key={step} className="flex items-center gap-2">
-                    <span className="rounded-full bg-white px-3 py-1 shadow-sm ring-1 ring-[#0C2448]/8">
-                      {step}
-                    </span>
-                    {i < originToMarket.length - 1 && (
-                      <ArrowRight className="h-3 w-3 text-[#BB7D3E]" />
-                    )}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <p className="mt-4 text-xs leading-5 text-[#0C2448]/60">
-              Our objective is not simply to find an available supplier. It's
-              to identify a source that makes sense for the product,
-              specification, commercial requirement and destination.
+          <div className="mb-4 flex items-baseline justify-between gap-4">
+            <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
+              Source Markets → India
             </p>
+          </div>
+
+          <div className="relative aspect-[16/9] w-full overflow-hidden">
+            <img
+              src="/world-map-raw.svg"
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full opacity-30 mix-blend-multiply"
+            />
+
+            {/* Thin route lines: each source → India */}
+            <svg
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              className="absolute inset-0 h-full w-full"
+              aria-hidden
+            >
+              <defs>
+                <linearGradient id="route-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#BB7D3E" stopOpacity="0.55" />
+                  <stop offset="100%" stopColor="#91121D" stopOpacity="0.85" />
+                </linearGradient>
+              </defs>
+              {SOURCES.map((s) => (
+                <line
+                  key={`route-${s.label}`}
+                  x1={s.left}
+                  y1={s.top}
+                  x2={INDIA.left}
+                  y2={INDIA.top}
+                  stroke="url(#route-gradient)"
+                  strokeWidth="0.35"
+                  strokeDasharray="1 1.2"
+                  vectorEffect="non-scaling-stroke"
+                />
+              ))}
+            </svg>
+
+            {/* Source markers */}
+            {SOURCES.map((s) => (
+              <div
+                key={s.label}
+                className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+                style={{ left: `${s.left}%`, top: `${s.top}%` }}
+              >
+                <div className="flex flex-col items-center">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#BB7D3E] ring-2 ring-white" />
+                  <span className="mt-1 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0C2448]/68">
+                    {s.label}
+                  </span>
+                </div>
+              </div>
+            ))}
+
+            {/* Destination marker (India) */}
+            <div
+              className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+              style={{ left: `${INDIA.left}%`, top: `${INDIA.top}%` }}
+            >
+              <div className="flex flex-col items-center">
+                <span className="relative flex items-center justify-center">
+                  <span className="absolute h-4 w-4 animate-ping rounded-full bg-[#91121D]/40" />
+                  <span className="relative h-2.5 w-2.5 rounded-full bg-[#91121D] ring-2 ring-white" />
+                </span>
+                <span className="mt-1 whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.12em] text-[#91121D]">
+                  {INDIA.label}
+                </span>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
+import { Repeat } from "lucide-react";
 import { standardItems } from "@/components/site/venturescape-data";
 import { staggerContainer, riseItem } from "@/components/site/venturescape-shared";
 
@@ -62,10 +62,29 @@ export default function VenturescapeStandard() {
           })}
         </motion.div>
 
-        <div className="mt-14 flex items-center justify-center gap-3 text-sm text-white/64">
-          <ShieldCheck className="h-4 w-4 text-[#BB7D3E]" />
-          Protecting the interests of everyone involved in the trade.
-        </div>
+        {/* Long-Term Thinking — the doc's 7th Standard item, presented as a
+            full-width strip below the 6-card grid instead of an orphan card. */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="mt-8 flex flex-col items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm sm:flex-row sm:items-center sm:gap-6 md:p-8"
+        >
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/10">
+            <Repeat className="h-5 w-5 text-[#BB7D3E]" />
+          </div>
+          <div className="flex flex-col gap-1">
+            <h3 className="text-lg font-semibold tracking-[-0.01em] text-white">
+              Long-term thinking
+            </h3>
+            <p className="text-sm leading-6 text-white/70">
+              We're not building Venturescape around one-off transactions.
+              Successful trade is not simply "was the shipment completed?" —
+              it's "would everyone involved choose to work together again?"
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

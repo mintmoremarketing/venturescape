@@ -142,7 +142,7 @@ export default function VenturescapeProducts() {
                   key={item.title}
                   value={item.title}
                   data-tab-value={item.title}
-                  className="h-full rounded-none border-0 border-b-2 border-transparent bg-transparent px-1 py-3 text-sm font-medium text-[#0C2448]/60 transition-all hover:text-[#0C2448] data-[state=active]:border-[#91121D] data-[state=active]:text-[#0C2448] data-[state=active]:shadow-none!"
+                  className="h-full rounded-none border-0 border-b-2 border-transparent bg-transparent px-1 py-3 text-sm font-medium text-[#0C2448]/72 transition-all hover:text-[#0C2448] data-[state=active]:border-[#91121D] data-[state=active]:text-[#0C2448] data-[state=active]:shadow-none!"
                 >
                   <item.icon className="mr-2 size-4" />
                   {item.title}
@@ -201,7 +201,7 @@ export default function VenturescapeProducts() {
                       </div>
                     ) : detail?.criteria.length ? (
                       <div className="rounded-2xl bg-[#0C2448]/[0.035] p-6">
-                        <div className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/48">
+                        <div className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72">
                           Requirements can be evaluated by
                         </div>
                         <div className="flex flex-wrap gap-2">

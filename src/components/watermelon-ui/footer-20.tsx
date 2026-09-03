@@ -1,6 +1,7 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { motion, type Variants } from "framer-motion";
+import { Link } from "react-router-dom";
 import LogoIcon from "@/assets/logo-icon";
 
 const staggerContainer: Variants = {
@@ -28,7 +29,7 @@ const navigation = [
   { label: "Global Sourcing", href: "#global-sourcing" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Our Standard", href: "#standard" },
-  { label: "Contact", href: "#enquiry" },
+  { label: "Contact Us", href: "#enquiry" },
 ];
 
 const products = [
@@ -41,10 +42,11 @@ const products = [
 ];
 
 const legal = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms of Use", href: "#" },
-  { label: "Dubai, United Arab Emirates", href: "#" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Use", href: "/terms" },
 ];
+
+const address = "Dubai, United Arab Emirates";
 
 export default function Footer20() {
   return (
@@ -62,7 +64,7 @@ export default function Footer20() {
             className="flex flex-col gap-6 md:gap-8 lg:col-span-5 xl:col-span-4"
           >
             <div className="flex items-center">
-              <LogoIcon variant="black" className="h-10 w-auto" alt="Venturescape Trading" />
+              <LogoIcon variant="black" className="text-lg" alt="Venturescape Trading" />
             </div>
 
             <p className="max-w-[360px] text-[15px] leading-relaxed text-neutral-600">
@@ -115,14 +117,15 @@ export default function Footer20() {
               <ul className="flex flex-col gap-3">
                 {legal.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
+                    <Link
+                      to={link.href}
                       className="text-[15px] text-neutral-600 transition-colors hover:text-neutral-900"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
+                <li className="text-[15px] text-neutral-600">{address}</li>
               </ul>
             </motion.div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { FaCheckDouble, FaWhatsapp } from "react-icons/fa";
+import { FaCheckDouble } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -241,46 +241,42 @@ export default function VenturescapeEnquirySection() {
     }
   };
 
-  const whatsappHref = `https://wa.me/${VENTURESCAPE_WHATSAPP}?text=${encodeURIComponent(
-    WHATSAPP_OPENING_MESSAGE,
-  )}`;
-
   const selectContentClass =
     "w-max min-w-[260px] max-w-[calc(100vw-2rem)] rounded-xl border-[#0C2448]/10 bg-white p-1 shadow-lg";
   const triggerClass = `w-full rounded-md border-0 bg-transparent pl-10 text-left text-[#0C2448] focus-visible:ring-2 focus-visible:ring-[#0C2448]/15`;
 
   return (
-    <section id="enquiry" className="w-full px-5 py-20 md:px-8 md:py-24">
-      <div className="mx-auto max-w-6xl">
-        {/* Section head (outside the box, on the page cream bg) */}
+    <section
+      id="enquiry"
+      className="relative w-full overflow-hidden bg-[#0C2448] px-5 py-20 text-white md:px-8 md:py-28"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          background:
+            "radial-gradient(circle at 12% -8%, rgba(65,105,225,0.25), transparent 45%), radial-gradient(circle at 88% 100%, rgba(187,125,62,0.15), transparent 45%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-5xl">
+        {/* Section head on the navy background */}
         <div className="mx-auto mb-10 max-w-2xl text-center">
-          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
+          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#BB7D3E]">
             Tell Us What You Need. Start a Conversation.
           </p>
-          <h2 className="text-3xl font-semibold tracking-[-0.02em] text-[#0C2448] sm:text-4xl md:text-5xl">
+          <h2 className="text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl md:text-5xl">
             Contact Us
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-[#0C2448]/72">
+          <p className="mt-4 text-base leading-relaxed text-white/72">
             Share your requirement — species, quantity, destination and
             timeline — and our team will evaluate the appropriate sourcing and
             commercial options.
           </p>
         </div>
 
-        {/* One unified dark navy container that holds the entire form area */}
-        <div className="relative overflow-hidden rounded-3xl bg-[#0C2448] p-4 shadow-[0_20px_60px_rgba(12,36,72,0.20)] sm:p-6">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-70"
-            style={{
-              background:
-                "radial-gradient(circle at 12% -8%, rgba(65,105,225,0.30), transparent 45%), radial-gradient(circle at 88% 100%, rgba(187,125,62,0.18), transparent 45%)",
-            }}
-          />
-
-          {/* Inner cream card preserves the previous smooth-shadow form styling */}
-          <div className="relative rounded-2xl bg-[#F7F2EB]/95 p-6 sm:p-8 md:p-10">
-            <div>
+        {/* Clean white form box floating inside the navy section */}
+        <div className="rounded-3xl bg-white p-6 shadow-[0_30px_80px_rgba(0,0,0,0.25)] sm:p-8 md:p-10">
+          <div>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div className="space-y-2">
@@ -288,7 +284,7 @@ export default function VenturescapeEnquirySection() {
                       Full Name
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoPerson className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoPerson className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="fullName"
                         placeholder="Your name"
@@ -305,7 +301,7 @@ export default function VenturescapeEnquirySection() {
                       Work Email
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoMail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoMail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="email"
                         type="email"
@@ -323,7 +319,7 @@ export default function VenturescapeEnquirySection() {
                       Phone or WhatsApp
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoCall className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoCall className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="phone"
                         placeholder="Include country code"
@@ -340,7 +336,7 @@ export default function VenturescapeEnquirySection() {
                       Company
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoBusiness className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoBusiness className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="company"
                         placeholder="Company name"
@@ -357,7 +353,7 @@ export default function VenturescapeEnquirySection() {
                       Product Required
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoLeaf className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoLeaf className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Select
                         value={formData.product}
                         onValueChange={(v) => updateField("product", v ?? "")}
@@ -368,7 +364,7 @@ export default function VenturescapeEnquirySection() {
                         <SelectContent className={selectContentClass}>
                           {productGroups.map((group) => (
                             <SelectGroup key={group.label}>
-                              <SelectLabel className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/48">
+                              <SelectLabel className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72">
                                 {group.label}
                               </SelectLabel>
                               {group.items.map((item) => (
@@ -395,7 +391,7 @@ export default function VenturescapeEnquirySection() {
                       Species
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoLeaf className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoLeaf className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="species"
                         placeholder="e.g. Meranti, Oak, Poplar"
@@ -411,7 +407,7 @@ export default function VenturescapeEnquirySection() {
                       Grade
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoAlbums className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoAlbums className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="grade"
                         placeholder="e.g. BB/CC, FAS, No.1 Common"
@@ -427,7 +423,7 @@ export default function VenturescapeEnquirySection() {
                       Thickness
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoLayers className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoLayers className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="thickness"
                         placeholder="e.g. 18mm, 0.5mm"
@@ -443,7 +439,7 @@ export default function VenturescapeEnquirySection() {
                       Dimensions
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoGrid className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoGrid className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="dimensions"
                         placeholder="e.g. 4x8 ft, 1220x2440 mm"
@@ -459,7 +455,7 @@ export default function VenturescapeEnquirySection() {
                       Required Quantity
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoCube className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoCube className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Select
                         value={formData.quantity}
                         onValueChange={(v) => updateField("quantity", v ?? "")}
@@ -490,7 +486,7 @@ export default function VenturescapeEnquirySection() {
                       Country
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Select
                         value={formData.destinationCountry}
                         onValueChange={(v) =>
@@ -527,7 +523,7 @@ export default function VenturescapeEnquirySection() {
                       Destination Port
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoLocationSharp className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="port"
                         placeholder="e.g. Jebel Ali, Nhava Sheva"
@@ -545,7 +541,7 @@ export default function VenturescapeEnquirySection() {
                       Delivery Timeline
                     </Label>
                     <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoArrowForward className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/48" />
+                      <IoArrowForward className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Select
                         value={formData.timeline}
                         onValueChange={(v) => updateField("timeline", v ?? "")}
@@ -598,7 +594,7 @@ export default function VenturescapeEnquirySection() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="flex flex-col gap-3 border-t border-[#0C2448]/8 pt-6 sm:flex-row sm:items-center sm:justify-end">
                   <Button
                     type="submit"
                     size="lg"
@@ -608,24 +604,11 @@ export default function VenturescapeEnquirySection() {
                     {submitting ? "Sending…" : "Submit Your Requirement"}
                     {!submitting && <IoArrowForward className="h-4 w-4" />}
                   </Button>
-                  <a
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-[#0C2448]/12 bg-white px-6 py-4 text-sm font-medium text-[#0C2448] transition-colors hover:bg-[#F7F2EB]"
-                  >
-                    <FaWhatsapp className="h-4 w-4 text-[#25D366]" />
-                    Speak to us on WhatsApp
-                  </a>
                 </div>
-                <p className="text-xs text-[#0C2448]/54">
-                  Prefer a direct conversation? Speak to us on WhatsApp.
-                </p>
               </form>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
   );
 }
