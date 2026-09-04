@@ -204,9 +204,9 @@ export default function VenturescapeNetwork() {
               }}
             >
               <div className="relative flex items-center justify-center">
-                <span className="destination-halo absolute h-6 w-6 rounded-full" />
-                <span className="destination-halo absolute h-4 w-4 rounded-full" />
-                <span className="destination-dot relative h-3 w-3 rounded-full ring-2 ring-white" />
+                <span className="absolute h-6 w-6 rounded-full bg-[#DC2626]/20" />
+                <span className="absolute h-4 w-4 rounded-full bg-[#DC2626]/35" />
+                <span className="relative h-3 w-3 rounded-full bg-[#DC2626] ring-2 ring-white" />
               </div>
               <div
                 className="absolute whitespace-nowrap rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/10"
