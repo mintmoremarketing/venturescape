@@ -184,9 +184,11 @@ export default function VenturescapeNetwork() {
                 <div className="relative flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#4169E1] ring-2 ring-white">
                   <span className="absolute inline-flex h-4 w-4 rounded-full bg-[#4169E1]/30" />
                 </div>
-                {/* Label pill */}
+                {/* Label pill — hidden on mobile (they overlap on the small
+                    map); the wrapped country list below the map covers the
+                    same information there. */}
                 <div
-                  className="absolute whitespace-nowrap rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/10"
+                  className="absolute hidden whitespace-nowrap rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/10 md:block"
                   style={labelOffsetStyle(s.labelDir)}
                 >
                   {s.label}
@@ -209,7 +211,7 @@ export default function VenturescapeNetwork() {
                 <span className="relative h-3 w-3 rounded-full bg-[#DC2626] ring-2 ring-white" />
               </div>
               <div
-                className="absolute whitespace-nowrap rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/10"
+                className="absolute hidden whitespace-nowrap rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/10 md:block"
                 style={{
                   left: "50%",
                   top: "calc(100% + 8px)",
@@ -222,8 +224,34 @@ export default function VenturescapeNetwork() {
           </div>
         </div>
 
-        {/* Legend below the map */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t border-[#0C2448]/8 pt-6">
+        {/* Mobile-only country list — replaces the on-map pill labels, which
+            overlap at small widths. Sources chip-wrapped, India called out. */}
+        <div className="mt-6 md:hidden">
+          <div className="mb-2 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0C2448]/60">
+            Sourcing regions
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            {SOURCES.map((s) => (
+              <span
+                key={s.label}
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#4169E1]/8 px-2.5 py-1 text-[11px] font-semibold text-[#0C2448] ring-1 ring-[#4169E1]/20"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4169E1]" />
+                {s.label}
+              </span>
+            ))}
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72">
+            <span className="text-[#0C2448]/40">Destination →</span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#DC2626]/10 px-2.5 py-1 text-[#0C2448] ring-1 ring-[#DC2626]/25">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#DC2626]" />
+              {INDIA.label}
+            </span>
+          </div>
+        </div>
+
+        {/* Legend below the map (desktop only — mobile has the list above) */}
+        <div className="mt-10 hidden flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t border-[#0C2448]/8 pt-6 md:flex">
           <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72">
             <span className="h-2 w-2 rounded-full bg-[#4169E1]" />
             Sourcing regions

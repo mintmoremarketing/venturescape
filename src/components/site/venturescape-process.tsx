@@ -1,6 +1,38 @@
 import { motion } from "framer-motion";
 import { processSteps } from "@/components/site/venturescape-data";
 import { SectionIntro, staggerContainer, riseItem } from "@/components/site/venturescape-shared";
+import MobileCarousel from "@/components/site/mobile-carousel";
+
+function StepCard({
+  step,
+  i,
+}: {
+  step: (typeof processSteps)[number];
+  i: number;
+}) {
+  const Icon = step.icon;
+  return (
+    <motion.article
+      variants={riseItem}
+      className="relative h-full overflow-hidden rounded-3xl bg-white/70 p-6 shadow-[0_10px_30px_rgba(12,36,72,0.06)] ring-1 ring-[#0C2448]/8 transition-all hover:shadow-[0_14px_38px_rgba(12,36,72,0.10)]"
+    >
+      <div className="mb-4 flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#0C2448]/10 bg-white text-[#0C2448] shadow-sm">
+          <Icon className="h-5 w-5 text-[#BB7D3E]" />
+        </div>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#0C2448]/72">
+          Step {String(i + 1).padStart(2, "0")}
+        </span>
+      </div>
+      <h3 className="text-lg font-semibold tracking-[-0.01em] text-[#0C2448]">
+        {step.title}
+      </h3>
+      <p className="mt-2 text-sm leading-6 text-[#0C2448]/68">
+        {step.body}
+      </p>
+    </motion.article>
+  );
+}
 
 export default function VenturescapeProcess() {
   return (
@@ -12,38 +44,26 @@ export default function VenturescapeProcess() {
         align="center"
       />
 
+      {/* Mobile: swipeable carousel */}
+      <MobileCarousel
+        className="mt-10 w-full md:hidden"
+        ariaLabel="How we work carousel"
+        items={processSteps.map((step, i) => (
+          <StepCard key={step.title} step={step} i={i} />
+        ))}
+      />
+
+      {/* Desktop / tablet: grid */}
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.12 }}
-        className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+        className="mt-12 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3"
       >
-        {processSteps.map((step, i) => {
-          const Icon = step.icon;
-          return (
-            <motion.article
-              key={step.title}
-              variants={riseItem}
-              className="relative overflow-hidden rounded-3xl bg-white/70 p-6 shadow-[0_10px_30px_rgba(12,36,72,0.06)] ring-1 ring-[#0C2448]/8 transition-all hover:shadow-[0_14px_38px_rgba(12,36,72,0.10)]"
-            >
-              <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#0C2448]/10 bg-white text-[#0C2448] shadow-sm">
-                  <Icon className="h-5 w-5 text-[#BB7D3E]" />
-                </div>
-                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#0C2448]/72">
-                  Step {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <h3 className="text-lg font-semibold tracking-[-0.01em] text-[#0C2448]">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-[#0C2448]/68">
-                {step.body}
-              </p>
-            </motion.article>
-          );
-        })}
+        {processSteps.map((step, i) => (
+          <StepCard key={step.title} step={step} i={i} />
+        ))}
       </motion.div>
     </section>
   );

@@ -2,6 +2,25 @@ import { motion } from "framer-motion";
 import { Repeat } from "lucide-react";
 import { standardItems } from "@/components/site/venturescape-data";
 import { staggerContainer, riseItem } from "@/components/site/venturescape-shared";
+import MobileCarousel from "@/components/site/mobile-carousel";
+
+function StandardCard({ item }: { item: (typeof standardItems)[number] }) {
+  const Icon = item.icon;
+  return (
+    <motion.article
+      variants={riseItem}
+      className="flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-colors hover:border-white/20 hover:bg-white/[0.07]"
+    >
+      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-white/10 text-white">
+        <Icon className="h-5 w-5 text-[#BB7D3E]" />
+      </div>
+      <h3 className="mb-2 text-lg font-semibold tracking-[-0.01em] text-white">
+        {item.title}
+      </h3>
+      <p className="text-sm leading-6 text-white/70">{item.body}</p>
+    </motion.article>
+  );
+}
 
 export default function VenturescapeStandard() {
   return (
@@ -39,31 +58,40 @@ export default function VenturescapeStandard() {
           </p>
         </div>
 
+        {/* Mobile: swipeable carousel — includes Long-term thinking as the
+            final card so the section reads complete on a phone (desktop keeps
+            the full-width strip below the grid). */}
+        <MobileCarousel
+          className="mt-12 w-full md:hidden"
+          light
+          ariaLabel="The Venturescape Standard carousel"
+          items={[
+            ...standardItems.map((item) => (
+              <StandardCard key={item.title} item={item} />
+            )),
+            <StandardCard
+              key="long-term-thinking"
+              item={{
+                title: "Long-term thinking",
+                body:
+                  "We're not building Venturescape around one-off transactions. Successful trade is not simply \"was the shipment completed?\" — it's \"would everyone involved choose to work together again?\"",
+                icon: Repeat,
+              }}
+            />,
+          ]}
+        />
+
+        {/* Desktop / tablet: grid */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
-          className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3"
         >
-          {standardItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <motion.article
-                key={item.title}
-                variants={riseItem}
-                className="flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-colors hover:border-white/20 hover:bg-white/[0.07]"
-              >
-                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-white/10 text-white">
-                  <Icon className="h-5 w-5 text-[#BB7D3E]" />
-                </div>
-                <h3 className="mb-2 text-lg font-semibold tracking-[-0.01em] text-white">
-                  {item.title}
-                </h3>
-                <p className="text-sm leading-6 text-white/70">{item.body}</p>
-              </motion.article>
-            );
-          })}
+          {standardItems.map((item) => (
+            <StandardCard key={item.title} item={item} />
+          ))}
         </motion.div>
 
         {/* Long-Term Thinking — the doc's 7th Standard item, presented as a
@@ -73,7 +101,7 @@ export default function VenturescapeStandard() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="mt-8 flex flex-col items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm sm:flex-row sm:items-center sm:gap-6 md:p-8"
+          className="mt-8 hidden flex-col items-start gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm sm:flex-row sm:items-center sm:gap-6 md:flex md:p-8"
         >
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/10">
             <Repeat className="h-5 w-5 text-[#BB7D3E]" />

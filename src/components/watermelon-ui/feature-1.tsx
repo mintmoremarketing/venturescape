@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import MobileCarousel from "@/components/site/mobile-carousel";
 import {
   HiCube,
   HiClipboardList,
@@ -91,8 +92,8 @@ export default function VenturescapeWhyFeature() {
         </p>
       </div>
 
-      <div className="grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {points.map((p) => {
+      {(() => {
+        const renderCard = (p: Point) => {
           const Icon = p.icon;
           return (
             <Card
@@ -110,8 +111,23 @@ export default function VenturescapeWhyFeature() {
               </CardContent>
             </Card>
           );
-        })}
-      </div>
+        };
+        return (
+          <>
+            {/* Mobile: swipeable carousel */}
+            <MobileCarousel
+              className="w-full sm:hidden"
+              ariaLabel="Why Venturescape carousel"
+              items={points.map((p) => renderCard(p))}
+            />
+
+            {/* Tablet / desktop: grid */}
+            <div className="hidden w-full max-w-6xl grid-cols-1 gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+              {points.map((p) => renderCard(p))}
+            </div>
+          </>
+        );
+      })()}
     </section>
   );
 }

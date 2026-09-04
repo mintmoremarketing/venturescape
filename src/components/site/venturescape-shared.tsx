@@ -81,8 +81,8 @@ export function PremiumCard({
       variants={riseItem}
       className={
         dark
-          ? "rounded-3xl bg-white/6 ring-0 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.18)]"
-          : "rounded-3xl bg-[#0C2448]/[0.035] ring-0 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(12,36,72,0.12)]"
+          ? "h-full rounded-3xl bg-white/6 ring-0 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.18)]"
+          : "h-full rounded-3xl bg-[#0C2448]/[0.035] ring-0 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(12,36,72,0.12)]"
       }
     >
       <div className={`relative flex h-full flex-col ${compact ? "p-0" : "p-6"}`}>

@@ -71,12 +71,12 @@ export default function MobileCarousel({
       <div
         ref={scrollerRef}
         aria-label={ariaLabel}
-        className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {items.map((child, i) => (
           <div
             key={i}
-            className="shrink-0 snap-center"
+            className="flex shrink-0 snap-center"
             style={{
               width: `${cardWidthPct}%`,
               marginLeft: i === 0 ? edgeGutter : 0,
