@@ -62,7 +62,7 @@ export default function VenturescapeFeatureSection({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.6 }}
-            className={`mt-12 max-w-3xl text-center text-base italic md:text-lg ${
+            className={`mt-12 max-w-3xl text-center text-base italic md:max-w-none md:whitespace-nowrap md:text-lg ${
               dark ? "text-white/78" : "text-[#0C2448]/72"
             }`}
           >

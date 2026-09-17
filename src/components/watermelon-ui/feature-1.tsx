@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card";
-import MobileCarousel from "@/components/site/mobile-carousel";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   HiCube,
   HiClipboardList,
@@ -15,69 +15,101 @@ import type { IconType } from "react-icons";
 interface Point {
   icon: IconType;
   title: string;
+  short: string;
   body: string;
 }
 
-// All 8 points from the Website Content Draft, laid out as a symmetric 4×2
-// grid on lg, 2×4 on sm, 1×8 on mobile.
 const points: Point[] = [
   {
     icon: HiCube,
     title: "Wood-focused understanding",
+    short: "Wood focus",
     body:
       "Our commercial focus is centred on timber, veneers, plywood and allied wood materials — a single industry, understood deeply.",
   },
   {
     icon: HiGlobeAlt,
     title: "Global source access",
+    short: "Global sourcing",
     body:
       "Sourcing relationships across established wood-producing regions to give customers access to different origins and product possibilities.",
   },
   {
     icon: HiClipboardList,
     title: "Requirement-led sourcing",
+    short: "Requirement-led",
     body:
       "We don't begin by asking what we want to sell. We begin by understanding what the customer needs to buy.",
   },
   {
     icon: HiUsers,
     title: "Stakeholder-first approach",
+    short: "Stakeholder-first",
     body:
       "We consider the interests of buyers, suppliers and the other parties necessary to successfully complete the transaction.",
   },
   {
     icon: HiChatAlt2,
     title: "Clear commercial communication",
+    short: "Clear communication",
     body:
       "Specifications, quantities, timelines and commercial expectations aligned as clearly as possible before execution.",
   },
   {
     icon: HiDocumentText,
     title: "Documentation-focused execution",
+    short: "Documentation",
     body:
       "Commercial and shipping documentation receive the same attention as the physical material — because at destination, they are the material.",
   },
   {
     icon: HiUserGroup,
     title: "Direct accountability",
+    short: "Direct accountability",
     body:
       "Our customers and suppliers communicate directly with the people responsible for their transaction — no handovers, no filters.",
   },
   {
     icon: HiRefresh,
     title: "Built for repeat business",
+    short: "Repeat business",
     body:
       "We measure our relationships over multiple transactions, not a single shipment. Every order is delivered with the next one in mind.",
   },
 ];
 
+/**
+ * Why Venturescape — chip filter + expanded detail.
+ *
+ * A row of eight title chips sits at the top; the active chip expands into
+ * a large detail panel below with icon, title and full body. All eight are
+ * always visible for scan, one is expanded for read — compact and
+ * interactive without scroll-jacking.
+ */
 export default function VenturescapeWhyFeature() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  // Pause auto-advance when the user hovers the section, so they can read.
+  const [paused, setPaused] = useState(false);
+  const active = points[activeIndex];
+  const ActiveIcon = active.icon;
+
+  // Auto-cycle through the eight commitments every ~2.2s so the section
+  // reads on its own. Pauses on hover; user clicks still work and reset
+  // the timer via the effect's dependency on activeIndex.
+  useEffect(() => {
+    if (paused) return;
+    const id = window.setTimeout(() => {
+      setActiveIndex((i) => (i + 1) % points.length);
+    }, 2200);
+    return () => window.clearTimeout(id);
+  }, [activeIndex, paused]);
+
   return (
     <section
       id="why-venturescape"
       className="flex w-full flex-col items-center px-5 py-20 md:px-8 md:py-24"
     >
-      <div className="mx-auto mb-12 max-w-3xl text-center">
+      <div className="mx-auto mb-10 max-w-3xl text-center md:mb-12">
         <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
           A Trading Partner With Something to Protect: Your Confidence.
         </p>
@@ -85,49 +117,54 @@ export default function VenturescapeWhyFeature() {
           Why Venturescape
         </h2>
         <p className="mt-4 text-base leading-relaxed text-[#0C2448]/72 md:text-lg">
-          Wood-focused understanding, global source access, requirement-led
-          sourcing, a stakeholder-first approach, clear commercial
-          communication, documentation-focused execution, direct accountability
-          and relationships built for repeat business.
+          Eight commitments, one relationship.
         </p>
       </div>
 
-      {(() => {
-        const renderCard = (p: Point) => {
-          const Icon = p.icon;
-          return (
-            <Card
-              key={p.title}
-              className="flex h-full flex-col rounded-3xl border-0 bg-white/70 p-2 ring-1 ring-[#0C2448]/8 shadow-[0_10px_30px_rgba(12,36,72,0.04)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(12,36,72,0.10)]"
+      <div
+        className="w-full max-w-5xl"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        {/* Detail panel — auto-cycles through the eight commitments */}
+        <div className="relative overflow-hidden rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 md:p-12">
+          {/* Big ghost icon in the background corner */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-6 -bottom-6 text-[#0C2448]/[0.04]"
+          >
+            <ActiveIcon className="h-56 w-56 md:h-72 md:w-72" />
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative"
             >
-              <CardContent className="flex h-full flex-col p-6">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg border border-[#0C2448]/8 bg-white shadow-sm">
-                  <Icon className="h-5 w-5 text-[#BB7D3E]" />
+              <div className="grid gap-6 md:grid-cols-[auto_1fr] md:items-start md:gap-8">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#0C2448]/10 bg-white shadow-sm md:h-20 md:w-20">
+                  <ActiveIcon className="h-8 w-8 text-[#BB7D3E] md:h-10 md:w-10" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-[#0C2448]">
-                  {p.title}
-                </h3>
-                <p className="text-sm leading-6 text-[#0C2448]/68">{p.body}</p>
-              </CardContent>
-            </Card>
-          );
-        };
-        return (
-          <>
-            {/* Mobile: swipeable carousel */}
-            <MobileCarousel
-              className="w-full sm:hidden"
-              ariaLabel="Why Venturescape carousel"
-              items={points.map((p) => renderCard(p))}
-            />
-
-            {/* Tablet / desktop: grid */}
-            <div className="hidden w-full max-w-6xl grid-cols-1 gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
-              {points.map((p) => renderCard(p))}
-            </div>
-          </>
-        );
-      })()}
+                <div>
+                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#BB7D3E]">
+                    Commitment {String(activeIndex + 1).padStart(2, "0")} of{" "}
+                    {String(points.length).padStart(2, "0")}
+                  </p>
+                  <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[#0C2448] md:text-4xl">
+                    {active.title}
+                  </h3>
+                  <p className="mt-4 max-w-2xl text-base leading-8 text-[#0C2448]/72 md:text-lg md:leading-9">
+                    {active.body}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
     </section>
   );
 }

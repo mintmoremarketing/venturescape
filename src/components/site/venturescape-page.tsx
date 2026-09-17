@@ -7,13 +7,11 @@ import VenturescapeProcess from "@/components/site/venturescape-process";
 import VenturescapeStandard from "@/components/site/venturescape-standard";
 import VenturescapeMarkets from "@/components/site/venturescape-markets";
 import VenturescapePhilosophy from "@/components/site/venturescape-philosophy";
+import VenturescapeCapabilities from "@/components/site/venturescape-capabilities";
 import VenturescapeWhyFeature from "@/components/watermelon-ui/feature-1";
 import VenturescapeEnquirySection from "@/components/watermelon-ui/contact-3";
 import Footer20 from "@/components/watermelon-ui/footer-20";
-import {
-  aboutItems,
-  capabilityItems,
-} from "@/components/site/venturescape-data";
+import { aboutItems } from "@/components/site/venturescape-data";
 
 export default function VenturescapePage() {
   return (
@@ -32,13 +30,7 @@ export default function VenturescapePage() {
         />
         <VenturescapeProducts />
         <VenturescapeNetwork />
-        <VenturescapeFeatureSection
-          id="capabilities"
-          eyebrow="From Requirement to Shipment."
-          title="Our Capabilities"
-          description="International trading requires considerably more than matching a buyer with a seller. A transaction may involve product specifications, negotiations, documentation, banking, inspection, containers, ports, vessels and multiple organisations across different jurisdictions. Venturescape coordinates these moving parts through one commercial relationship."
-          items={capabilityItems}
-        />
+        <VenturescapeCapabilities />
         <VenturescapeProcess />
         <VenturescapeStandard />
         <VenturescapeWhyFeature />

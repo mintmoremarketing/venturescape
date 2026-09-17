@@ -112,6 +112,22 @@ section[id] {
   .route-flow { animation: none; }
 }
 
+/* Aurora blooms behind the Venturescape Standard hero panel — slow, subtle
+   drifting so the dark panel breathes without being distracting. */
+@keyframes aurora-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(24px, 18px) scale(1.12); }
+}
+@keyframes aurora-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50%      { transform: translate(-28px, -20px) scale(0.92); }
+}
+.aurora-a { animation: aurora-drift-a 14s ease-in-out infinite; }
+.aurora-b { animation: aurora-drift-b 18s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .aurora-a, .aurora-b { animation: none; }
+}
+
 /* India destination marker: slowly fills between red and blue so the
    viewer reads "this is where we sell." Two synced keyframes drive the
    dot itself and the surrounding halos in lockstep. */

@@ -34,7 +34,7 @@ export function SectionIntro({
     <div
       className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start text-left"}`}
     >
-      <span className="inline-flex rounded-full border border-[#BB7D3E]/25 bg-white/80 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)]">
+      <span className="inline-flex max-w-full whitespace-nowrap overflow-hidden text-ellipsis rounded-full border border-[#BB7D3E]/25 bg-white/80 px-3 py-1 text-[8px] font-medium uppercase tracking-[0.08em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
         {eyebrow}
       </span>
       <h2 className="max-w-3xl text-3xl leading-[0.98] font-semibold tracking-[-0.04em] text-[#0C2448] md:text-5xl">
