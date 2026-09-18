@@ -188,7 +188,7 @@ export default function VenturescapeWhyFeature() {
             up/down (touch) or scroll-wheel over the panel to step through
             manually; outside the panel the page scrolls normally. */}
         <div
-          className="relative overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-x] md:p-12 md:pl-14"
+          className="relative min-h-[380px] overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-x] sm:min-h-[420px] md:min-h-[420px] md:p-12 md:pl-14"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}

@@ -26,7 +26,7 @@ function StepCard({
 }) {
   const Icon = step.icon;
   return (
-    <article className="relative flex h-full w-full flex-col overflow-hidden rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 md:p-10">
+    <article className="relative flex h-full w-full flex-col overflow-hidden rounded-3xl bg-white p-8 shadow-[0_6px_20px_rgba(12,36,72,0.05)] ring-1 ring-[#0C2448]/8 md:p-10 md:shadow-[0_20px_60px_rgba(12,36,72,0.10)]">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-6 -bottom-6 text-[#0C2448]/[0.04]"
