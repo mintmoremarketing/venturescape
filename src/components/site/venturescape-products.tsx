@@ -172,7 +172,14 @@ export default function VenturescapeProducts() {
                         const fallback = `https://picsum.photos/seed/${encodeURIComponent(item.title)}/1600/1000`;
                         if (img.src !== fallback) img.src = fallback;
                       }}
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+                      className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03] ${
+                        // Custom Wood image is a log pile with lots of sky
+                        // above; anchor the crop to the bottom so the logs
+                        // dominate the frame instead of the trees.
+                        item.title === "Custom Wood Sourcing"
+                          ? "object-bottom"
+                          : ""
+                      }`}
                     />
                   </div>
 
