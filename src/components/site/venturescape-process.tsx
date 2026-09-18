@@ -148,7 +148,7 @@ export default function VenturescapeProcess() {
           leaving a huge gap between the title and the story. */}
       <div
         ref={wrapperRef}
-        className="relative hidden md:block"
+        className="relative hidden overflow-clip md:block"
         style={{ height: `${processSteps.length * 90}vh` }}
       >
         {/* Sticky pins below the fixed nav (~96px). Height clipped to

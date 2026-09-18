@@ -82,7 +82,7 @@ export default function VenturescapeCapabilities() {
           behind the pinned area. */}
       <div
         ref={wrapperRef}
-        className="relative hidden lg:block"
+        className="relative hidden overflow-clip lg:block"
         style={{ height: `${capabilityItems.length * 55}vh` }}
       >
         {/* Sticky pins below the fixed nav (~96px). Height clipped to
