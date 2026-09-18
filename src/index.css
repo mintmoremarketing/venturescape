@@ -52,19 +52,19 @@ html {
   scroll-padding-top: 96px;
 }
 
-/* Ultra-wide scaling: on very large displays the fixed-px containers still
-   look small even when their max-width is generous, because typography,
-   padding and card sizes stay anchored to 16px root. `zoom` scales the
-   whole rendered page proportionally — layout, text, images and padding
-   all get bigger together — which is exactly what we want for 4K. */
+/* Ultra-wide scaling: bump the root font-size on very large displays so
+   Tailwind's rem-based text and spacing scale up together, without
+   touching `vh`/`svh` (which zoom would break — hero uses min-h-screen
+   and would spill below the viewport). Containers themselves widen via
+   the max-w-* breakpoints on each section. */
 @media (min-width: 1920px) {
-  html { zoom: 1.10; }
+  html { font-size: 17px; }
 }
 @media (min-width: 2400px) {
-  html { zoom: 1.25; }
+  html { font-size: 19px; }
 }
 @media (min-width: 3200px) {
-  html { zoom: 1.45; }
+  html { font-size: 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
