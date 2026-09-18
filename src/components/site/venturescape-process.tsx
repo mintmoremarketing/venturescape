@@ -115,7 +115,10 @@ export default function VenturescapeProcess() {
   }, [scrollYProgress]);
 
   return (
-    <section id="how-we-work">
+    <section
+      id="how-we-work"
+      className="relative z-10 bg-[#FBF8F2]"
+    >
       {/* Mobile: header + swipeable carousel (no scroll-pin). */}
       <div className="mx-auto max-w-[1400px] px-5 pt-20 md:hidden">
         <div className="flex flex-col items-center gap-4 text-center">
