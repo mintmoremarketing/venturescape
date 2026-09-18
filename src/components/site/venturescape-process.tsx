@@ -151,7 +151,7 @@ export default function VenturescapeProcess() {
         {/* Sticky pins below the fixed nav (~96px). Height clipped to
             match, so justify-center centres against the VISIBLE viewport
             (not the region hidden behind the nav). */}
-        <div className="sticky top-[96px] flex h-[calc(100vh-96px)] flex-col justify-center gap-6 py-8 xl:gap-8 xl:py-12">
+        <div className="sticky top-[96px] flex h-[calc(100vh-96px)] flex-col justify-center gap-4 py-4 xl:gap-6 xl:py-8">
           {/* Compact section header */}
           <div className="mx-auto w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 md:px-8 lg:px-12 2xl:px-20 text-center">
             <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[#BB7D3E]/25 bg-white/80 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)]">
@@ -171,7 +171,7 @@ export default function VenturescapeProcess() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0C2448]/60">
                 Step
               </p>
-              <div className="relative mt-2 h-[170px] overflow-hidden xl:h-[200px]">
+              <div className="relative mt-2 h-[130px] overflow-hidden xl:h-[170px]">
                 <AnimatePresence mode="popLayout">
                   <motion.div
                     key={activeIndex}
@@ -179,7 +179,7 @@ export default function VenturescapeProcess() {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -60, opacity: 0 }}
                     transition={{ duration: 0.5, ease: EASE }}
-                    className="text-brand-gradient text-[150px] font-bold leading-none tracking-[-0.04em] xl:text-[180px]"
+                    className="text-brand-gradient text-[120px] font-bold leading-none tracking-[-0.04em] xl:text-[160px]"
                   >
                     {String(activeIndex + 1).padStart(2, "0")}
                   </motion.div>
@@ -210,7 +210,7 @@ export default function VenturescapeProcess() {
             {/* Stacked cards. overflow-hidden clips the not-yet-active cards
                 sitting below the frame so nothing peeks under the current
                 card. */}
-            <div className="relative h-[380px] overflow-hidden rounded-3xl xl:h-[440px]">
+            <div className="relative h-[320px] overflow-hidden rounded-3xl xl:h-[400px]">
               {processSteps.map((step, i) => (
                 <StackedCard
                   key={step.title}
