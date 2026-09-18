@@ -83,7 +83,7 @@ export default function VenturescapeCapabilities() {
       <div
         ref={wrapperRef}
         className="relative hidden lg:block"
-        style={{ height: `${capabilityItems.length * 90}vh` }}
+        style={{ height: `${capabilityItems.length * 55}vh` }}
       >
         {/* Sticky pins below the fixed nav (~96px). Height clipped to
             match, so justify-center centres against the VISIBLE viewport

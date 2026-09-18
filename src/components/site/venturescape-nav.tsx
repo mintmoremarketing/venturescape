@@ -39,9 +39,9 @@ export default function VenturescapeNav() {
   };
 
   useEffect(() => {
-    // Consider "scrolled past hero" after ~120px so the nav flips before the
-    // hero fully leaves the viewport.
-    const onScroll = () => setScrolled(window.scrollY > 120);
+    // Flip to the cream/scrolled state on the very first scroll movement,
+    // so any downward motion immediately reveals the solid nav bar.
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
