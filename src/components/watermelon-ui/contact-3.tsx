@@ -118,6 +118,26 @@ export default function VenturescapeEnquirySection() {
 
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  // Track whether the user has interacted with the email field so we only
+  // start nagging after they've started typing (not on first paint).
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  // Live email validation — mirrors browser email semantics: needs a local
+  // part, an "@", a domain, and a dot + TLD.
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailError = (() => {
+    if (!emailTouched || formData.email.length === 0) return "";
+    if (!formData.email.includes("@"))
+      return "Please add an '@' — e.g. name@company.com.";
+    const [local, rest] = formData.email.split("@");
+    if (!local) return "Add the part before the '@' — e.g. name@company.com.";
+    if (!rest) return "Add the domain after '@' — e.g. name@company.com.";
+    if (!rest.includes("."))
+      return "Please include a valid domain — e.g. company.com.";
+    if (!emailRegex.test(formData.email))
+      return "That doesn't look like a valid email address yet.";
+    return "";
+  })();
 
   const updateField = (field: keyof EnquiryFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -262,7 +282,7 @@ export default function VenturescapeEnquirySection() {
             "radial-gradient(circle at 12% -8%, rgba(65,105,225,0.25), transparent 45%), radial-gradient(circle at 88% 100%, rgba(187,125,62,0.15), transparent 45%)",
         }}
       />
-      <div className="relative mx-auto max-w-5xl">
+      <div className="relative mx-auto max-w-6xl">
         {/* Section head on the navy background */}
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-[#BB7D3E]">
@@ -311,11 +331,25 @@ export default function VenturescapeEnquirySection() {
                         type="email"
                         placeholder="you@company.com"
                         value={formData.email}
-                        onChange={(e) => updateField("email", e.target.value)}
+                        onChange={(e) => {
+                          setEmailTouched(true);
+                          updateField("email", e.target.value);
+                        }}
+                        onBlur={() => setEmailTouched(true)}
+                        aria-invalid={emailError ? true : undefined}
+                        aria-describedby={emailError ? "email-error" : undefined}
                         required
                         className={inputClass}
                       />
                     </div>
+                    {emailError && (
+                      <p
+                        id="email-error"
+                        className="mt-1 text-xs font-medium text-[#91121D]"
+                      >
+                        {emailError}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -326,9 +360,45 @@ export default function VenturescapeEnquirySection() {
                       <IoCall className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
                       <Input
                         id="phone"
-                        placeholder="Include country code"
+                        type="tel"
+                        inputMode="numeric"
+                        placeholder="10-digit number"
                         value={formData.phone}
-                        onChange={(e) => updateField("phone", e.target.value)}
+                        onChange={(e) => {
+                          // Digits only, capped at 10 so users can't overtype.
+                          const digits = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 10);
+                          updateField("phone", digits);
+                        }}
+                        onKeyDown={(e) => {
+                          // Block non-numeric printable keys; allow editing
+                          // keys, shortcuts, tab, etc.
+                          if (
+                            e.key.length === 1 &&
+                            !/[0-9]/.test(e.key) &&
+                            !e.ctrlKey &&
+                            !e.metaKey
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                        maxLength={10}
+                        pattern="\d{10}"
+                        onInvalid={(e) => {
+                          const el = e.currentTarget;
+                          if (el.validity.valueMissing) {
+                            el.setCustomValidity("Please enter your phone number.");
+                          } else if (
+                            el.validity.patternMismatch ||
+                            el.validity.tooShort
+                          ) {
+                            el.setCustomValidity(
+                              "Please enter a valid 10-digit phone number."
+                            );
+                          }
+                        }}
+                        onInput={(e) => e.currentTarget.setCustomValidity("")}
                         required
                         className={inputClass}
                       />

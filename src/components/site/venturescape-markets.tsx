@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { marketSegments } from "@/components/site/venturescape-data";
-import { SectionIntro, staggerContainer, riseItem } from "@/components/site/venturescape-shared";
+import { staggerContainer, riseItem } from "@/components/site/venturescape-shared";
 
 /**
  * Who We Work With — sticky-note board.
@@ -147,13 +147,20 @@ export default function VenturescapeMarkets() {
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
-        <SectionIntro
-          eyebrow="Built for Businesses That Depend on Material."
-          title="Who We Work With"
-          description="Venturescape primarily serves businesses that purchase, process, manufacture, distribute or trade wood and wood-based products. The process begins with understanding what the customer actually needs."
-          align="center"
-        />
+      <div className="relative z-10 mx-auto max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 py-20 md:px-8 md:py-24 lg:px-12 2xl:px-20">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[#BB7D3E]/25 bg-white/80 px-3 py-1 text-[8px] font-medium uppercase tracking-[0.08em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
+            Built for Businesses That Depend on Material.
+          </span>
+          <h2 className="max-w-3xl text-3xl leading-[0.98] font-semibold tracking-[-0.04em] text-[#0C2448] md:text-5xl">
+            Who We Work With
+          </h2>
+          {/* On desktop, widen so the copy sits in two comfortable lines
+              instead of a tall paragraph. */}
+          <p className="max-w-2xl text-base leading-7 text-[#0C2448]/72 md:max-w-4xl md:text-lg">
+            Venturescape primarily serves businesses that purchase, process, manufacture, distribute or trade wood and wood-based products. The process begins with understanding what the customer actually needs.
+          </p>
+        </div>
 
         <motion.div
           variants={staggerContainer}

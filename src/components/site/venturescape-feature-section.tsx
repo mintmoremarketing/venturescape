@@ -25,12 +25,12 @@ export default function VenturescapeFeatureSection({
   const sectionClass = dark ? "bg-[#0C2448] text-white border-y border-[#0C2448]/8" : "";
   const gridClass =
     columns === "two"
-      ? "grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-2"
-      : "grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3";
+      ? "grid w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] grid-cols-1 gap-4 md:grid-cols-2"
+      : "grid w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3";
 
   return (
     <section id={id} className={sectionClass}>
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-5 py-20 md:px-8 md:py-24">
+      <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] flex-col items-center px-5 py-20 md:px-8 md:py-24 lg:px-12 2xl:px-20">
         <SectionIntro eyebrow={eyebrow} title={title} description={description} align="center" />
 
         {/* Mobile: simple swipeable row with progress dots */}

@@ -72,7 +72,7 @@ export default function VenturescapeHero() {
         }}
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1440px] flex-col items-start justify-between gap-10 px-5 pt-[120px] pb-14 sm:px-6 sm:pt-[140px] sm:pb-20 md:min-h-screen md:justify-center md:gap-0 md:px-12 md:pb-24 lg:px-16">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1440px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] flex-col items-start justify-between gap-10 px-5 pt-[120px] pb-14 sm:px-6 sm:pt-[140px] sm:pb-20 md:min-h-screen md:justify-center md:gap-0 md:px-12 md:pb-24 lg:px-16 2xl:px-20">
         {/* Top group: eyebrow + headline + body */}
         <div className="flex flex-col items-start">
           <motion.span

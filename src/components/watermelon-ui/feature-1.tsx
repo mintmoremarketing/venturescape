@@ -88,21 +88,17 @@ const points: Point[] = [
  */
 export default function VenturescapeWhyFeature() {
   const [activeIndex, setActiveIndex] = useState(0);
-  // Pause auto-advance when the user hovers the section, so they can read.
-  const [paused, setPaused] = useState(false);
   const active = points[activeIndex];
   const ActiveIcon = active.icon;
 
   // Auto-cycle through the eight commitments every ~2.2s so the section
-  // reads on its own. Pauses on hover; user clicks still work and reset
-  // the timer via the effect's dependency on activeIndex.
+  // reads on its own. Runs continuously without pausing on hover.
   useEffect(() => {
-    if (paused) return;
     const id = window.setTimeout(() => {
       setActiveIndex((i) => (i + 1) % points.length);
     }, 2200);
     return () => window.clearTimeout(id);
-  }, [activeIndex, paused]);
+  }, [activeIndex]);
 
   return (
     <section
@@ -121,13 +117,31 @@ export default function VenturescapeWhyFeature() {
         </p>
       </div>
 
-      <div
-        className="w-full max-w-5xl"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
+      <div className="w-full max-w-6xl">
         {/* Detail panel — auto-cycles through the eight commitments */}
-        <div className="relative overflow-hidden rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 md:p-12">
+        <div className="relative overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 md:p-12 md:pl-14">
+          {/* Vertical progress dots on the left edge — one per commitment.
+              Clicking a dot jumps to that item and resets the auto-cycle. */}
+          <div className="absolute left-3 top-1/2 flex -translate-y-1/2 flex-col gap-2.5 md:left-5">
+            {points.map((_, i) => {
+              const isActive = i === activeIndex;
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setActiveIndex(i)}
+                  aria-label={`Show commitment ${i + 1}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className={`rounded-full transition-all ${
+                    isActive
+                      ? "h-6 w-1.5 bg-[#BB7D3E]"
+                      : "h-1.5 w-1.5 bg-[#0C2448]/15 hover:bg-[#0C2448]/35"
+                  }`}
+                />
+              );
+            })}
+          </div>
+
           {/* Big ghost icon in the background corner */}
           <div
             aria-hidden

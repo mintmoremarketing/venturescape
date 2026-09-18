@@ -107,7 +107,7 @@ export default function VenturescapeProducts() {
 
   return (
     <section id="products" className="border-y border-[#0C2448]/8 bg-white/55">
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-5 py-20 md:px-8 md:py-24">
+      <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] flex-col items-center px-5 py-20 md:px-8 md:py-24 lg:px-12 2xl:px-20">
         <SectionIntro
           eyebrow="Wood Products. Sourced to Requirement."
           title="Our Products"
@@ -130,7 +130,7 @@ export default function VenturescapeProducts() {
               centerTabInScroller(value);
             });
           }}
-          className="mt-12 w-full max-w-6xl gap-6"
+          className="mt-12 w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] gap-6"
         >
           <div
             ref={scrollerRef}

@@ -77,7 +77,7 @@ export default function VenturescapeNav() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-300 ${barClass}`}
       >
-        <nav className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-5 py-4 sm:px-6 sm:py-5 md:px-8">
+        <nav className="mx-auto flex w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] items-center justify-between px-5 py-4 sm:px-6 sm:py-5 md:px-8 lg:px-12 2xl:px-20">
           <a
             href="/"
             onClick={(e) => {

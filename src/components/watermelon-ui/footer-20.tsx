@@ -78,7 +78,7 @@ export default function Footer20() {
       viewport={{ once: true, amount: 0.05 }}
       className="relative flex w-full flex-col justify-between overflow-hidden border-t border-neutral-200 bg-[#f4f4f2] font-sans text-neutral-600 transition-colors duration-300"
     >
-      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col border-x border-dashed border-neutral-300 px-6 pt-20 md:px-12 md:pt-32 lg:px-16">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1720px] flex-col border-x border-dashed border-neutral-300 px-6 pt-20 md:px-12 md:pt-32 lg:px-16 2xl:px-24">
         <div className="mb-10 grid grid-cols-1 gap-16 md:mb-16 lg:mb-24 lg:grid-cols-12 lg:gap-8">
           <motion.div
             variants={riseItem}
@@ -157,7 +157,7 @@ export default function Footer20() {
       </div>
 
       <div className="border-t border-neutral-200">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between md:px-8">
+        <div className="mx-auto flex w-full max-w-[1720px] flex-col gap-3 px-6 py-5 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between md:px-12 lg:px-16 2xl:px-24">
           <p>Venturescape Trading — FZCO, registered in Dubai, United Arab Emirates.</p>
           <p>© 2026 Venturescape Trading — FZCO. All rights reserved.</p>
         </div>

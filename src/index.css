@@ -52,6 +52,21 @@ html {
   scroll-padding-top: 96px;
 }
 
+/* Ultra-wide scaling: on very large displays the fixed-px containers still
+   look small even when their max-width is generous, because typography,
+   padding and card sizes stay anchored to 16px root. `zoom` scales the
+   whole rendered page proportionally — layout, text, images and padding
+   all get bigger together — which is exactly what we want for 4K. */
+@media (min-width: 1920px) {
+  html { zoom: 1.10; }
+}
+@media (min-width: 2400px) {
+  html { zoom: 1.25; }
+}
+@media (min-width: 3200px) {
+  html { zoom: 1.45; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -96,6 +111,17 @@ section[id] {
 }
 .bg-brand-gradient:hover {
   background: linear-gradient(180deg, rgba(4, 2, 46, 1) 0%, rgb(8, 8, 76) 55%, rgb(30, 30, 108) 100%);
+}
+
+/* Same brand gradient applied to text — for headline-sized navy elements
+   (big step numbers, hero title) so they read as branded rather than a
+   flat block of colour. */
+.text-brand-gradient {
+  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 10%, rgb(3, 3, 50) 57%, rgb(21, 21, 84) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Animated dashed "flow" for the Global Sourcing map's trade-route lines:

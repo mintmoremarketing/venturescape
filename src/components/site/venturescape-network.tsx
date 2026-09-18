@@ -52,7 +52,7 @@ export default function VenturescapeNetwork() {
   return (
     <section
       id="global-sourcing"
-      className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24"
+      className="mx-auto max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 py-20 md:px-8 md:py-24 lg:px-12 2xl:px-20"
     >
       <div className="mx-auto max-w-3xl text-center">
         <SectionIntro
