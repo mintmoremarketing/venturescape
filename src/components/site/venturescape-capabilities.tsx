@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { capabilityItems } from "@/components/site/venturescape-data";
 
 /**
@@ -13,7 +13,12 @@ import { capabilityItems } from "@/components/site/venturescape-data";
  */
 export default function VenturescapeCapabilities() {
   const [activeIndex, setActiveIndex] = useState(0);
+  // Direction of the last index change — +1 if we advanced forward
+  // (scrolling down), -1 if we went back (scrolling up). Drives which
+  // side the animated card slides in from.
+  const [direction, setDirection] = useState(1);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const prevIndex = useRef(0);
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -26,7 +31,11 @@ export default function VenturescapeCapabilities() {
         capabilityItems.length - 1,
         Math.max(0, Math.floor(v * capabilityItems.length)),
       );
-      setActiveIndex(i);
+      if (i !== prevIndex.current) {
+        setDirection(i > prevIndex.current ? 1 : -1);
+        prevIndex.current = i;
+        setActiveIndex(i);
+      }
     });
     return () => unsubscribe();
   }, [scrollYProgress]);
@@ -34,6 +43,8 @@ export default function VenturescapeCapabilities() {
   const goTo = (i: number) => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
+    // Preset the direction so the click-driven slide matches the jump.
+    setDirection(i >= prevIndex.current ? 1 : -1);
     const slice = 1 / capabilityItems.length;
     const targetProgress = slice * i + slice * 0.5;
     const total = wrapper.offsetHeight - window.innerHeight;
@@ -149,28 +160,43 @@ export default function VenturescapeCapabilities() {
               </ul>
             </div>
 
-            {/* Detail card */}
-            <div>
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="relative flex min-h-[300px] flex-col overflow-hidden rounded-3xl bg-white p-6 shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 sm:min-h-[340px] sm:p-8 lg:min-h-[380px] lg:p-10"
+            {/* Detail card. overflow-hidden on the outer shell so the
+                incoming card can slide in from the right without spilling. */}
+            {/* Fixed height so the card is uniform across every capability
+                regardless of body length — no jumping between slides. */}
+            <div className="relative h-[320px] overflow-hidden rounded-3xl bg-white shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 sm:h-[360px] lg:h-[400px]">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -top-6 -right-4 z-0 select-none text-[120px] font-bold leading-none text-[#0C2448]/[0.05] sm:text-[160px]"
               >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -top-6 -right-4 select-none text-[120px] font-bold leading-none text-[#0C2448]/[0.05] sm:text-[160px]"
+                {String(activeIndex + 1).padStart(2, "0")}
+              </div>
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={activeIndex}
+                  custom={direction}
+                  variants={{
+                    enter: (dir: number) => ({
+                      opacity: 0,
+                      x: dir > 0 ? 60 : -60,
+                    }),
+                    center: { opacity: 1, x: 0 },
+                    exit: (dir: number) => ({
+                      opacity: 0,
+                      x: dir > 0 ? -40 : 40,
+                    }),
+                  }}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative z-10 flex h-full flex-col p-6 sm:p-8 lg:p-10"
                 >
-                  {String(activeIndex + 1).padStart(2, "0")}
-                </div>
-
-                <div className="relative">
                   <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-[#0C2448]/10 bg-white shadow-sm sm:mb-6 sm:h-14 sm:w-14">
                     <ActiveIcon className="h-6 w-6 text-[#BB7D3E] sm:h-7 sm:w-7" />
                   </div>
                   {capabilityItems[activeIndex].pill && (
-                    <span className="mb-2 inline-block rounded-full bg-[#0C2448]/[0.05] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72 sm:mb-3">
+                    <span className="mb-2 inline-block w-fit rounded-full bg-[#0C2448]/[0.05] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72 sm:mb-3">
                       {capabilityItems[activeIndex].pill}
                     </span>
                   )}
@@ -180,8 +206,8 @@ export default function VenturescapeCapabilities() {
                   <p className="mt-3 text-sm leading-7 text-[#0C2448]/72 sm:mt-4 sm:text-base md:text-lg md:leading-8">
                     {capabilityItems[activeIndex].body}
                   </p>
-                </div>
-              </motion.div>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
