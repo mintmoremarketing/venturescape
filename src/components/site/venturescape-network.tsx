@@ -30,7 +30,10 @@ const SOURCES: Source[] = [
   { label: "Gabon", x: 51.57, y: 63.83, labelDir: "left" },
   { label: "Mozambique", x: 59.05, y: 73.5, labelDir: "right" },
   { label: "South Africa", x: 55.35, y: 79.37, labelDir: "bottom" },
+  { label: "UAE", x: 64.24, y: 49.2, labelDir: "left" },
+  { label: "China", x: 80.5, y: 40.5, labelDir: "top" },
   { label: "Vietnam", x: 80.4, y: 53.12, labelDir: "right" },
+  { label: "Singapore", x: 80.18, y: 62.33, labelDir: "left" },
   { label: "Indonesia", x: 84.75, y: 64.61, labelDir: "bottom" },
 ];
 
@@ -63,9 +66,10 @@ export default function VenturescapeNetwork() {
         />
         <p className="mt-5 text-base leading-relaxed text-[#0C2448]/78 md:text-lg">
           We develop relationships across established timber and wood-product
-          markets in Africa, Southeast Asia and Latin America — including
-          markets such as Gabon, South Africa, Mozambique, Indonesia, Vietnam
-          and Brazil — depending on the product and requirement.
+          markets in Africa, the Middle East, East Asia, Southeast Asia and
+          Latin America — including markets such as Gabon, South Africa,
+          Mozambique, UAE, China, Vietnam, Singapore, Indonesia and Brazil —
+          depending on the product and requirement.
         </p>
         <p className="mt-4 text-base leading-relaxed text-[#0C2448]/78 md:text-lg">
           With India currently serving as a major destination for our

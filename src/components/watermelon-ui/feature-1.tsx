@@ -183,20 +183,17 @@ export default function VenturescapeWhyFeature() {
         </p>
       </div>
 
-      <div className="w-full max-w-6xl">
-        {/* Detail panel — auto-cycles through the eight commitments. Swipe
-            up/down (touch) or scroll-wheel over the panel to step through
-            manually; outside the panel the page scrolls normally. */}
+      <div className="w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px]">
+        {/* Mobile / tablet: single detail card, dots on left, swipe / wheel
+            to step. */}
         <div
-          className="relative min-h-[380px] overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-x] sm:min-h-[420px] md:min-h-[420px] md:p-12 md:pl-14"
+          className="relative min-h-[380px] overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-x] sm:min-h-[420px] md:p-12 md:pl-14 lg:hidden"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           onTouchCancel={handleTouchEnd}
           onWheel={handleWheel}
         >
-          {/* Vertical progress dots on the left edge — one per commitment.
-              Clicking a dot jumps to that item and resets the auto-cycle. */}
           <div className="absolute left-3 top-1/2 flex -translate-y-1/2 flex-col gap-2.5 md:left-5">
             {points.map((_, i) => {
               const isActive = i === activeIndex;
@@ -216,8 +213,6 @@ export default function VenturescapeWhyFeature() {
               );
             })}
           </div>
-
-          {/* Big ghost icon in the background corner */}
           <div
             aria-hidden
             className="pointer-events-none absolute -right-6 -bottom-6 text-[#0C2448]/[0.04]"
@@ -252,6 +247,92 @@ export default function VenturescapeWhyFeature() {
               </div>
             </motion.div>
           </AnimatePresence>
+        </div>
+
+        {/* Desktop: split — numbered list on the left, active detail card
+            on the right. Balanced two-column layout matching the rest of
+            the site. */}
+        <div className="hidden lg:grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-10 xl:gap-14">
+          <div>
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0C2448]/60">
+              Eight commitments
+            </p>
+            <ul className="space-y-1">
+              {points.map((p, i) => {
+                const isActive = i === activeIndex;
+                return (
+                  <li key={p.title}>
+                    <button
+                      type="button"
+                      onClick={() => setActiveIndex(i)}
+                      className={`group relative flex w-full items-baseline gap-4 rounded-2xl px-4 py-3 text-left transition-all ${
+                        isActive
+                          ? "bg-[#0C2448]/[0.045]"
+                          : "hover:bg-[#0C2448]/[0.025]"
+                      }`}
+                    >
+                      <span
+                        className={`w-9 shrink-0 text-xs font-semibold tracking-[0.14em] transition-colors ${
+                          isActive ? "text-[#BB7D3E]" : "text-[#0C2448]/40"
+                        }`}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`text-[15px] font-semibold tracking-[-0.01em] transition-colors ${
+                          isActive ? "text-[#0C2448]" : "text-[#0C2448]/55"
+                        }`}
+                      >
+                        {p.title}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <div
+            className="relative flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-white p-10 shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 select-none xl:p-14"
+            onWheel={handleWheel}
+          >
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-8 -right-6 select-none text-[180px] font-bold leading-none text-[#0C2448]/[0.05] xl:text-[220px]"
+            >
+              {String(activeIndex + 1).padStart(2, "0")}
+            </div>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-6 -bottom-6 text-[#0C2448]/[0.04]"
+            >
+              <ActiveIcon className="h-72 w-72" />
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="relative flex-1"
+              >
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-[#0C2448]/10 bg-white shadow-sm">
+                  <ActiveIcon className="h-7 w-7 text-[#BB7D3E]" />
+                </div>
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#BB7D3E]">
+                  Commitment {String(activeIndex + 1).padStart(2, "0")} of{" "}
+                  {String(points.length).padStart(2, "0")}
+                </p>
+                <h3 className="text-3xl font-semibold tracking-[-0.02em] text-[#0C2448] xl:text-4xl">
+                  {active.title}
+                </h3>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-[#0C2448]/72 xl:text-lg xl:leading-9">
+                  {active.body}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>

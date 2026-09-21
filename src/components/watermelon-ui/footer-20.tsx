@@ -85,7 +85,7 @@ export default function Footer20() {
             className="flex flex-col gap-6 md:gap-8 lg:col-span-5 xl:col-span-4"
           >
             <div className="flex items-center">
-              <LogoIcon variant="black" className="text-lg" alt="Venturescape Trading" />
+              <LogoIcon variant="black" className="h-7 w-auto md:h-8" alt="Venturescape Trading" />
             </div>
 
             <p className="max-w-[360px] text-[15px] leading-relaxed text-neutral-600">

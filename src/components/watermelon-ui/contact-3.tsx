@@ -35,6 +35,7 @@ import FileUploadArea, {
 export interface EnquiryFormData {
   fullName: string;
   email: string;
+  phoneCountry: string;
   phone: string;
   company: string;
   product: string;
@@ -54,6 +55,30 @@ export const VENTURESCAPE_WHATSAPP = "971500000000";
 export const WHATSAPP_OPENING_MESSAGE =
   "Hello, I would like to enquire about a wood-product requirement.";
 export const VENTURESCAPE_ENQUIRY_EMAIL = "venturescapetrading.fzco@gmail.com";
+
+// Common country dialing codes ordered by likely audience for Venturescape.
+const countryCodes: { code: string; label: string }[] = [
+  { code: "+971", label: "UAE" },
+  { code: "+91", label: "India" },
+  { code: "+966", label: "Saudi Arabia" },
+  { code: "+974", label: "Qatar" },
+  { code: "+968", label: "Oman" },
+  { code: "+973", label: "Bahrain" },
+  { code: "+965", label: "Kuwait" },
+  { code: "+20", label: "Egypt" },
+  { code: "+90", label: "Türkiye" },
+  { code: "+27", label: "South Africa" },
+  { code: "+254", label: "Kenya" },
+  { code: "+86", label: "China" },
+  { code: "+84", label: "Vietnam" },
+  { code: "+65", label: "Singapore" },
+  { code: "+62", label: "Indonesia" },
+  { code: "+55", label: "Brazil" },
+  { code: "+44", label: "UK" },
+  { code: "+1", label: "USA / Canada" },
+  { code: "+49", label: "Germany" },
+  { code: "+33", label: "France" },
+];
 
 const destinations = [
   { value: "AE", label: "United Arab Emirates", flag: "ae" },
@@ -102,6 +127,7 @@ export default function VenturescapeEnquirySection() {
   const [formData, setFormData] = useState<EnquiryFormData>({
     fullName: "",
     email: "",
+    phoneCountry: "+971",
     phone: "",
     company: "",
     product: "",
@@ -161,6 +187,7 @@ export default function VenturescapeEnquirySection() {
     setFormData({
       fullName: "",
       email: "",
+      phoneCountry: "+971",
       phone: "",
       company: "",
       product: "",
@@ -211,7 +238,10 @@ export default function VenturescapeEnquirySection() {
     fd.append("Name", formData.fullName);
     fd.append("Company", formData.company);
     fd.append("Email", formData.email);
-    fd.append("Phone / WhatsApp", formData.phone);
+    fd.append(
+      "Phone / WhatsApp",
+      `${formData.phoneCountry} ${formData.phone}`.trim(),
+    );
     fd.append("Product", formData.product);
     fd.append("Species", formData.species);
     fd.append("Grade", formData.grade);
@@ -356,51 +386,69 @@ export default function VenturescapeEnquirySection() {
                     <Label htmlFor="phone" className={labelClass}>
                       Phone or WhatsApp
                     </Label>
-                    <div className={`relative rounded-md bg-white ${fieldShadow}`}>
-                      <IoCall className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
+                    <div
+                      className={`relative flex items-stretch overflow-hidden rounded-md bg-white ${fieldShadow}`}
+                    >
+                      <IoCall className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
+                      <select
+                        aria-label="Country code"
+                        value={formData.phoneCountry}
+                        onChange={(e) =>
+                          updateField("phoneCountry", e.target.value)
+                        }
+                        className="appearance-none border-0 border-r border-[#0C2448]/10 bg-transparent pl-10 pr-8 text-sm text-[#0C2448] outline-none focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
+                        style={{
+                          backgroundImage:
+                            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%230C2448' fill-opacity='0.5' d='M0 0l5 6 5-6z'/></svg>\")",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "right 10px center",
+                        }}
+                      >
+                        {countryCodes.map((c) => (
+                          <option key={c.code} value={c.code}>
+                            {c.code} {c.label}
+                          </option>
+                        ))}
+                      </select>
                       <Input
                         id="phone"
                         type="tel"
                         inputMode="numeric"
-                        placeholder="10-digit number"
+                        placeholder="50 123 4567"
                         value={formData.phone}
                         onChange={(e) => {
-                          // Digits only, capped at 10 so users can't overtype.
-                          const digits = e.target.value
-                            .replace(/\D/g, "")
-                            .slice(0, 10);
-                          updateField("phone", digits);
+                          // Digits and spaces only; strip everything else so
+                          // the value posts cleanly.
+                          const cleaned = e.target.value.replace(/[^\d ]/g, "");
+                          updateField("phone", cleaned);
                         }}
                         onKeyDown={(e) => {
-                          // Block non-numeric printable keys; allow editing
-                          // keys, shortcuts, tab, etc.
                           if (
                             e.key.length === 1 &&
-                            !/[0-9]/.test(e.key) &&
+                            !/[0-9 ]/.test(e.key) &&
                             !e.ctrlKey &&
                             !e.metaKey
                           ) {
                             e.preventDefault();
                           }
                         }}
-                        maxLength={10}
-                        pattern="\d{10}"
+                        minLength={6}
+                        maxLength={20}
                         onInvalid={(e) => {
                           const el = e.currentTarget;
                           if (el.validity.valueMissing) {
-                            el.setCustomValidity("Please enter your phone number.");
-                          } else if (
-                            el.validity.patternMismatch ||
-                            el.validity.tooShort
-                          ) {
                             el.setCustomValidity(
-                              "Please enter a valid 10-digit phone number."
+                              "Please enter your phone number.",
+                            );
+                          } else if (el.validity.tooShort) {
+                            el.setCustomValidity(
+                              "Please enter a valid phone number.",
                             );
                           }
                         }}
                         onInput={(e) => e.currentTarget.setCustomValidity("")}
                         required
-                        className={inputClass}
+                        className="rounded-none border-0 bg-transparent pl-3 text-[#0C2448] placeholder:text-[#0C2448]/40 focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
                       />
                     </div>
                   </div>

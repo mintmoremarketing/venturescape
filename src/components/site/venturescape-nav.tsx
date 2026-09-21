@@ -93,7 +93,7 @@ export default function VenturescapeNav() {
           >
             <LogoIcon
               variant={scrolled ? "black" : "white"}
-              className="h-9 w-auto"
+              className="h-6 w-auto sm:h-7 md:h-8 xl:h-9"
             />
           </a>
 

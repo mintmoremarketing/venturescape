@@ -29,6 +29,12 @@ function StepCard({
     <article className="relative flex h-full w-full flex-col overflow-hidden rounded-3xl bg-white p-8 shadow-[0_6px_20px_rgba(12,36,72,0.05)] ring-1 ring-[#0C2448]/8 md:p-10 md:shadow-[0_20px_60px_rgba(12,36,72,0.10)]">
       <div
         aria-hidden
+        className="pointer-events-none absolute -top-6 -right-4 select-none text-[140px] font-bold leading-none text-[#0C2448]/[0.05] md:text-[180px]"
+      >
+        {String(i + 1).padStart(2, "0")}
+      </div>
+      <div
+        aria-hidden
         className="pointer-events-none absolute -right-6 -bottom-6 text-[#0C2448]/[0.04]"
       >
         <Icon className="h-40 w-40 md:h-52 md:w-52" />
@@ -168,52 +174,59 @@ export default function VenturescapeProcess() {
             </p>
           </div>
 
-          <div className="mx-auto grid w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] items-center gap-10 px-5 md:px-8 lg:px-12 2xl:px-20">
-            {/* Pinned number */}
-            <div className="relative">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0C2448]/60">
-                Step
+          <div className="mx-auto grid w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-center gap-10 px-5 md:px-8 lg:px-12 xl:gap-14 2xl:px-20">
+            {/* Left: step list */}
+            <div>
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0C2448]/60">
+                Six coordinated steps
               </p>
-              <div className="relative mt-2 h-[130px] overflow-hidden xl:h-[170px]">
-                <AnimatePresence mode="popLayout">
-                  <motion.div
-                    key={activeIndex}
-                    initial={{ y: 60, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -60, opacity: 0 }}
-                    transition={{ duration: 0.5, ease: EASE }}
-                    className="text-brand-gradient text-[120px] font-bold leading-none tracking-[-0.04em] xl:text-[160px]"
-                  >
-                    {String(activeIndex + 1).padStart(2, "0")}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-              <p className="mt-4 max-w-xs text-sm leading-6 text-[#0C2448]/60">
+              <ol className="space-y-1">
+                {processSteps.map((step, i) => {
+                  const isActive = i === activeIndex;
+                  const isPast = i < activeIndex;
+                  return (
+                    <li key={step.title}>
+                      <div
+                        className={`relative flex items-baseline gap-4 rounded-2xl px-4 py-3 transition-all ${
+                          isActive ? "bg-[#0C2448]/[0.045]" : ""
+                        }`}
+                      >
+                        <span
+                          className={`w-9 shrink-0 text-xs font-semibold tracking-[0.14em] transition-colors ${
+                            isActive
+                              ? "text-[#BB7D3E]"
+                              : isPast
+                              ? "text-[#0C2448]/40"
+                              : "text-[#0C2448]/25"
+                          }`}
+                        >
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span
+                          className={`text-[15px] font-semibold tracking-[-0.01em] transition-colors ${
+                            isActive
+                              ? "text-[#0C2448]"
+                              : isPast
+                              ? "text-[#0C2448]/55"
+                              : "text-[#0C2448]/40"
+                          }`}
+                        >
+                          {step.title}
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <p className="mt-6 max-w-md text-sm leading-6 text-[#0C2448]/55">
                 Scroll to see how a single relationship carries the transaction
                 from requirement to shipment.
               </p>
-
-              {/* Progress dots */}
-              <div className="mt-6 flex gap-1.5">
-                {processSteps.map((_, i) => (
-                  <span
-                    key={i}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      i === activeIndex
-                        ? "w-8 bg-[#BB7D3E]"
-                        : i < activeIndex
-                        ? "w-1.5 bg-[#0C2448]/40"
-                        : "w-1.5 bg-[#0C2448]/15"
-                    }`}
-                  />
-                ))}
-              </div>
             </div>
 
-            {/* Stacked cards. overflow-hidden clips the not-yet-active cards
-                sitting below the frame so nothing peeks under the current
-                card. */}
-            <div className="relative h-[320px] overflow-hidden rounded-3xl xl:h-[400px]">
+            {/* Right: active step card stack with big background number */}
+            <div className="relative h-[380px] overflow-hidden rounded-3xl xl:h-[440px]">
               {processSteps.map((step, i) => (
                 <StackedCard
                   key={step.title}

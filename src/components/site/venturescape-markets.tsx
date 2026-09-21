@@ -17,16 +17,13 @@ import { marketSegments } from "@/components/site/venturescape-data";
 import { staggerContainer, riseItem } from "@/components/site/venturescape-shared";
 
 /**
- * Who We Work With — sticky-note board.
+ * Who We Work With — clean feature grid.
  *
- * The 11 market segments live on an off-white "corkboard" as slightly
- * rotated sticky notes in a rotating palette of muted colours. Each note
- * has a matching icon and its own random tilt (-3°..+3°); hovering
- * straightens and lifts it. Warm, casual, workshop-feel — a deliberate
- * contrast to the corporate rectangles elsewhere on the page.
+ * Neutral white cards matching the site's About / Capabilities aesthetic
+ * so the section reads as professional and consistent instead of a
+ * playful sticky-note board.
  */
 
-// Icon per market segment — kept in the same order as marketSegments.
 const iconFor: Record<string, LucideIcon> = {
   "Plywood manufacturers": Layers,
   "Timber importers": Warehouse,
@@ -41,80 +38,19 @@ const iconFor: Record<string, LucideIcon> = {
   "International trading houses": Globe2,
 };
 
-// A muted paper palette. Each entry: note ground, top strip (like a
-// gummed edge), and shadow tone. Deliberately soft so the wall of notes
-// reads as calm, not a candy shop.
-const palette = [
-  { bg: "#F7E3C3", tape: "#EACF9F", ink: "#5A3E17" }, // warm amber
-  { bg: "#E4EBF6", tape: "#C7D5EA", ink: "#1F3A6B" }, // pale sky
-  { bg: "#E9E1D2", tape: "#D4C7AF", ink: "#3F3520" }, // linen
-  { bg: "#F5D6CC", tape: "#EABBAE", ink: "#5C2A20" }, // soft coral
-  { bg: "#DFE6D6", tape: "#C4CFB2", ink: "#2E3B21" }, // sage
-  { bg: "#EEE0EC", tape: "#DBC4D5", ink: "#3D1F3A" }, // lilac
-];
-
-// Deterministic pseudo-random so the tilt doesn't jump between renders.
-function seededTilt(seed: number, range = 3): number {
-  // Simple hash → [-1, 1] → scaled to ±range degrees.
-  const x = Math.sin(seed * 9301 + 49297) * 10000;
-  const r = x - Math.floor(x);
-  return (r * 2 - 1) * range;
-}
-
-function StickyNote({ item, i }: { item: string; i: number }) {
+function SegmentCard({ item }: { item: string }) {
   const Icon = iconFor[item] ?? Factory;
-  const c = palette[i % palette.length];
-  const tilt = seededTilt(i + 1);
   return (
     <motion.article
       variants={riseItem}
-      className="group relative"
-      style={{ rotate: `${tilt}deg`, transformOrigin: "center" }}
-      whileHover={{ rotate: 0, y: -4, scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 200, damping: 18 }}
+      className="group flex h-full flex-col rounded-3xl bg-white p-6 ring-1 ring-[#0C2448]/8 shadow-[0_8px_24px_rgba(12,36,72,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(12,36,72,0.10)] hover:ring-[#0C2448]/12"
     >
-      <div
-        className="relative flex h-full flex-col rounded-[4px] p-5 shadow-[0_10px_24px_rgba(12,36,72,0.15),0_2px_4px_rgba(12,36,72,0.08)] transition-shadow duration-300 group-hover:shadow-[0_18px_36px_rgba(12,36,72,0.20),0_4px_8px_rgba(12,36,72,0.10)]"
-        style={{
-          backgroundColor: c.bg,
-          color: c.ink,
-          backgroundImage:
-            // Faint diagonal fibres so it reads as paper, not a flat swatch.
-            "repeating-linear-gradient(135deg, rgba(0,0,0,0.02) 0 1px, transparent 1px 4px), repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 5px)",
-        }}
-      >
-        {/* Tape strip at the top of the note */}
-        <div
-          aria-hidden
-          className="absolute -top-2 left-1/2 h-4 w-16 -translate-x-1/2 rounded-[2px] opacity-90"
-          style={{
-            backgroundColor: c.tape,
-            boxShadow: "0 2px 4px rgba(12,36,72,0.15)",
-          }}
-        />
-
-        <div className="flex items-start gap-3">
-          <div
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/60"
-            style={{ color: c.ink }}
-          >
-            <Icon className="h-4.5 w-4.5" />
-          </div>
-          <p
-            className="pt-0.5 text-sm font-semibold leading-6"
-            style={{ color: c.ink }}
-          >
-            {item}
-          </p>
-        </div>
-
-        {/* Bottom hint of a subtle underline */}
-        <div
-          aria-hidden
-          className="mt-4 h-px w-full opacity-40"
-          style={{ backgroundColor: c.ink, opacity: 0.15 }}
-        />
+      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-[#0C2448]/10 bg-white shadow-sm transition-colors group-hover:border-[#BB7D3E]/40">
+        <Icon className="h-5 w-5 text-[#BB7D3E]" />
       </div>
+      <p className="text-[15px] font-semibold leading-6 tracking-[-0.01em] text-[#0C2448]">
+        {item}
+      </p>
     </motion.article>
   );
 }
@@ -123,30 +59,8 @@ export default function VenturescapeMarkets() {
   return (
     <section
       id="who-we-work-with"
-      className="relative overflow-hidden border-y border-[#0C2448]/8"
-      style={{ backgroundColor: "#F3ECDC" }}
+      className="relative border-y border-[#0C2448]/8 bg-[#F7F2EB]/40"
     >
-      {/* Cork texture: two layers of low-opacity dot noise for a woven look */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "radial-gradient(rgba(120,90,50,0.32) 1px, transparent 1.4px), radial-gradient(rgba(90,60,30,0.20) 1px, transparent 1.4px)",
-          backgroundSize: "6px 6px, 11px 11px",
-          backgroundPosition: "0 0, 3px 4px",
-        }}
-      />
-      {/* Soft vignette to focus attention on the centre */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(64,42,20,0.10) 100%)",
-        }}
-      />
-
       <div className="relative z-10 mx-auto max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 py-20 md:px-8 md:py-24 lg:px-12 2xl:px-20">
         <div className="flex flex-col items-center gap-4 text-center">
           <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[#BB7D3E]/25 bg-white/80 px-3 py-1 text-[8px] font-medium uppercase tracking-[0.08em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
@@ -155,10 +69,10 @@ export default function VenturescapeMarkets() {
           <h2 className="max-w-3xl text-3xl leading-[0.98] font-semibold tracking-[-0.04em] text-[#0C2448] md:text-5xl">
             Who We Work With
           </h2>
-          {/* On desktop, widen so the copy sits in two comfortable lines
-              instead of a tall paragraph. */}
           <p className="max-w-2xl text-base leading-7 text-[#0C2448]/72 md:max-w-4xl md:text-lg">
-            Venturescape primarily serves businesses that purchase, process, manufacture, distribute or trade wood and wood-based products. The process begins with understanding what the customer actually needs.
+            Venturescape primarily serves businesses that purchase, process,
+            manufacture, distribute or trade wood and wood-based products. The
+            process begins with understanding what the customer actually needs.
           </p>
         </div>
 
@@ -167,10 +81,10 @@ export default function VenturescapeMarkets() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
-          className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-4"
+          className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4"
         >
-          {marketSegments.map((item, i) => (
-            <StickyNote key={item} item={item} i={i} />
+          {marketSegments.map((item) => (
+            <SegmentCard key={item} item={item} />
           ))}
         </motion.div>
       </div>
