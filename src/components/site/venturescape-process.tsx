@@ -160,7 +160,7 @@ export default function VenturescapeProcess() {
         {/* Sticky pins below the fixed nav (~96px). Height clipped to
             match, so justify-center centres against the VISIBLE viewport
             (not the region hidden behind the nav). */}
-        <div className="sticky top-[96px] flex h-[calc(100vh-96px)] flex-col justify-center gap-4 py-4 xl:gap-6 xl:py-8">
+        <div className="sticky top-[96px] flex min-h-[calc(100vh-96px)] flex-col justify-center gap-4 py-4 xl:gap-6 xl:py-8">
           {/* Compact section header */}
           <div className="mx-auto w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 md:px-8 lg:px-12 2xl:px-20 text-center">
             <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[#BB7D3E]/25 bg-white/80 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)]">

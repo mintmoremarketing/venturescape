@@ -63,7 +63,7 @@ export default function VenturescapeCapabilities() {
       >
         {/* Sticky pins below the fixed nav; height clipped to the visible
             viewport so justify-center centres against what the user sees. */}
-        <div className="sticky top-[72px] flex h-[calc(100vh-72px)] flex-col justify-center gap-5 py-6 md:top-[96px] md:h-[calc(100vh-96px)] md:gap-6 md:py-10 xl:gap-8 xl:py-14">
+        <div className="sticky top-[72px] flex min-h-[calc(100vh-72px)] flex-col justify-center gap-5 py-6 md:top-[96px] md:min-h-[calc(100vh-96px)] md:gap-6 md:py-10 xl:gap-8 xl:py-14">
           {/* Compact section header pinned above the story */}
           <div className="mx-auto w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 text-center md:px-8 lg:px-12 2xl:px-20">
             <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[#BB7D3E]/25 bg-white/80 px-3 py-1 text-[9px] font-medium uppercase tracking-[0.12em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
