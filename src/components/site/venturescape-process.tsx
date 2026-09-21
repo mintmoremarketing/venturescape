@@ -123,7 +123,7 @@ export default function VenturescapeProcess() {
   return (
     <section
       id="how-we-work"
-      className="relative z-10 bg-[#FBF8F2]"
+      className="relative z-20 overflow-clip bg-[#FBF8F2]"
     >
       {/* Mobile: header + swipeable carousel (no scroll-pin). */}
       <div className="mx-auto max-w-[1400px] px-5 pt-20 md:hidden">

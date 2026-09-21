@@ -55,7 +55,7 @@ export default function VenturescapeCapabilities() {
   const ActiveIcon = capabilityItems[activeIndex].icon;
 
   return (
-    <section id="capabilities">
+    <section id="capabilities" className="relative overflow-clip">
       <div
         ref={wrapperRef}
         className="relative overflow-clip"
