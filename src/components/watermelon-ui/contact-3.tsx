@@ -57,27 +57,28 @@ export const WHATSAPP_OPENING_MESSAGE =
 export const VENTURESCAPE_ENQUIRY_EMAIL = "venturescapetrading.fzco@gmail.com";
 
 // Common country dialing codes ordered by likely audience for Venturescape.
-const countryCodes: { code: string; label: string }[] = [
-  { code: "+971", label: "UAE" },
-  { code: "+91", label: "India" },
-  { code: "+966", label: "Saudi Arabia" },
-  { code: "+974", label: "Qatar" },
-  { code: "+968", label: "Oman" },
-  { code: "+973", label: "Bahrain" },
-  { code: "+965", label: "Kuwait" },
-  { code: "+20", label: "Egypt" },
-  { code: "+90", label: "Türkiye" },
-  { code: "+27", label: "South Africa" },
-  { code: "+254", label: "Kenya" },
-  { code: "+86", label: "China" },
-  { code: "+84", label: "Vietnam" },
-  { code: "+65", label: "Singapore" },
-  { code: "+62", label: "Indonesia" },
-  { code: "+55", label: "Brazil" },
-  { code: "+44", label: "UK" },
-  { code: "+1", label: "USA / Canada" },
-  { code: "+49", label: "Germany" },
-  { code: "+33", label: "France" },
+// `iso` is the flagcdn.com two-letter code used to render the flag image.
+const countryCodes: { code: string; label: string; iso: string }[] = [
+  { code: "+91", label: "India", iso: "in" },
+  { code: "+971", label: "UAE", iso: "ae" },
+  { code: "+966", label: "Saudi Arabia", iso: "sa" },
+  { code: "+974", label: "Qatar", iso: "qa" },
+  { code: "+968", label: "Oman", iso: "om" },
+  { code: "+973", label: "Bahrain", iso: "bh" },
+  { code: "+965", label: "Kuwait", iso: "kw" },
+  { code: "+20", label: "Egypt", iso: "eg" },
+  { code: "+90", label: "Türkiye", iso: "tr" },
+  { code: "+27", label: "South Africa", iso: "za" },
+  { code: "+254", label: "Kenya", iso: "ke" },
+  { code: "+86", label: "China", iso: "cn" },
+  { code: "+84", label: "Vietnam", iso: "vn" },
+  { code: "+65", label: "Singapore", iso: "sg" },
+  { code: "+62", label: "Indonesia", iso: "id" },
+  { code: "+55", label: "Brazil", iso: "br" },
+  { code: "+44", label: "UK", iso: "gb" },
+  { code: "+1", label: "USA / Canada", iso: "us" },
+  { code: "+49", label: "Germany", iso: "de" },
+  { code: "+33", label: "France", iso: "fr" },
 ];
 
 const destinations = [
@@ -127,7 +128,7 @@ export default function VenturescapeEnquirySection() {
   const [formData, setFormData] = useState<EnquiryFormData>({
     fullName: "",
     email: "",
-    phoneCountry: "+971",
+    phoneCountry: "+91",
     phone: "",
     company: "",
     product: "",
@@ -187,7 +188,7 @@ export default function VenturescapeEnquirySection() {
     setFormData({
       fullName: "",
       email: "",
-      phoneCountry: "+971",
+      phoneCountry: "+91",
       phone: "",
       company: "",
       product: "",
@@ -389,27 +390,44 @@ export default function VenturescapeEnquirySection() {
                     <div
                       className={`relative flex items-stretch overflow-hidden rounded-md bg-white ${fieldShadow}`}
                     >
-                      <IoCall className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
-                      <select
-                        aria-label="Country code"
+                      <IoCall className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-[#0C2448]/72" />
+                      <Select
                         value={formData.phoneCountry}
-                        onChange={(e) =>
-                          updateField("phoneCountry", e.target.value)
+                        onValueChange={(v) =>
+                          updateField("phoneCountry", v ?? "")
                         }
-                        className="appearance-none border-0 border-r border-[#0C2448]/10 bg-transparent pl-10 pr-8 text-sm text-[#0C2448] outline-none focus-visible:ring-2 focus-visible:ring-[#0C2448]/15"
-                        style={{
-                          backgroundImage:
-                            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%230C2448' fill-opacity='0.5' d='M0 0l5 6 5-6z'/></svg>\")",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 10px center",
-                        }}
                       >
-                        {countryCodes.map((c) => (
-                          <option key={c.code} value={c.code}>
-                            {c.code} {c.label}
-                          </option>
-                        ))}
-                      </select>
+                        <SelectTrigger
+                          aria-label="Country code"
+                          className="h-full w-auto shrink-0 rounded-none border-0 border-r border-[#0C2448]/10 bg-transparent pl-10 pr-2 text-sm text-[#0C2448] shadow-none focus:ring-0 focus-visible:ring-0"
+                        >
+                          {/* Only the dial code shown in the closed state so
+                              the field stays compact on mobile; the dropdown
+                              opens to a longer list with flags and labels. */}
+                          <span>{formData.phoneCountry}</span>
+                        </SelectTrigger>
+                        <SelectContent className={selectContentClass}>
+                          {countryCodes.map((c) => (
+                            <SelectItem
+                              key={c.code}
+                              value={c.code}
+                              className="rounded-lg"
+                            >
+                              <span className="flex items-center gap-2">
+                                <img
+                                  src={`https://flagcdn.com/w40/${c.iso}.png`}
+                                  alt=""
+                                  className="h-3 w-4.5 rounded-xs border border-[#0C2448]/10 object-cover"
+                                />
+                                <span>{c.code}</span>
+                                <span className="text-[#0C2448]/55">
+                                  {c.label}
+                                </span>
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <Input
                         id="phone"
                         type="tel"
