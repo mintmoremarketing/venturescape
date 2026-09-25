@@ -1,216 +1,244 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { capabilityItems } from "@/components/site/venturescape-data";
+import MobileCarousel from "@/components/site/mobile-carousel";
+import { motion, useReducedMotion } from "framer-motion";
+
+type Capability = (typeof capabilityItems)[number];
+
+const unsplash = (id: string, w = 1200) =>
+  `https://images.unsplash.com/${id}?w=${w}&q=70&auto=format&fit=crop`;
+
+// One photo per capability, in capabilityItems order.
+const capabilityImages = [
+  "/products/custom.jpg", // Product Sourcing — logs
+  "/products/plywood.jpg", // Specification — graded samples
+  unsplash("photo-1521791136064-7986c2920216"), // Commercial — handshake
+  unsplash("photo-1450101499163-c8848c66ca85"), // Documentation — signing
+  unsplash("photo-1578575437130-527eed3abbec"), // Shipping — container vessel
+  unsplash("photo-1554224155-6726b3ff858f"), // Trade finance — statements
+];
+
+const sectionBackground = unsplash("photo-1494412574643-ff11b0a5c1c3", 1800);
 
 /**
- * Our Capabilities — sticky-scroll accordion on all breakpoints.
- *
- * A tall wrapper pins the section for its full length. Scroll progress
- * drives which of the six capabilities is active. On desktop the layout
- * is a two-column split (numbered list + detail card); on mobile it
- * stacks into a compact scroll-jacked panel with a progress bar and the
- * active detail card.
+ * Desktop bento: photo tiles and solid boxes alternate so the grid never reads
+ * as six identical squares.
+ *   a a b c
+ *   a a d d
+ *   e e e f
  */
+const bentoArea = ["a", "b", "c", "d", "e", "f"];
+const bentoVariant: ("photo" | "box" | "split")[] = ["photo", "box", "photo", "split", "photo", "box"];
+
+function Pill({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+  return (
+    <span
+      className={`inline-block w-fit rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${
+        dark ? "bg-white/12 text-white/85 backdrop-blur-sm" : "bg-[#0C2448]/[0.06] text-[#0C2448]/72"
+      }`}
+    >
+      {children}
+    </span>
+  );
+}
+
+function Index({ i, dark = false }: { i: number; dark?: boolean }) {
+  return (
+    <span className={`text-xs font-semibold tracking-[0.18em] ${dark ? "text-[#E3B57F]" : "text-[#BB7D3E]"}`}>
+      {String(i + 1).padStart(2, "0")}
+    </span>
+  );
+}
+
+/** Full-bleed photo with the copy sitting on a navy gradient. */
+function PhotoTile({ capability, i, large }: { capability: Capability; i: number; large: boolean }) {
+  const Icon = capability.icon;
+  return (
+    <article className="group relative flex h-full flex-col justify-end overflow-hidden rounded-3xl bg-[#0C2448] ring-1 ring-white/10">
+      <img
+        src={capabilityImages[i]}
+        alt=""
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#07172F] via-[#07172F]/70 to-[#07172F]/5" />
+      <div className="absolute top-5 left-5 flex h-11 w-11 items-center justify-center rounded-xl bg-white/12 ring-1 ring-white/20 backdrop-blur-md">
+        <Icon className="h-5 w-5 text-white" />
+      </div>
+      <div className="relative p-6 xl:p-7">
+        <div className="flex items-center gap-3">
+          <Index i={i} dark />
+          {capability.pill && <Pill dark>{capability.pill}</Pill>}
+        </div>
+        <h3
+          className={`mt-3 font-semibold tracking-[-0.02em] text-white ${
+            large ? "text-3xl xl:text-4xl" : "text-xl xl:text-2xl"
+          }`}
+        >
+          {capability.title}
+        </h3>
+        <p
+          className={`mt-2 text-white/75 ${
+            large ? "max-w-md text-base leading-7" : "text-sm leading-6"
+          }`}
+        >
+          {capability.body}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+/** Solid box with a round photo inset — the counterweight to the photo tiles. */
+function BoxTile({ capability, i, accent }: { capability: Capability; i: number; accent: boolean }) {
+  const Icon = capability.icon;
+  return (
+    <article
+      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl p-6 xl:p-7 ${
+        accent ? "bg-[#BB7D3E] text-white" : "bg-[#FBF8F2] text-[#0C2448]"
+      }`}
+    >
+      <div className="absolute -top-8 -right-8 h-32 w-32 overflow-hidden rounded-full ring-8 ring-white/25 transition-transform duration-500 group-hover:scale-110">
+        <img src={capabilityImages[i]} alt="" loading="lazy" className="h-full w-full object-cover" />
+      </div>
+      <Icon className={`h-7 w-7 ${accent ? "text-white" : "text-[#BB7D3E]"}`} />
+      <div className="mt-auto">
+        <div className="flex items-center gap-3">
+          {accent ? (
+            <span className="text-xs font-semibold tracking-[0.18em] text-white/80">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+          ) : (
+            <Index i={i} />
+          )}
+        </div>
+        <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] xl:text-2xl">{capability.title}</h3>
+        <p className={`mt-2 text-sm leading-6 ${accent ? "text-white/85" : "text-[#0C2448]/72"}`}>
+          {capability.body}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+/** Wide card: copy on the left, photo bleeding off the right edge. */
+function SplitTile({ capability, i }: { capability: Capability; i: number }) {
+  const Icon = capability.icon;
+  return (
+    <article className="group relative grid h-full grid-cols-[1.15fr_1fr] overflow-hidden rounded-3xl bg-white">
+      <div className="flex flex-col p-6 xl:p-7">
+        <Icon className="h-7 w-7 text-[#BB7D3E]" />
+        <div className="mt-auto">
+          <div className="flex items-center gap-3">
+            <Index i={i} />
+            {capability.pill && <Pill>{capability.pill}</Pill>}
+          </div>
+          <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#0C2448] xl:text-2xl">
+            {capability.title}
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-[#0C2448]/72">{capability.body}</p>
+        </div>
+      </div>
+      <div className="relative overflow-hidden [clip-path:polygon(14%_0,100%_0,100%_100%,0_100%)]">
+        <img
+          src={capabilityImages[i]}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+      </div>
+    </article>
+  );
+}
+
+/** Mobile/tablet card: photo on top, copy below. */
+function CarouselCard({ capability, i }: { capability: Capability; i: number }) {
+  const Icon = capability.icon;
+  return (
+    <article className="flex h-full w-full flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-white/10">
+      <div className="relative h-44 shrink-0 sm:h-52">
+        <img src={capabilityImages[i]} alt="" loading="lazy" className="h-full w-full object-cover" />
+        <div className="absolute bottom-0 left-6 flex h-12 w-12 translate-y-1/2 items-center justify-center rounded-xl bg-white shadow-md ring-1 ring-[#0C2448]/10">
+          <Icon className="h-6 w-6 text-[#BB7D3E]" />
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col p-6 pt-10">
+        <div className="flex items-center gap-3">
+          <Index i={i} />
+          {capability.pill && <Pill>{capability.pill}</Pill>}
+        </div>
+        <h3 className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-[#0C2448]">{capability.title}</h3>
+        <p className="mt-3 text-sm leading-6 text-[#0C2448]/72 sm:text-base sm:leading-7">{capability.body}</p>
+      </div>
+    </article>
+  );
+}
+
 export default function VenturescapeCapabilities() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  // Direction of the last index change — +1 if we advanced forward
-  // (scrolling down), -1 if we went back (scrolling up). Drives which
-  // side the animated card slides in from.
-  const [direction, setDirection] = useState(1);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const prevIndex = useRef(0);
-
-  const { scrollYProgress } = useScroll({
-    target: wrapperRef,
-    offset: ["start start", "end end"],
-  });
-
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (v) => {
-      const i = Math.min(
-        capabilityItems.length - 1,
-        Math.max(0, Math.floor(v * capabilityItems.length)),
-      );
-      if (i !== prevIndex.current) {
-        setDirection(i > prevIndex.current ? 1 : -1);
-        prevIndex.current = i;
-        setActiveIndex(i);
-      }
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
-
-  const goTo = (i: number) => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) return;
-    // Preset the direction so the click-driven slide matches the jump.
-    setDirection(i >= prevIndex.current ? 1 : -1);
-    const slice = 1 / capabilityItems.length;
-    const targetProgress = slice * i + slice * 0.5;
-    const total = wrapper.offsetHeight - window.innerHeight;
-    const top = wrapper.offsetTop + targetProgress * total;
-    window.scrollTo({ top, behavior: "smooth" });
-  };
-
-  const ActiveIcon = capabilityItems[activeIndex].icon;
+  const reduce = useReducedMotion();
 
   return (
-    <section id="capabilities" className="relative overflow-clip">
-      <div
-        ref={wrapperRef}
-        className="relative overflow-clip"
-        style={{ height: `${capabilityItems.length * 70}vh` }}
-      >
-        {/* Sticky pins below the fixed nav; height clipped to the visible
-            viewport so justify-center centres against what the user sees. */}
-        <div className="sticky top-[72px] flex min-h-[calc(100vh-72px)] flex-col justify-center gap-5 py-6 md:top-[96px] md:min-h-[calc(100vh-96px)] md:gap-6 md:py-10 xl:gap-8 xl:py-14">
-          {/* Compact section header pinned above the story */}
-          <div className="mx-auto w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 text-center md:px-8 lg:px-12 2xl:px-20">
-            <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[#BB7D3E]/25 bg-white/80 px-3 py-1 text-[9px] font-medium uppercase tracking-[0.12em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
-              From Requirement to Shipment.
-            </span>
-            <h2 className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-[#0C2448] sm:text-3xl md:text-4xl xl:text-5xl">
-              Our Capabilities
-            </h2>
-            <p className="mx-auto mt-2 hidden max-w-4xl text-sm leading-6 text-[#0C2448]/72 md:mt-3 md:block md:text-base">
-              International trading requires considerably more than matching a
-              buyer with a seller. Venturescape coordinates specifications,
-              documentation, banking, logistics and multiple parties through
-              one commercial relationship.
-            </p>
-          </div>
+    <section id="capabilities" className="relative z-20 isolate overflow-hidden bg-[#0C2448] py-20 md:py-28">
+      {/* Background photo: aerial container port, washed into the navy */}
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <img
+          src={sectionBackground}
+          alt=""
+          loading="lazy"
+          className="h-full w-full object-cover opacity-30 grayscale"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0C2448] via-[#0C2448]/80 to-[#0C2448]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(187,125,62,0.22),transparent_55%)]" />
+      </div>
 
-          {/* Mobile progress bar — thin line filling from left as user
-              scrolls through the six items. */}
-          <div className="mx-auto w-full max-w-[420px] px-5 lg:hidden">
-            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0C2448]/60">
-              <span className="text-[#BB7D3E]">
-                {String(activeIndex + 1).padStart(2, "0")}
-              </span>
-              <div className="relative h-1 flex-1 overflow-hidden rounded-full bg-[#0C2448]/10">
-                <motion.div
-                  className="absolute inset-y-0 left-0 rounded-full bg-[#BB7D3E]"
-                  style={{
-                    width: `${((activeIndex + 1) / capabilityItems.length) * 100}%`,
-                  }}
-                  transition={{ duration: 0.4 }}
-                />
-              </div>
-              <span>
-                {String(capabilityItems.length).padStart(2, "0")}
-              </span>
-            </div>
-            {/* Tap-through dots so users can jump. */}
-            <div className="mt-3 flex items-center justify-center gap-1.5">
-              {capabilityItems.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => goTo(i)}
-                  aria-label={`Show capability ${i + 1}`}
-                  className={`h-1.5 rounded-full transition-all ${
-                    i === activeIndex
-                      ? "w-6 bg-[#BB7D3E]"
-                      : "w-1.5 bg-[#0C2448]/20"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="mx-auto grid w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] gap-6 px-5 md:px-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14 lg:px-12 2xl:px-20">
-            {/* Desktop-only numbered nav */}
-            <div className="hidden lg:block">
-              <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0C2448]/60">
-                Six coordinated capabilities
-              </p>
-              <ul className="space-y-1">
-                {capabilityItems.map((item, i) => {
-                  const isActive = i === activeIndex;
-                  return (
-                    <li key={item.title}>
-                      <button
-                        type="button"
-                        onClick={() => goTo(i)}
-                        className={`group relative flex w-full items-baseline gap-4 rounded-2xl py-3 pr-4 pl-4 text-left transition-all ${
-                          isActive
-                            ? "bg-[#0C2448]/[0.045]"
-                            : "hover:bg-[#0C2448]/[0.025]"
-                        }`}
-                      >
-                        <span
-                          className={`w-9 shrink-0 text-xs font-semibold tracking-[0.14em] transition-colors ${
-                            isActive ? "text-[#BB7D3E]" : "text-[#0C2448]/40"
-                          }`}
-                        >
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span
-                          className={`text-lg font-semibold tracking-[-0.01em] transition-colors ${
-                            isActive ? "text-[#0C2448]" : "text-[#0C2448]/55"
-                          }`}
-                        >
-                          {item.title}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            {/* Detail card. overflow-hidden on the outer shell so the
-                incoming card can slide in from the right without spilling. */}
-            {/* Fixed height so the card is uniform across every capability
-                regardless of body length — no jumping between slides. */}
-            <div className="relative h-[320px] overflow-hidden rounded-3xl bg-white shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 sm:h-[360px] lg:h-[400px]">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -top-6 -right-4 z-0 select-none text-[120px] font-bold leading-none text-[#0C2448]/[0.05] sm:text-[160px]"
-              >
-                {String(activeIndex + 1).padStart(2, "0")}
-              </div>
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={activeIndex}
-                  custom={direction}
-                  variants={{
-                    enter: (dir: number) => ({
-                      opacity: 0,
-                      x: dir > 0 ? 60 : -60,
-                    }),
-                    center: { opacity: 1, x: 0 },
-                    exit: (dir: number) => ({
-                      opacity: 0,
-                      x: dir > 0 ? -40 : 40,
-                    }),
-                  }}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative z-10 flex h-full flex-col p-6 sm:p-8 lg:p-10"
-                >
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-[#0C2448]/10 bg-white shadow-sm sm:mb-6 sm:h-14 sm:w-14">
-                    <ActiveIcon className="h-6 w-6 text-[#BB7D3E] sm:h-7 sm:w-7" />
-                  </div>
-                  {capabilityItems[activeIndex].pill && (
-                    <span className="mb-2 inline-block w-fit rounded-full bg-[#0C2448]/[0.05] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C2448]/72 sm:mb-3">
-                      {capabilityItems[activeIndex].pill}
-                    </span>
-                  )}
-                  <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[#0C2448] sm:text-3xl">
-                    {capabilityItems[activeIndex].title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-[#0C2448]/72 sm:mt-4 sm:text-base md:text-lg md:leading-8">
-                    {capabilityItems[activeIndex].body}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+      <div className="mx-auto flex w-full flex-col items-center">
+        {/* Header */}
+        <div className="flex flex-col items-center gap-4 px-5 text-center md:px-8">
+          <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[9px] font-medium uppercase tracking-[0.12em] text-[#E3B57F] backdrop-blur-sm sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
+            From Requirement to Shipment.
+          </span>
+          <h2 className="mt-3 max-w-3xl text-3xl leading-[0.98] font-semibold tracking-[-0.04em] text-white sm:text-4xl xl:text-5xl">
+            Our Capabilities
+          </h2>
+          <p className="mx-auto mt-2 max-w-4xl text-sm leading-6 text-white/70 md:mt-3 md:text-base">
+            International trading requires considerably more than matching a buyer with a seller. Venturescape coordinates specifications, documentation, banking, logistics and multiple parties through one commercial relationship.
+          </p>
         </div>
+
+        {/* Mobile & tablet: swipeable carousel */}
+        <div className="mt-10 w-full px-5 md:px-8 lg:hidden">
+          <MobileCarousel
+            className="w-full"
+            light
+            ariaLabel="Capabilities carousel"
+            items={capabilityItems.map((item, i) => (
+              <CarouselCard key={item.title} capability={item} i={i} />
+            ))}
+          />
+        </div>
+
+        {/* Desktop: bento of photo tiles and boxes */}
+        <ul
+          className="mx-auto mt-16 hidden w-full max-w-[1320px] grid-cols-4 grid-rows-[repeat(3,minmax(290px,auto))] gap-5 px-8 lg:grid xl:px-12"
+          style={{ gridTemplateAreas: '"a a b c" "a a d d" "e e e f"' }}
+        >
+          {capabilityItems.map((item, i) => {
+            const variant = bentoVariant[i];
+            return (
+              <motion.li
+                key={item.title}
+                style={{ gridArea: bentoArea[i] }}
+                initial={reduce ? false : { opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {variant === "photo" && <PhotoTile capability={item} i={i} large={i === 0} />}
+                {variant === "box" && <BoxTile capability={item} i={i} accent={i === 5} />}
+                {variant === "split" && <SplitTile capability={item} i={i} />}
+              </motion.li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

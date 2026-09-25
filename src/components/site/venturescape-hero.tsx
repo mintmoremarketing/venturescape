@@ -52,6 +52,26 @@ export default function VenturescapeHero() {
             "linear-gradient(180deg, rgba(2,0,36,1) 10%, rgb(3, 3, 50) 57%, rgb(21, 21, 84) 100%)",
         }}
       />
+      {/* Backdrop photo: misty forest, strongest on the right where the hero is empty */}
+      <motion.img
+        aria-hidden
+        src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=2400&q=75&auto=format&fit=crop"
+        alt=""
+        fetchPriority="high"
+        initial={{ scale: 1.08 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-55 motion-reduce:!transform-none"
+      />
+      {/* Navy wash so the headline side stays readable */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(2,0,36,0.97) 0%, rgba(3,3,50,0.88) 38%, rgba(3,3,50,0.35) 72%, rgba(21,21,84,0.25) 100%), linear-gradient(180deg, rgba(2,0,36,0.55) 0%, transparent 30%, transparent 70%, rgba(21,21,84,0.85) 100%)",
+        }}
+      />
       {/* Depth glows */}
       <div
         aria-hidden

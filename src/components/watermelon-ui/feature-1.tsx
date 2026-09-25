@@ -94,13 +94,9 @@ export default function VenturescapeWhyFeature() {
   // Panel gesture state: while the user is actively swiping/wheeling on
   // the detail panel, pause auto-cycle so their gesture wins.
   const [interacting, setInteracting] = useState(false);
-  const touchStartY = useRef<number | null>(null);
-  const touchLastY = useRef<number | null>(null);
-  const wheelAccum = useRef(0);
-  const wheelCooldown = useRef(false);
 
   // Auto-cycle through the eight commitments every ~2.2s so the section
-  // reads on its own. Pauses while the user is swiping/wheeling the panel.
+  // reads on its own. Pauses while the user is interacting (hovering).
   useEffect(() => {
     if (interacting) return;
     const id = window.setTimeout(() => {
@@ -108,63 +104,6 @@ export default function VenturescapeWhyFeature() {
     }, 2200);
     return () => window.clearTimeout(id);
   }, [activeIndex, interacting]);
-
-  const goNext = () => setActiveIndex((i) => (i + 1) % points.length);
-  const goPrev = () =>
-    setActiveIndex((i) => (i - 1 + points.length) % points.length);
-
-  const SWIPE_THRESHOLD = 48; // px vertical distance to trigger a change
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-    touchLastY.current = e.touches[0].clientY;
-    setInteracting(true);
-  };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (touchStartY.current === null) return;
-    const y = e.touches[0].clientY;
-    touchLastY.current = y;
-    // Once the vertical drag passes the threshold, own the gesture — stop
-    // the page from scrolling underneath.
-    if (Math.abs(y - touchStartY.current) > 12 && e.cancelable) {
-      e.preventDefault();
-    }
-  };
-  const handleTouchEnd = () => {
-    if (touchStartY.current === null || touchLastY.current === null) {
-      setInteracting(false);
-      return;
-    }
-    const diff = touchStartY.current - touchLastY.current;
-    if (Math.abs(diff) > SWIPE_THRESHOLD) {
-      if (diff > 0) goNext();
-      else goPrev();
-    }
-    touchStartY.current = null;
-    touchLastY.current = null;
-    // Small tick so auto-cycle doesn't fire instantly after the swipe.
-    window.setTimeout(() => setInteracting(false), 400);
-  };
-
-  // Desktop mouse wheel over the panel navigates too, without scrolling
-  // the page. Accumulate small deltas and cool down between steps so it
-  // doesn't fly through the whole set on one flick.
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    if (wheelCooldown.current) return;
-    wheelAccum.current += e.deltaY;
-    if (Math.abs(wheelAccum.current) > 40) {
-      if (wheelAccum.current > 0) goNext();
-      else goPrev();
-      wheelAccum.current = 0;
-      wheelCooldown.current = true;
-      window.setTimeout(() => {
-        wheelCooldown.current = false;
-      }, 350);
-    }
-    setInteracting(true);
-    window.setTimeout(() => setInteracting(false), 800);
-  };
 
   return (
     <section
@@ -187,12 +126,9 @@ export default function VenturescapeWhyFeature() {
         {/* Mobile / tablet: single detail card, dots on left, swipe / wheel
             to step. */}
         <div
-          className="relative min-h-[380px] overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-x] sm:min-h-[420px] md:p-12 md:pl-14 lg:hidden"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onTouchCancel={handleTouchEnd}
-          onWheel={handleWheel}
+          className="relative min-h-[380px] overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none sm:min-h-[420px] md:p-12 md:pl-14 lg:hidden"
+          onMouseEnter={() => setInteracting(true)}
+          onMouseLeave={() => setInteracting(false)}
         >
           <div className="absolute left-3 top-1/2 flex -translate-y-1/2 flex-col gap-2.5 md:left-5">
             {points.map((_, i) => {
@@ -294,7 +230,8 @@ export default function VenturescapeWhyFeature() {
 
           <div
             className="relative flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-white p-10 shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 select-none xl:p-14"
-            onWheel={handleWheel}
+            onMouseEnter={() => setInteracting(true)}
+            onMouseLeave={() => setInteracting(false)}
           >
             <div
               aria-hidden
