@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { productItems } from "@/components/site/venturescape-data";
 import { SectionIntro } from "@/components/site/venturescape-shared";
@@ -87,7 +87,9 @@ const productDetails: Record<string, ProductDetail> = {
 
 export default function VenturescapeProducts() {
   const defaultTab = productItems[0]?.title ?? "Timber";
+  const [activeTab, setActiveTab] = useState(defaultTab);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const centerTabInScroller = (value: string) => {
     const scroller = scrollerRef.current;
@@ -105,6 +107,44 @@ export default function VenturescapeProducts() {
     scroller.scrollTo({ left: target, behavior: "smooth" });
   };
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    // Radix auto-focuses the newly active TabsContent panel; combined
+    // with `html { scroll-behavior: smooth }` the browser smooth-scrolls
+    // the section away. Snapshot the page scrollY, restore it, then
+    // centre the tab in its horizontal scroller.
+    const y = window.scrollY;
+    requestAnimationFrame(() => {
+      if (window.scrollY !== y) {
+        window.scrollTo({ top: y, behavior: "instant" as ScrollBehavior });
+      }
+      centerTabInScroller(value);
+    });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    
+    // Swipe threshold
+    if (Math.abs(diff) > 50) {
+      const currentIndex = productItems.findIndex((item) => item.title === activeTab);
+      if (diff > 0 && currentIndex < productItems.length - 1) {
+        // Swipe left -> go next
+        handleTabChange(productItems[currentIndex + 1].title);
+      } else if (diff < 0 && currentIndex > 0) {
+        // Swipe right -> go prev
+        handleTabChange(productItems[currentIndex - 1].title);
+      }
+    }
+    touchStartX.current = null;
+  };
+
   return (
     <section id="products" className="border-y border-[#0C2448]/8 bg-white/55">
       <div className="mx-auto flex max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] flex-col items-center px-5 py-20 md:px-8 md:py-24 lg:px-12 2xl:px-20">
@@ -115,21 +155,16 @@ export default function VenturescapeProducts() {
           align="center"
         />
 
+        {/* Preload images so they appear instantly when switching tabs */}
+        <div aria-hidden className="hidden">
+          {productItems.map((item) => (
+            <img key={`preload-${item.title}`} src={item.image} alt="" />
+          ))}
+        </div>
+
         <Tabs
-          defaultValue={defaultTab}
-          onValueChange={(value) => {
-            // Radix auto-focuses the newly active TabsContent panel; combined
-            // with `html { scroll-behavior: smooth }` the browser smooth-scrolls
-            // the section away. Snapshot the page scrollY, restore it, then
-            // centre the tab in its horizontal scroller.
-            const y = window.scrollY;
-            requestAnimationFrame(() => {
-              if (window.scrollY !== y) {
-                window.scrollTo({ top: y, behavior: "instant" as ScrollBehavior });
-              }
-              centerTabInScroller(value);
-            });
-          }}
+          value={activeTab}
+          onValueChange={handleTabChange}
           className="mt-12 w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] gap-6"
         >
           <div
@@ -160,13 +195,16 @@ export default function VenturescapeProducts() {
                 value={item.title}
                 tabIndex={-1}
                 className="animate-in fade-in slide-in-from-bottom-2 m-0 duration-300 focus:outline-none"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
               >
                 <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
                   <div className="relative min-h-[380px] overflow-hidden rounded-3xl bg-[#0C2448]/[0.06] lg:min-h-0">
                     <img
                       src={item.image}
                       alt={item.title}
-                      loading="lazy"
+                      loading="eager"
+                      fetchPriority="high"
                       onError={(e) => {
                         const img = e.currentTarget;
                         const fallback = `https://picsum.photos/seed/${encodeURIComponent(item.title)}/1600/1000`;

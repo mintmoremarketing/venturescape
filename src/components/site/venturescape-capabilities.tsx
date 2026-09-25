@@ -41,17 +41,10 @@ function Pill({ children, dark = false }: { children: React.ReactNode; dark?: bo
   );
 }
 
-function Index({ i, dark = false }: { i: number; dark?: boolean }) {
-  return (
-    <span className={`text-xs font-semibold tracking-[0.18em] ${dark ? "text-[#E3B57F]" : "text-[#BB7D3E]"}`}>
-      {String(i + 1).padStart(2, "0")}
-    </span>
-  );
-}
+
 
 /** Full-bleed photo with the copy sitting on a navy gradient. */
 function PhotoTile({ capability, i, large }: { capability: Capability; i: number; large: boolean }) {
-  const Icon = capability.icon;
   return (
     <article className="group relative flex h-full flex-col justify-end overflow-hidden rounded-3xl bg-[#0C2448] ring-1 ring-white/10">
       <img
@@ -61,14 +54,8 @@ function PhotoTile({ capability, i, large }: { capability: Capability; i: number
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#07172F] via-[#07172F]/70 to-[#07172F]/5" />
-      <div className="absolute top-5 left-5 flex h-11 w-11 items-center justify-center rounded-xl bg-white/12 ring-1 ring-white/20 backdrop-blur-md">
-        <Icon className="h-5 w-5 text-white" />
-      </div>
       <div className="relative p-6 xl:p-7">
-        <div className="flex items-center gap-3">
-          <Index i={i} dark />
-          {capability.pill && <Pill dark>{capability.pill}</Pill>}
-        </div>
+        {capability.pill && <Pill dark>{capability.pill}</Pill>}
         <h3
           className={`mt-3 font-semibold tracking-[-0.02em] text-white ${
             large ? "text-3xl xl:text-4xl" : "text-xl xl:text-2xl"
@@ -90,7 +77,6 @@ function PhotoTile({ capability, i, large }: { capability: Capability; i: number
 
 /** Solid box with a round photo inset — the counterweight to the photo tiles. */
 function BoxTile({ capability, i, accent }: { capability: Capability; i: number; accent: boolean }) {
-  const Icon = capability.icon;
   return (
     <article
       className={`group relative flex h-full flex-col overflow-hidden rounded-3xl p-6 xl:p-7 ${
@@ -100,17 +86,7 @@ function BoxTile({ capability, i, accent }: { capability: Capability; i: number;
       <div className="absolute -top-8 -right-8 h-32 w-32 overflow-hidden rounded-full ring-8 ring-white/25 transition-transform duration-500 group-hover:scale-110">
         <img src={capabilityImages[i]} alt="" loading="lazy" className="h-full w-full object-cover" />
       </div>
-      <Icon className={`h-7 w-7 ${accent ? "text-white" : "text-[#BB7D3E]"}`} />
-      <div className="mt-auto">
-        <div className="flex items-center gap-3">
-          {accent ? (
-            <span className="text-xs font-semibold tracking-[0.18em] text-white/80">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-          ) : (
-            <Index i={i} />
-          )}
-        </div>
+      <div className="mt-auto pt-16">
         <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] xl:text-2xl">{capability.title}</h3>
         <p className={`mt-2 text-sm leading-6 ${accent ? "text-white/85" : "text-[#0C2448]/72"}`}>
           {capability.body}
@@ -122,16 +98,11 @@ function BoxTile({ capability, i, accent }: { capability: Capability; i: number;
 
 /** Wide card: copy on the left, photo bleeding off the right edge. */
 function SplitTile({ capability, i }: { capability: Capability; i: number }) {
-  const Icon = capability.icon;
   return (
     <article className="group relative grid h-full grid-cols-[1.15fr_1fr] overflow-hidden rounded-3xl bg-white">
       <div className="flex flex-col p-6 xl:p-7">
-        <Icon className="h-7 w-7 text-[#BB7D3E]" />
         <div className="mt-auto">
-          <div className="flex items-center gap-3">
-            <Index i={i} />
-            {capability.pill && <Pill>{capability.pill}</Pill>}
-          </div>
+          {capability.pill && <Pill>{capability.pill}</Pill>}
           <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#0C2448] xl:text-2xl">
             {capability.title}
           </h3>
@@ -152,20 +123,13 @@ function SplitTile({ capability, i }: { capability: Capability; i: number }) {
 
 /** Mobile/tablet card: photo on top, copy below. */
 function CarouselCard({ capability, i }: { capability: Capability; i: number }) {
-  const Icon = capability.icon;
   return (
     <article className="flex h-full w-full flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-white/10">
       <div className="relative h-44 shrink-0 sm:h-52">
         <img src={capabilityImages[i]} alt="" loading="lazy" className="h-full w-full object-cover" />
-        <div className="absolute bottom-0 left-6 flex h-12 w-12 translate-y-1/2 items-center justify-center rounded-xl bg-white shadow-md ring-1 ring-[#0C2448]/10">
-          <Icon className="h-6 w-6 text-[#BB7D3E]" />
-        </div>
       </div>
-      <div className="flex flex-1 flex-col p-6 pt-10">
-        <div className="flex items-center gap-3">
-          <Index i={i} />
-          {capability.pill && <Pill>{capability.pill}</Pill>}
-        </div>
+      <div className="flex flex-1 flex-col p-6 pt-6">
+        {capability.pill && <Pill>{capability.pill}</Pill>}
         <h3 className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-[#0C2448]">{capability.title}</h3>
         <p className="mt-3 text-sm leading-6 text-[#0C2448]/72 sm:text-base sm:leading-7">{capability.body}</p>
       </div>
@@ -177,16 +141,22 @@ export default function VenturescapeCapabilities() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="capabilities" className="relative z-20 isolate overflow-hidden bg-[#0C2448] py-20 md:py-28">
+    <section
+      id="capabilities"
+      className="relative z-20 isolate overflow-hidden py-20 md:py-28"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(2,0,36,1) 10%, rgb(3, 3, 50) 57%, rgb(21, 21, 84) 100%)",
+      }}
+    >
       {/* Background photo: aerial container port, washed into the navy */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <img
           src={sectionBackground}
           alt=""
           loading="lazy"
-          className="h-full w-full object-cover opacity-30 grayscale"
+          className="h-full w-full object-cover opacity-25 mix-blend-overlay grayscale"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0C2448] via-[#0C2448]/80 to-[#0C2448]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(187,125,62,0.22),transparent_55%)]" />
       </div>
 
