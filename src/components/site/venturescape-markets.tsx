@@ -4,8 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 
 /**
  * Who We Work With — the 11 market segments grouped into three industry
- * clusters. Each cluster gets one photo "window" in its own shape (arch,
- * circle, leaf); hovering or tapping a segment swaps the photo to match it.
+ * clusters. Each cluster gets an arch-shaped photo "window"; hovering or tapping a segment swaps the photo to match it.
  */
 
 const unsplash = (id: string) =>
@@ -16,35 +15,32 @@ type Cluster = {
   /** Shorter label for the phone tab switcher. */
   tab: string;
   blurb: string;
-  shape: string;
-  aspect: string;
   segments: { name: string; image: string }[];
 };
+
+// One shared arch shape so the three clusters read as a set.
+const archShape = "rounded-t-full rounded-b-[2rem]";
 
 const clusters: Cluster[] = [
   {
     label: "Manufacturing",
     tab: "Mills & Makers",
     blurb: "Mills and makers turning raw wood into panels, sheets and finished goods.",
-    shape: "rounded-t-full rounded-b-[2rem]",
-    aspect: "aspect-[4/5]",
     segments: [
+      { name: "Furniture manufacturers", image: unsplash("photo-1586023492125-27b2c045efd7") },
       { name: "Plywood manufacturers", image: "/products/plywood.jpg" },
       { name: "Panel manufacturers", image: "/products/mdf.jpg" },
       { name: "Veneer buyers", image: "/products/face-veneer.jpg" },
-      { name: "Furniture manufacturers", image: unsplash("photo-1586023492125-27b2c045efd7") },
     ],
   },
   {
     label: "Import & Trade",
     tab: "Import & Trade",
     blurb: "Businesses moving material across borders, warehouses and supply chains.",
-    shape: "rounded-full",
-    aspect: "aspect-square",
     segments: [
+      { name: "International trading houses", image: unsplash("photo-1473023914974-0d98f0798b51") },
       { name: "Timber importers", image: "/products/timber.jpg" },
       { name: "Wholesalers", image: unsplash("photo-1553413077-190dd305871c") },
-      { name: "International trading houses", image: unsplash("photo-1565793298595-6a879b1d9492") },
       { name: "Project procurement companies", image: unsplash("photo-1581092160562-40aa08e78837") },
     ],
   },
@@ -52,8 +48,6 @@ const clusters: Cluster[] = [
     label: "Build & Interiors",
     tab: "Build & Interiors",
     blurb: "Suppliers putting wood products into buildings, projects and spaces.",
-    shape: "rounded-tl-[9rem] rounded-br-[9rem] rounded-tr-[2rem] rounded-bl-[2rem]",
-    aspect: "aspect-[4/5]",
     segments: [
       { name: "Building-material distributors", image: unsplash("photo-1504307651254-35680f356dfd") },
       { name: "Interior-product companies", image: unsplash("photo-1618221195710-dd6b41faaea6") },
@@ -78,7 +72,7 @@ function ClusterColumn({
 
   return (
     <motion.div
-      className={`flex flex-col ${index === 1 && !compact ? "lg:mt-24" : ""}`}
+      className="flex flex-col"
       initial={reduce ? false : { opacity: 0, y: compact ? 12 : 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -88,9 +82,9 @@ function ClusterColumn({
       <div className={`relative mx-auto w-full ${compact ? "max-w-[230px]" : "max-w-[340px]"}`}>
         <div
           aria-hidden
-          className={`absolute inset-0 translate-x-3 translate-y-3 border border-[#BB7D3E]/40 ${cluster.shape}`}
+          className={`absolute inset-0 translate-x-3 translate-y-3 border border-[#BB7D3E]/40 ${archShape}`}
         />
-        <div className={`relative overflow-hidden bg-[#0C2448]/10 ${cluster.aspect} ${cluster.shape}`}>
+        <div className={`relative overflow-hidden bg-[#0C2448]/10 aspect-[4/5] ${archShape}`}>
           {cluster.segments.map((segment, i) => (
             <img
               key={segment.name}
