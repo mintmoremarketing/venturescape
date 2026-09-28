@@ -27,7 +27,7 @@ export default function VenturescapeHero() {
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            "linear-gradient(90deg, rgba(2,0,36,0.97) 0%, rgba(3,3,50,0.88) 38%, rgba(3,3,50,0.35) 72%, rgba(21,21,84,0.25) 100%), linear-gradient(180deg, rgba(2,0,36,0.55) 0%, transparent 30%, transparent 70%, rgba(21,21,84,0.85) 100%)",
+            "linear-gradient(90deg, rgba(2,0,36,0.97) 0%, rgba(3,3,50,0.88) 38%, rgba(3,3,50,0.62) 72%, rgba(21,21,84,0.58) 100%), linear-gradient(180deg, rgba(2,0,36,0.55) 0%, transparent 30%, transparent 70%, rgba(21,21,84,0.85) 100%)",
         }}
       />
       {/* Depth glows */}
