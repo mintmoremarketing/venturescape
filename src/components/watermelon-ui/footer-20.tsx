@@ -82,7 +82,7 @@ export default function Footer20() {
         <div className="mb-10 grid grid-cols-1 gap-16 md:mb-16 lg:mb-24 lg:grid-cols-12 lg:gap-8">
           <motion.div
             variants={riseItem}
-            className="flex flex-col gap-6 md:gap-8 lg:col-span-5 xl:col-span-4"
+            className="flex flex-col items-center gap-6 text-center md:gap-8 lg:col-span-5 lg:items-start lg:text-left xl:col-span-4"
           >
             <div className="flex items-center">
               <LogoIcon variant="black" className="h-7 w-auto md:h-8" alt="Venturescape Trading" />
