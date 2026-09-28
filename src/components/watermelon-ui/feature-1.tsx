@@ -154,7 +154,7 @@ export default function VenturescapeWhyFeature() {
             card, play/pause pill sits in the top-right corner. */}
         <div className="lg:hidden">
           <div
-            className="relative h-[480px] overflow-hidden rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-y] sm:h-[520px] md:h-[560px] md:p-12"
+            className="relative flex h-[420px] flex-col justify-center overflow-hidden rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-y] sm:h-[460px] md:h-[500px] md:p-12"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
             onTouchCancel={handleTouchEnd}
