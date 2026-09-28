@@ -1,212 +1,161 @@
-import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { staggerContainer, riseItem } from "@/components/site/venturescape-shared";
 
 /**
- * Who We Work With — the 11 market segments grouped into three industry
- * clusters. Each cluster gets an arch-shaped photo "window"; hovering or tapping a segment swaps the photo to match it.
+ * Who We Work With — editorial image-card grid.
+ *
+ * Each market segment is a photo card with a soft dark-to-transparent
+ * overlay carrying the label at the bottom, so the section feels
+ * editorial without any tabs, clusters or all-caps labels.
+ *
+ * Desktop / tablet: responsive photo grid (2 → 3 → 4 columns).
+ * Mobile: a peek-carousel — 1.15 cards visible, snap-x scroll with
+ * progress dots below.
  */
 
 const unsplash = (id: string) =>
   `https://images.unsplash.com/${id}?w=900&q=70&auto=format&fit=crop`;
 
-type Cluster = {
-  label: string;
-  /** Shorter label for the phone tab switcher. */
-  tab: string;
-  blurb: string;
-  segments: { name: string; image: string }[];
-};
+type Segment = { name: string; image: string };
 
-// One shared arch shape so the three clusters read as a set.
-const archShape = "rounded-t-full rounded-b-[2rem]";
-
-const clusters: Cluster[] = [
+const segments: Segment[] = [
   {
-    label: "Manufacturing",
-    tab: "Mills & Makers",
-    blurb: "Mills and makers turning raw wood into panels, sheets and finished goods.",
-    segments: [
-      { name: "Furniture manufacturers", image: unsplash("photo-1586023492125-27b2c045efd7") },
-      { name: "Plywood manufacturers", image: "/products/plywood.jpg" },
-      { name: "Panel manufacturers", image: "/products/mdf.jpg" },
-      { name: "Veneer buyers", image: "/products/face-veneer.jpg" },
-    ],
+    name: "Plywood manufacturers",
+    image: "/products/plywood.jpg",
   },
   {
-    label: "Import & Trade",
-    tab: "Import & Trade",
-    blurb: "Businesses moving material across borders, warehouses and supply chains.",
-    segments: [
-      { name: "International trading houses", image: unsplash("photo-1473023914974-0d98f0798b51") },
-      { name: "Timber importers", image: "/products/timber.jpg" },
-      { name: "Wholesalers", image: unsplash("photo-1553413077-190dd305871c") },
-      { name: "Project procurement companies", image: unsplash("photo-1581092160562-40aa08e78837") },
-    ],
+    name: "Panel manufacturers",
+    image: "/products/mdf.jpg",
   },
   {
-    label: "Build & Interiors",
-    tab: "Build & Interiors",
-    blurb: "Suppliers putting wood products into buildings, projects and spaces.",
-    segments: [
-      { name: "Building-material distributors", image: unsplash("photo-1504307651254-35680f356dfd") },
-      { name: "Interior-product companies", image: unsplash("photo-1618221195710-dd6b41faaea6") },
-      { name: "Construction-material suppliers", image: unsplash("photo-1541888946425-d81bb19240f5") },
-    ],
+    name: "Furniture manufacturers",
+    image: unsplash("photo-1586023492125-27b2c045efd7"),
+  },
+  {
+    name: "Veneer buyers",
+    image: "/products/face-veneer.jpg",
+  },
+  {
+    name: "Timber importers",
+    image: "/products/timber.jpg",
+  },
+  {
+    name: "International trading houses",
+    image: unsplash("photo-1473023914974-0d98f0798b51"),
+  },
+  {
+    name: "Wholesalers",
+    image: unsplash("photo-1553413077-190dd305871c"),
+  },
+  {
+    name: "Project procurement companies",
+    image: unsplash("photo-1581092160562-40aa08e78837"),
+  },
+  {
+    name: "Building-material distributors",
+    image: unsplash("photo-1504307651254-35680f356dfd"),
+  },
+  {
+    name: "Interior-product companies",
+    image: unsplash("photo-1618221195710-dd6b41faaea6"),
+  },
+  {
+    name: "Construction-material suppliers",
+    image: unsplash("photo-1541888946425-d81bb19240f5"),
   },
 ];
 
-function ClusterColumn({
-  cluster,
-  index,
-  compact = false,
-}: {
-  cluster: Cluster;
-  index: number;
-  compact?: boolean;
-}) {
-  const reduce = useReducedMotion();
-  const [active, setActive] = useState(0);
-  // Running segment number across clusters, so the list reads 01–11.
-  const offset = clusters.slice(0, index).reduce((n, c) => n + c.segments.length, 0);
-
+function SegmentCard({ item, index }: { item: Segment; index: number }) {
   return (
-    <motion.div
-      className="flex flex-col"
-      initial={reduce ? false : { opacity: 0, y: compact ? 12 : 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: compact ? 0.4 : 0.6, delay: compact ? 0 : index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+    <motion.article
+      variants={riseItem}
+      className="group relative aspect-[4/5] overflow-hidden rounded-3xl bg-[#0C2448]/[0.06] shadow-[0_10px_30px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(12,36,72,0.16)]"
     >
-      {/* Photo window with an offset gold outline echoing its shape */}
-      <div className={`relative mx-auto w-full ${compact ? "max-w-[230px]" : "max-w-[340px]"}`}>
-        <div
-          aria-hidden
-          className={`absolute inset-0 translate-x-3 translate-y-3 border border-[#BB7D3E]/40 ${archShape}`}
-        />
-        <div className={`relative overflow-hidden bg-[#0C2448]/10 aspect-[4/5] ${archShape}`}>
-          {cluster.segments.map((segment, i) => (
-            <img
-              key={segment.name}
-              src={segment.image}
-              alt={i === active ? segment.name : ""}
-              loading="lazy"
-              className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out ${
-                i === active ? "scale-100 opacity-100" : "scale-105 opacity-0"
-              }`}
-            />
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0C2448]/45 via-transparent to-transparent" />
-        </div>
-        <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#0C2448] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_10px_24px_rgba(12,36,72,0.25)]">
-          {cluster.label}
-        </span>
-      </div>
-
-      <p className={`mx-auto max-w-[320px] text-center text-sm leading-6 text-[#0C2448]/65 ${compact ? "mt-8" : "mt-10"}`}>
-        {cluster.blurb}
-      </p>
-
-      <ul className="mt-6 divide-y divide-[#0C2448]/8 border-y border-[#0C2448]/8">
-        {cluster.segments.map((segment, i) => {
-          const isActive = i === active;
-          return (
-            <li key={segment.name}>
-              <button
-                type="button"
-                aria-pressed={isActive}
-                onMouseEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
-                onClick={() => setActive(i)}
-                className="group relative flex w-full items-center gap-4 py-3.5 pl-4 pr-2 text-left outline-none focus-visible:bg-[#BB7D3E]/[0.06]"
-              >
-                <span
-                  aria-hidden
-                  className={`absolute top-2 bottom-2 left-0 w-0.5 rounded-full bg-[#BB7D3E] transition-transform duration-300 ${
-                    isActive ? "scale-y-100" : "scale-y-0"
-                  }`}
-                />
-                <span
-                  className={`w-6 shrink-0 text-[11px] font-semibold tracking-[0.14em] transition-colors ${
-                    isActive ? "text-[#BB7D3E]" : "text-[#0C2448]/35"
-                  }`}
-                >
-                  {String(offset + i + 1).padStart(2, "0")}
-                </span>
-                <span
-                  className={`flex-1 text-[15px] font-semibold tracking-[-0.01em] transition-colors ${
-                    isActive ? "text-[#0C2448]" : "text-[#0C2448]/60"
-                  }`}
-                >
-                  {segment.name}
-                </span>
-                <ArrowUpRight
-                  aria-hidden
-                  className={`h-4 w-4 shrink-0 text-[#BB7D3E] transition-all duration-300 ${
-                    isActive ? "translate-x-0 opacity-100" : "-translate-x-1 opacity-0"
-                  }`}
-                />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </motion.div>
-  );
-}
-
-/** Phones: one cluster at a time behind a segmented switcher instead of three tall stacks. */
-function MobileClusters() {
-  const [current, setCurrent] = useState(0);
-  return (
-    <div className="mt-10 md:hidden">
+      <img
+        src={item.image}
+        alt={item.name}
+        loading="lazy"
+        onError={(e) => {
+          const img = e.currentTarget;
+          const fallback = `https://picsum.photos/seed/${encodeURIComponent(item.name)}/800/1000`;
+          if (img.src !== fallback) img.src = fallback;
+        }}
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+      />
+      {/* Gradient wash so the label always reads over any photo */}
       <div
-        role="tablist"
-        aria-label="Industry clusters"
-        className="mx-auto grid max-w-md grid-cols-3 gap-1 rounded-2xl bg-white p-1 ring-1 ring-[#0C2448]/8 shadow-[0_6px_18px_rgba(12,36,72,0.05)]"
-      >
-        {clusters.map((cluster, i) => (
-          <button
-            key={cluster.label}
-            type="button"
-            role="tab"
-            aria-selected={i === current}
-            onClick={() => setCurrent(i)}
-            className={`min-w-0 break-words rounded-xl px-1.5 py-2.5 text-[11px] font-semibold uppercase leading-tight tracking-[0.04em] transition-colors ${
-              i === current ? "bg-[#0C2448] text-white" : "text-[#0C2448]/60"
-            }`}
-          >
-            {cluster.tab}
-          </button>
-        ))}
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-t from-[#0C2448]/85 via-[#0C2448]/25 to-transparent"
+      />
+      {/* Ordinal chip in the top-left */}
+      <div className="absolute top-4 left-4 rounded-full bg-white/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0C2448] backdrop-blur-sm">
+        {String(index + 1).padStart(2, "0")}
       </div>
-      <div role="tabpanel" className="mt-10">
-        <ClusterColumn key={clusters[current].label} cluster={clusters[current]} index={current} compact />
+      {/* Segment name */}
+      <div className="absolute inset-x-5 bottom-5">
+        <h3 className="text-lg font-semibold leading-6 tracking-[-0.01em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.35)] md:text-xl">
+          {item.name}
+        </h3>
       </div>
-    </div>
+    </motion.article>
   );
 }
 
 export default function VenturescapeMarkets() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Track which card centre is nearest the mobile scroller centre so
+  // the pager dots highlight the correct one.
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    let raf = 0;
+    const update = () => {
+      const centre = el.scrollLeft + el.clientWidth / 2;
+      let nearest = 0;
+      let nearestDist = Infinity;
+      Array.from(el.children).forEach((child, i) => {
+        const c = child as HTMLElement;
+        const cx = c.offsetLeft + c.clientWidth / 2;
+        const d = Math.abs(cx - centre);
+        if (d < nearestDist) {
+          nearestDist = d;
+          nearest = i;
+        }
+      });
+      setActiveIndex(nearest);
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const goTo = (i: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.children[i] as HTMLElement | undefined;
+    if (!card) return;
+    el.scrollTo({
+      left: card.offsetLeft - (el.clientWidth - card.clientWidth) / 2,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section
       id="who-we-work-with"
-      className="relative overflow-hidden border-y border-[#0C2448]/8 bg-[#F7F2EB]/40"
+      className="relative border-y border-[#0C2448]/8 bg-[#F7F2EB]/40"
     >
-      {/* Soft abstract backdrop: concentric growth rings, like a cut log */}
-      <svg
-        aria-hidden
-        viewBox="0 0 600 600"
-        className="pointer-events-none absolute -top-40 -right-40 h-[640px] w-[640px] text-[#BB7D3E]/15"
-        fill="none"
-        stroke="currentColor"
-      >
-        {[60, 110, 150, 195, 230, 262, 290].map((r) => (
-          <circle key={r} cx="300" cy="300" r={r} strokeWidth="1.2" />
-        ))}
-      </svg>
-
-      <div className="relative z-10 mx-auto max-w-[1280px] px-5 py-20 md:px-8 md:py-24 lg:px-12">
+      <div className="relative z-10 mx-auto max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px] px-5 py-20 md:px-8 md:py-24 lg:px-12 2xl:px-20">
         <div className="flex flex-col items-center gap-4 text-center">
           <span className="inline-flex max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded-full border border-[#BB7D3E]/25 bg-white/80 px-3 py-1 text-[8px] font-medium uppercase tracking-[0.08em] text-[#91121D] shadow-[0_1px_0_rgba(255,255,255,0.75),0_4px_14px_rgba(12,36,72,0.05)] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
             Built for Businesses That Depend on Material.
@@ -221,15 +170,49 @@ export default function VenturescapeMarkets() {
           </p>
         </div>
 
-        <MobileClusters />
-
-        <div className="mt-16 hidden gap-16 md:grid md:grid-cols-2 md:gap-x-10 lg:grid-cols-3 lg:gap-x-12">
-          {clusters.map((cluster, i) => (
-            <div key={cluster.label} className={i === 2 ? "md:col-span-2 md:mx-auto md:w-1/2 lg:col-span-1 lg:w-auto" : ""}>
-              <ClusterColumn cluster={cluster} index={i} />
+        {/* Mobile: peek-carousel with one and a bit of the next card
+            visible so users see there's more to swipe. */}
+        <div
+          ref={scrollerRef}
+          className="mt-10 -mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:hidden"
+        >
+          {segments.map((s, i) => (
+            <div
+              key={s.name}
+              className="w-[calc(100%-2rem)] shrink-0 snap-center"
+            >
+              <SegmentCard item={s} index={i} />
             </div>
           ))}
         </div>
+        <div className="mt-4 flex items-center justify-center gap-1.5 sm:hidden">
+          {segments.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => goTo(i)}
+              aria-label={`Show segment ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all ${
+                i === activeIndex
+                  ? "w-6 bg-[#BB7D3E]"
+                  : "w-1.5 bg-[#0C2448]/20"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Tablet+: photo-card grid */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+          className="mt-14 hidden gap-4 sm:grid sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4"
+        >
+          {segments.map((s, i) => (
+            <SegmentCard key={s.name} item={s} index={i} />
+          ))}
+        </motion.div>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Pause, Play } from "lucide-react";
 import {
   HiCube,
   HiClipboardList,
@@ -88,22 +89,46 @@ const points: Point[] = [
  */
 export default function VenturescapeWhyFeature() {
   const [activeIndex, setActiveIndex] = useState(0);
+  // Direction of the last change — drives the slide direction of the
+  // animated card (+1 = right→in, -1 = left→in).
+  const [direction, setDirection] = useState(1);
+  // Persistent play/pause state. Auto-cycle only runs while playing;
+  // any manual swipe sets it to paused until the user hits Play.
+  const [playing, setPlaying] = useState(true);
   const active = points[activeIndex];
   const ActiveIcon = active.icon;
 
-  // Panel gesture state: while the user is actively swiping/wheeling on
-  // the detail panel, pause auto-cycle so their gesture wins.
-  const [interacting, setInteracting] = useState(false);
-
-  // Auto-cycle through the eight commitments every ~2.2s so the section
-  // reads on its own. Pauses while the user is interacting (hovering).
+  // Auto-cycle every ~2.6s while playing. Slightly slower than before so
+  // there's time to read.
   useEffect(() => {
-    if (interacting) return;
+    if (!playing) return;
     const id = window.setTimeout(() => {
+      setDirection(1);
       setActiveIndex((i) => (i + 1) % points.length);
-    }, 2200);
+    }, 2600);
     return () => window.clearTimeout(id);
-  }, [activeIndex, interacting]);
+  }, [activeIndex, playing]);
+
+  const goToIndex = (i: number, pause = true) => {
+    setDirection(i >= activeIndex ? 1 : -1);
+    setActiveIndex((i + points.length) % points.length);
+    if (pause) setPlaying(false);
+  };
+
+  // Touch swipe (horizontal). A short drag > 48px flips to the next or
+  // previous commitment and pauses the auto-cycle.
+  const touchStartX = useRef<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 48) {
+      goToIndex(activeIndex + (dx < 0 ? 1 : -1));
+    }
+    touchStartX.current = null;
+  };
 
   return (
     <section
@@ -123,66 +148,101 @@ export default function VenturescapeWhyFeature() {
       </div>
 
       <div className="w-full max-w-[1400px] 2xl:max-w-[1720px] [@media(min-width:1920px)]:max-w-[2040px] [@media(min-width:2400px)]:max-w-[2280px]">
-        {/* Mobile / tablet: single detail card, dots on left, swipe / wheel
-            to step. */}
-        <div
-          className="relative min-h-[380px] overflow-hidden rounded-3xl bg-white p-8 pl-10 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none sm:min-h-[420px] md:p-12 md:pl-14 lg:hidden"
-          onMouseEnter={() => setInteracting(true)}
-          onMouseLeave={() => setInteracting(false)}
-        >
-          <div className="absolute left-3 top-1/2 flex -translate-y-1/2 flex-col gap-2.5 md:left-5">
+        {/* Mobile / tablet: single detail card. Swipe left / right to step
+            through commitments — any manual swipe pauses the auto-cycle
+            until the Play button is tapped again. Dots sit BELOW the
+            card, play/pause pill sits in the top-right corner. */}
+        <div className="lg:hidden">
+          <div
+            className="relative h-[480px] overflow-hidden rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(12,36,72,0.08)] ring-1 ring-[#0C2448]/8 select-none [touch-action:pan-y] sm:h-[520px] md:h-[560px] md:p-12"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchEnd}
+          >
+            {/* Play / pause toggle in top-right */}
+            <button
+              type="button"
+              onClick={() => setPlaying((p) => !p)}
+              aria-label={playing ? "Pause auto-play" : "Resume auto-play"}
+              aria-pressed={!playing}
+              className="absolute right-4 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-[#0C2448] text-white shadow-[0_6px_16px_rgba(12,36,72,0.25)] transition-transform hover:scale-105 active:scale-95 md:right-5 md:top-5 md:h-9 md:w-9"
+            >
+              {playing ? (
+                <Pause className="h-3.5 w-3.5" fill="currentColor" />
+              ) : (
+                <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" />
+              )}
+            </button>
+
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-6 -bottom-6 text-[#0C2448]/[0.04]"
+            >
+              <ActiveIcon className="h-56 w-56 md:h-72 md:w-72" />
+            </div>
+
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={activeIndex}
+                custom={direction}
+                variants={{
+                  enter: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? 60 : -60,
+                  }),
+                  center: { opacity: 1, x: 0 },
+                  exit: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? -40 : 40,
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="relative"
+              >
+                <div className="grid gap-6 md:grid-cols-[auto_1fr] md:items-start md:gap-8">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#0C2448]/10 bg-white shadow-sm md:h-20 md:w-20">
+                    <ActiveIcon className="h-8 w-8 text-[#BB7D3E] md:h-10 md:w-10" />
+                  </div>
+                  <div>
+                    <p className="mb-2 pr-12 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#BB7D3E]">
+                      Commitment {String(activeIndex + 1).padStart(2, "0")} of{" "}
+                      {String(points.length).padStart(2, "0")}
+                    </p>
+                    <h3 className="pr-12 text-2xl font-semibold tracking-[-0.02em] text-[#0C2448] md:text-4xl">
+                      {active.title}
+                    </h3>
+                    <p className="mt-4 max-w-2xl text-base leading-8 text-[#0C2448]/72 md:text-lg md:leading-9">
+                      {active.body}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Progress dots BELOW the card */}
+          <div className="mt-5 flex items-center justify-center gap-1.5">
             {points.map((_, i) => {
               const isActive = i === activeIndex;
               return (
                 <button
                   key={i}
                   type="button"
-                  onClick={() => setActiveIndex(i)}
+                  onClick={() => goToIndex(i)}
                   aria-label={`Show commitment ${i + 1}`}
                   aria-current={isActive ? "true" : undefined}
-                  className={`rounded-full transition-all ${
+                  className={`h-1.5 rounded-full transition-all ${
                     isActive
-                      ? "h-6 w-1.5 bg-[#BB7D3E]"
-                      : "h-1.5 w-1.5 bg-[#0C2448]/15 hover:bg-[#0C2448]/35"
+                      ? "w-6 bg-[#BB7D3E]"
+                      : "w-1.5 bg-[#0C2448]/20 hover:bg-[#0C2448]/40"
                   }`}
                 />
               );
             })}
           </div>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-6 -bottom-6 text-[#0C2448]/[0.04]"
-          >
-            <ActiveIcon className="h-56 w-56 md:h-72 md:w-72" />
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative"
-            >
-              <div className="grid gap-6 md:grid-cols-[auto_1fr] md:items-start md:gap-8">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#0C2448]/10 bg-white shadow-sm md:h-20 md:w-20">
-                  <ActiveIcon className="h-8 w-8 text-[#BB7D3E] md:h-10 md:w-10" />
-                </div>
-                <div>
-                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#BB7D3E]">
-                    Commitment {String(activeIndex + 1).padStart(2, "0")} of{" "}
-                    {String(points.length).padStart(2, "0")}
-                  </p>
-                  <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[#0C2448] md:text-4xl">
-                    {active.title}
-                  </h3>
-                  <p className="mt-4 max-w-2xl text-base leading-8 text-[#0C2448]/72 md:text-lg md:leading-9">
-                    {active.body}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
         </div>
 
         {/* Desktop: split — numbered list on the left, active detail card
@@ -200,7 +260,7 @@ export default function VenturescapeWhyFeature() {
                   <li key={p.title}>
                     <button
                       type="button"
-                      onClick={() => setActiveIndex(i)}
+                      onClick={() => goToIndex(i)}
                       className={`group relative flex w-full items-baseline gap-4 rounded-2xl px-4 py-3 text-left transition-all ${
                         isActive
                           ? "bg-[#0C2448]/[0.045]"
@@ -228,11 +288,7 @@ export default function VenturescapeWhyFeature() {
             </ul>
           </div>
 
-          <div
-            className="relative flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-white p-10 shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 select-none xl:p-14"
-            onMouseEnter={() => setInteracting(true)}
-            onMouseLeave={() => setInteracting(false)}
-          >
+          <div className="relative flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-white p-10 shadow-[0_20px_60px_rgba(12,36,72,0.10)] ring-1 ring-[#0C2448]/8 select-none xl:p-14">
             <div
               aria-hidden
               className="pointer-events-none absolute -top-8 -right-6 select-none text-[180px] font-bold leading-none text-[#0C2448]/[0.05] xl:text-[220px]"
@@ -245,13 +301,41 @@ export default function VenturescapeWhyFeature() {
             >
               <ActiveIcon className="h-72 w-72" />
             </div>
-            <AnimatePresence mode="wait">
+
+            {/* Desktop play/pause */}
+            <button
+              type="button"
+              onClick={() => setPlaying((p) => !p)}
+              aria-label={playing ? "Pause auto-play" : "Resume auto-play"}
+              aria-pressed={!playing}
+              className="absolute right-5 bottom-5 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-[#0C2448] text-white shadow-[0_6px_16px_rgba(12,36,72,0.25)] transition-transform hover:scale-105 active:scale-95"
+            >
+              {playing ? (
+                <Pause className="h-3.5 w-3.5" fill="currentColor" />
+              ) : (
+                <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" />
+              )}
+            </button>
+
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
+                custom={direction}
+                variants={{
+                  enter: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? 60 : -60,
+                  }),
+                  center: { opacity: 1, x: 0 },
+                  exit: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? -40 : 40,
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="relative flex-1"
               >
                 <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-[#0C2448]/10 bg-white shadow-sm">
