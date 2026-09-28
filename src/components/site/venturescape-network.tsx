@@ -185,8 +185,8 @@ export default function VenturescapeNetwork() {
                 style={{ left: `${s.x}%`, top: `${s.y}%`, transform: "translate(-50%, -50%)" }}
               >
                 {/* Dot */}
-                <div className="relative flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#4169E1] ring-2 ring-white">
-                  <span className="absolute inline-flex h-4 w-4 rounded-full bg-[#4169E1]/30" />
+                <div className="relative flex h-1.5 w-1.5 items-center justify-center rounded-full bg-[#4169E1] ring-1 ring-white sm:h-2 sm:w-2 sm:ring-2 md:h-2.5 md:w-2.5">
+                  <span className="absolute inline-flex h-2.5 w-2.5 rounded-full bg-[#4169E1]/30 sm:h-3 sm:w-3 md:h-4 md:w-4" />
                 </div>
                 {/* Label pill — hidden on mobile (they overlap on the small
                     map); the wrapped country list below the map covers the
@@ -210,9 +210,9 @@ export default function VenturescapeNetwork() {
               }}
             >
               <div className="relative flex items-center justify-center">
-                <span className="absolute h-6 w-6 rounded-full bg-[#DC2626]/20" />
-                <span className="absolute h-4 w-4 rounded-full bg-[#DC2626]/35" />
-                <span className="relative h-3 w-3 rounded-full bg-[#DC2626] ring-2 ring-white" />
+                <span className="absolute h-3 w-3 rounded-full bg-[#DC2626]/20 sm:h-4 sm:w-4 md:h-6 md:w-6" />
+                <span className="absolute h-2 w-2 rounded-full bg-[#DC2626]/35 sm:h-3 sm:w-3 md:h-4 md:w-4" />
+                <span className="relative h-2 w-2 rounded-full bg-[#DC2626] ring-1 ring-white sm:h-2.5 sm:w-2.5 sm:ring-2 md:h-3 md:w-3" />
               </div>
               <div
                 className="absolute hidden whitespace-nowrap rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#0C2448] shadow-sm ring-1 ring-[#0C2448]/10 md:block"
