@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function VenturescapePhilosophy() {
   return (
-    <section className="w-full py-16 md:py-20">
+    <section className="w-full py-10 md:py-14">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

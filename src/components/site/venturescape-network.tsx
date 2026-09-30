@@ -91,7 +91,7 @@ export default function VenturescapeNetwork() {
             Source Markets → India
           </span>
           <p className="text-sm text-[#0C2448]/72">
-            Six major sourcing regions, one destination market.
+            Key sourcing markets, one principal destination market.
           </p>
         </div>
 
