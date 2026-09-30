@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function VenturescapePhilosophy() {
   return (
-    <section className="w-full py-10 md:py-14">
+    <section className="w-full py-6 md:py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -10,10 +10,10 @@ export default function VenturescapePhilosophy() {
         transition={{ duration: 0.7 }}
         className="mx-auto max-w-4xl px-5 text-center md:px-8"
       >
-        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D]">
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#91121D] md:mb-3">
           Good Trade Should Feel Safe.
         </p>
-        <p className="text-xl leading-relaxed text-[#0C2448]/78 md:text-2xl md:leading-relaxed">
+        <p className="text-lg leading-relaxed text-[#0C2448]/78 md:text-xl md:leading-snug">
           Good trade creates confidence. Confidence in the material.
           Confidence in the documentation. Confidence in the communication. And
           most importantly,{" "}
